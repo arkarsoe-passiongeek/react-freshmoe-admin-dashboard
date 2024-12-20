@@ -5,18 +5,33 @@ import './index.css'
 import AuthLayout from './components/layout/auth-layout.tsx';
 import DashboardLayout from './components/layout/dashboard-layout.tsx';
 import Dashboard from './features/dashboard/dashboard.tsx';
+import LanguageHandler from './components/layout/language-handler.tsx';
+import NotFound from './components/layout/not-found.tsx';
+import MaintenancePage from './features/maintenance/maintenance-page.tsx';
+import LayerPage from './features/service-parameter/layer/layer-page.tsx';
+import PriorityPage from './features/service-parameter/priority/priority-page.tsx';
+import LayerPriorityPage from './features/service-parameter/layer-priority/layer-priority-page.tsx';
+import HomePage from './features/content-and-image/home.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<AuthLayout />}>
-          <Route path='unauthorized' element={<Dashboard />} />
+        <Route path={`:lang`} element={<LanguageHandler />}>
+          <Route path="auth" element={<AuthLayout />}>
+            <Route path='unauthorized' element={<Dashboard />} />
+          </Route>
+          <Route path="" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path='maintenance' element={<MaintenancePage />} />
+            <Route path='service-parameter/layer' element={<LayerPage />} />
+            <Route path='service-parameter/layer-priority' element={<LayerPriorityPage />} />
+            <Route path='service-parameter/priority' element={<PriorityPage />} />
+            <Route path='content-image/home' element={<HomePage />} />
+          </Route>
         </Route>
-        <Route path='/' element={<DashboardLayout />}>
-          <Route index element={<Dashboard />} />
-        </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode >,
 )
