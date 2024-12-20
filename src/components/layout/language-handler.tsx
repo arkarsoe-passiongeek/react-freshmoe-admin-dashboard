@@ -31,7 +31,9 @@ const LanguageHandler = ({ children }: any) => {
                     <br />
                     <FormattedNumber value={19} style="currency" currency="EUR" />
                 </p> */}
-                <Outlet />
+                <div className='bg-c-bg'>
+                    <Outlet />
+                </div>
             </IntlProvider>
         </div>
     )

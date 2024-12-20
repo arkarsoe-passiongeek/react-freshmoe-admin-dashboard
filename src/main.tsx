@@ -12,26 +12,36 @@ import LayerPage from './features/service-parameter/layer/layer-page.tsx';
 import PriorityPage from './features/service-parameter/priority/priority-page.tsx';
 import LayerPriorityPage from './features/service-parameter/layer-priority/layer-priority-page.tsx';
 import HomePage from './features/content-and-image/home.tsx'
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import LayerCreatePage from './features/service-parameter/layer/layer-create-page.tsx';
+
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path={`:lang`} element={<LanguageHandler />}>
-          <Route path="auth" element={<AuthLayout />}>
-            <Route path='unauthorized' element={<Dashboard />} />
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path={`:lang`} element={<LanguageHandler />}>
+            <Route path="auth" element={<AuthLayout />}>
+              <Route path='unauthorized' element={<Dashboard />} />
+            </Route>
+            <Route path="" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path='maintenance' element={<MaintenancePage />} />
+              <Route path='service-parameter/layer' element={<LayerPage />} />
+              {/* <Route path='service-parameter/create-layer' element={<LayerCreatePage />} /> */}
+              <Route path='service-parameter/layer-priority' element={<LayerPriorityPage />} />
+              <Route path='service-parameter/priority' element={<PriorityPage />} />
+              <Route path='content-image/home' element={<HomePage />} />
+            </Route>
           </Route>
-          <Route path="" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path='maintenance' element={<MaintenancePage />} />
-            <Route path='service-parameter/layer' element={<LayerPage />} />
-            <Route path='service-parameter/layer-priority' element={<LayerPriorityPage />} />
-            <Route path='service-parameter/priority' element={<PriorityPage />} />
-            <Route path='content-image/home' element={<HomePage />} />
-          </Route>
-        </Route>
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   </StrictMode >,
 )

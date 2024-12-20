@@ -1,6 +1,10 @@
+import LayerTable from "./components/layer-table"
+
 const LayerPage = () => {
     return (
-        <div>LayerPage</div>
+        <div>
+            <LayerTable />
+        </div>
     )
 }
 

@@ -1,21 +1,4 @@
-import { useEffect, useState } from "react"
-import { useIntl } from "react-intl"
-
-const useLinkRoutes = () => {
-    const { locale } = useIntl()
-    const [routes, setRoutes] = useState({})
-
-    useEffect(() => {
-        const data = generateRoutes(locale)
-        setRoutes(data)
-    }, [locale])
-
-    return { routes }
-}
-
-export default useLinkRoutes
-
-const generateRoutes = (locale: string) => {
+export const getRoutes = (locale: string) => {
     let currentLocale = ''
     if (locale) currentLocale = `/${locale}`
 

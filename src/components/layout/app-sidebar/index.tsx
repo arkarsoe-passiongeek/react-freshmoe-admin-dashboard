@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/sidebar"
 import CMenuButton from "./c-menu-button"
 import { v4 as uuidv4 } from 'uuid';
-import useLinkRoutes from "@/lib/route";
+import { getRoutes } from "@/lib/route";
+import { useIntl } from "react-intl";
 
 export const getData = (routes: any) => {
     return [
@@ -72,15 +73,13 @@ export const getData = (routes: any) => {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const [navLinks, setNavLinks] = React.useState([])
-    const { routes } = useLinkRoutes()
+    const { locale } = useIntl()
+    const routes = getRoutes(locale)
+    const data = getData(routes)
 
     React.useEffect(() => {
-        if (Object.keys(routes).length > 0) {
-            const data = getData(routes)
-            console.log(navLinks)
-            setNavLinks(data as any)
-        }
-    }, [routes])
+        setNavLinks(data as any)
+    }, [])
 
     return (
         <Sidebar className="top-[50px] py-6 px-2 bg-c-white" {...props}>
