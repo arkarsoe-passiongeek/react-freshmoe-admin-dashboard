@@ -13,7 +13,7 @@ const getRoutes = (locale: string) => {
         layerEdit: (id: string) => `${currentLocale}/service-parameter/layer/${id}/edit-layer`,
         priority: () => `${currentLocale}/service-parameter/priority`,
         priorityCreate: () => `${currentLocale}/service-parameter/priority/create-priority`,
-        priorityEdit: (id: string) => `/service-parameter/priority/${id}/edit-priority`,
+        priorityEdit: (id: string) => `${currentLocale}/service-parameter/priority/${id}/edit-priority`,
         layerPriority: () => `${currentLocale}/service-parameter/layer-priority`,
         layerPriorityCreate: () => `${currentLocale}/service-parameter/layer-priority/create-layer-priority`,
         layerPriorityEdit: (id: string) => `${currentLocale}/service-parameter/layer-priority/${id}/edit-layer-priority`,

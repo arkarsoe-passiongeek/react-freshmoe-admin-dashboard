@@ -1,6 +1,11 @@
+import PriorityTable from "./components/priority-table"
+
 const PriorityPage = () => {
+    
     return (
-        <div>PriorityPage</div>
+        <div>
+            <PriorityTable />
+        </div>
     )
 }
 

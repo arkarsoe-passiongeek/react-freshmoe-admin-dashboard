@@ -18,6 +18,8 @@ import {
 } from '@tanstack/react-query'
 import LayerCreatePage from './features/service-parameter/layer/layer-create-page.tsx';
 import LayerEditPage from './features/service-parameter/layer/layer-edit-page.tsx';
+import PriorityEditPage from './features/service-parameter/priority/priority-edit-page.tsx';
+import PriorityCreatePage from './features/service-parameter/priority/priority-create-page.tsx';
 
 const queryClient = new QueryClient()
 
@@ -38,6 +40,8 @@ createRoot(document.getElementById('root')!).render(
               <Route path='service-parameter/layer/:id/edit-layer' element={<LayerEditPage />} />
               <Route path='service-parameter/layer-priority' element={<LayerPriorityPage />} />
               <Route path='service-parameter/priority' element={<PriorityPage />} />
+              <Route path='service-parameter/priority/create-priority' element={<PriorityCreatePage />} />
+              <Route path='service-parameter/priority/:id/edit-priority' element={<PriorityEditPage />} />
               <Route path='content-image/home' element={<HomePage />} />
             </Route>
           </Route>
