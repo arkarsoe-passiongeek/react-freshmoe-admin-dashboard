@@ -7,14 +7,12 @@ import { MdDelete } from "react-icons/md";
 import ListEmpty from "@/assets/images/list-empty.png"
 import DeleteConfirmDialog from "@/components/layout/dialogs/delete-confirm-dialog"
 import { useQuery } from "@tanstack/react-query";
-import { useIntl } from "react-intl";
 import { getAll } from "@/services/apis/layer";
 import { Link } from "react-router";
-import { getRoutes } from "@/lib/route";
+import { useLinkRoutes } from "@/lib/route";
 
 const LayerTable = () => {
-    const { locale } = useIntl()
-    const routes = getRoutes(locale)
+    const routes = useLinkRoutes()
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [currentData, setCurrentData] = useState<any>(null)
     const src = 'layer'

@@ -10,7 +10,7 @@ const DashboardLayout = () => {
 
     useEffect(() => {
         if (!userData) {
-            navigate('/unauthorized')
+            navigate('/auth/unauthorized')
         }
     }, [])
 

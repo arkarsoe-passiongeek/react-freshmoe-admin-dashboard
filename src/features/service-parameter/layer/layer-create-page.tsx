@@ -1,13 +1,11 @@
 import CreateSuccessDialog from "@/components/layout/dialogs/create-success-dialog"
 import { useState } from "react"
 import { LayerCreateForm } from "./components/layer-create-form"
-import { useIntl } from "react-intl"
-import { getRoutes } from "@/lib/route"
+import { useLinkRoutes } from "@/lib/route"
 
 const LayerCreatePage = () => {
     const [createSuccessModalOpen, setCreateSuccessModalOpen] = useState(false)
-    const { locale } = useIntl()
-    const routes = getRoutes(locale)
+    const routes = useLinkRoutes()
 
     const onCreateSuccess = () => {
         setCreateSuccessModalOpen(true)
