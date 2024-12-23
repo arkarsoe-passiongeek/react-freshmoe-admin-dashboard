@@ -42,6 +42,10 @@ const LayerPriorityTable = () => {
     }
 
     useEffect(() => {
+        if ((layer == 'undefined' && paths == 'undefined')) {
+            navigate(`${routes.layerPriority()}?layer=continent&paths=/continent`)
+        }
+
         const getData = async () => {
             const { data } = await getAll({ query: { layer, src } })
             setData(data)
@@ -49,7 +53,7 @@ const LayerPriorityTable = () => {
         }
 
         getData()
-    }, [src, layer])
+    }, [searchParam])
 
 
     const getCreateButton = () => {
@@ -58,7 +62,7 @@ const LayerPriorityTable = () => {
 
 
     const getEditButton = (id: string, slug: string) => {
-        return <Link to={{ pathname: routes.layerPriorityEdit(id), search: `?layer=${layer.toLowerCase()}&paths=${paths}/${slug}/create-${layer}` }}><Button variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></Link>
+        return <Link to={{ pathname: routes.layerPriorityEdit(id), search: `?layer=${layer.toLowerCase()}&paths=${paths}/${slug}/edit-${layer}` }}><Button variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></Link>
     }
 
     const getDeleteButton = (data: object) => {

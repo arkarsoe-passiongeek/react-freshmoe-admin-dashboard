@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { Outlet, useNavigate } from "react-router";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
+import PageHeader from "./page-header";
 
 const DashboardLayout = () => {
     let navigate = useNavigate();
@@ -30,7 +31,7 @@ const DashboardLayout = () => {
                             {/* <AdminController user={user.data.data} /> */}
                         </div>
                         <div className="p-6">
-                            {/* <PageHeader /> */}
+                            <PageHeader />
                             <Outlet />
                         </div>
                     </main>
