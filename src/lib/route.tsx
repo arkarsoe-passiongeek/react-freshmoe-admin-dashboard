@@ -21,6 +21,7 @@ const getRoutes = (locale: string) => {
     }
 }
 
+
 export const useLinkRoutes = () => {
     const { locale } = useIntl()
 

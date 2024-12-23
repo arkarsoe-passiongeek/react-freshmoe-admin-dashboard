@@ -1,6 +1,10 @@
+import LayerPriorityTable from "./components/layer-priority-table"
+
 const LayerPriorityPage = () => {
     return (
-        <div>LayerPriorityPage</div>
+        <div>
+            <LayerPriorityTable />
+        </div>
     )
 }
 
