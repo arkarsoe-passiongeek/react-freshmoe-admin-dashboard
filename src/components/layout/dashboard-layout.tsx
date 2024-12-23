@@ -16,7 +16,7 @@ const DashboardLayout = () => {
     }
 
     useEffect(() => {
-        console.log(Cookies.get(''))
+        console.log(Cookies.get('test'))
         getUserData()
     }, [])
 
