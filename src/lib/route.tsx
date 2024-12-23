@@ -18,6 +18,7 @@ const getRoutes = (locale: string) => {
         layerPriorityCreate: () => `${currentLocale}/service-parameter/layer-priority/create-layer-priority`,
         layerPriorityEdit: (id: string) => `${currentLocale}/service-parameter/layer-priority/${id}/edit-layer-priority`,
         paths: () => `${currentLocale}/service-parameter/layer-priority/paths`,
+        unauthorized: () => `${currentLocale}/auth/unauthorized`,
     }
 }
 

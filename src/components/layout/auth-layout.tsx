@@ -1,22 +1,27 @@
 import { useEffect } from "react"
-import { useNavigate } from "react-router"
+import { Outlet, useNavigate } from "react-router"
+import Loading from "./loading"
+import { useLinkRoutes } from "@/lib/route"
 
 const AuthLayout = () => {
     const userData = localStorage.getItem('userdata')
     const navigate = useNavigate()
+    const routes = useLinkRoutes()
 
     useEffect(() => {
         if (userData) {
             navigate('/')
         } else {
-            navigate('/unauthorized')
+            navigate(routes.unauthorized())
         }
 
         console.log(userData)
     }, [])
 
     return (
-        <div>AuthLayout</div>
+        <div>
+            <Outlet />
+        </div>
     )
 }
 
