@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react"
-import { Outlet, useNavigate } from "react-router";
+import { useContext, useEffect, useState } from "react"
+import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
 import PageHeader from "./page-header";
 import AdminController from "./account-controller";
 import { getUser } from "@/services/apis/user";
 import Cookies from 'js-cookie'
+import { LanguageContext } from "./language-handler";
+import { useIntl } from "react-intl";
 
 const DashboardLayout = () => {
     const [user, setUser] = useState({})
+    const { language, setLanguage }: any = useContext(LanguageContext)
+    const navigate = useNavigate()
+    const { pathname, search } = useLocation()
+    const { lang } = useParams();
 
     const getUserData = async () => {
         const res = await getUser()
@@ -32,6 +38,14 @@ const DashboardLayout = () => {
                     <AppSidebar />
                     <main className="mt-[50px] w-full">
                         <div className="flex justify-between items-center p-3 bg-c-white border-b border-c-border-stroke">
+                            <select className="hidden" name="tet" id="test" onChange={(e) => {
+                                setLanguage(e.target.value)
+                                console.log(pathname.replace(lang ?? '', e.target.value), language, lang)
+                                navigate(`${pathname.replace(lang ?? '', e.target.value) + search}`)
+                            }}>
+                                <option value="en" selected={language === 'en'}>en</option>
+                                <option value="fr" selected={language === 'fr'}>fr</option>
+                            </select>
                             <SidebarTrigger className="[&_svg]:size-8" />
                             <AdminController user={user} />
                         </div>

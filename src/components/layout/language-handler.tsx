@@ -1,8 +1,13 @@
 
+import { createContext, useState } from 'react';
 import { IntlProvider, FormattedMessage, FormattedNumber } from 'react-intl'
 import { Outlet, useParams } from 'react-router';
+
+export const LanguageContext = createContext({})
+
 const LanguageHandler = ({ children }: any) => {
     let { lang } = useParams();
+    const [language, setLanguage] = useState('en')
     console.log(lang)
 
     const messagesInFrench = {
@@ -16,13 +21,14 @@ const LanguageHandler = ({ children }: any) => {
     }
 
     const currentLang = () => {
-        return lang
+        return language
     }
 
     return (
         <div>
-            <IntlProvider messages={currentLang() === 'en' ? messagesInEn : messagesInFrench} locale="fr" defaultLocale="en">
-                {/* <p>
+            <LanguageContext.Provider value={{ language, setLanguage }}>
+                <IntlProvider messages={currentLang() === 'en' ? messagesInEn : messagesInFrench} locale={language} defaultLocale="en">
+                    {/* <p>
                     <FormattedMessage
                         id="myMessage"
                         defaultMessage="Today is {ts, date, ::yyyyMMdd}"
@@ -31,10 +37,11 @@ const LanguageHandler = ({ children }: any) => {
                     <br />
                     <FormattedNumber value={19} style="currency" currency="EUR" />
                 </p> */}
-                <div className='bg-c-bg'>
-                    <Outlet />
-                </div>
-            </IntlProvider>
+                    <div className='bg-c-bg'>
+                        <Outlet />
+                    </div>
+                </IntlProvider>
+            </LanguageContext.Provider>
         </div>
     )
 }
