@@ -2,7 +2,7 @@ import { BaseDialog } from './base-dialog'
 import { IoIosLogOut } from "react-icons/io";
 import CButton from '@/components/custom/c-button'
 
-const LogoutDialog = ({ isLogoutModalOpen, setIsLogoutModalOpen, handleLogout }: any) => {
+const LogoutDialog = ({ isLogoutModalOpen, setIsLogoutModalOpen, handleLogout, loading }: any) => {
     return (
         <div>
             <BaseDialog title={`Logout`} description="Do you want to log out from Dashboard?" isOpen={isLogoutModalOpen} onClose={() => setIsLogoutModalOpen(false)}>
@@ -17,7 +17,7 @@ const LogoutDialog = ({ isLogoutModalOpen, setIsLogoutModalOpen, handleLogout }:
                         </div>
                         <div className="flex gap-4">
                             <CButton styleType='cancel' type="button" onClick={() => setIsLogoutModalOpen(false)}>Cancel</CButton>
-                            <CButton styleType='delete' type="button" onClick={() => handleLogout()}>Logout</CButton>
+                            <CButton styleType='delete' loading={loading} type="button" onClick={() => handleLogout()}>Logout</CButton>
                         </div>
                     </div>
                 </div>

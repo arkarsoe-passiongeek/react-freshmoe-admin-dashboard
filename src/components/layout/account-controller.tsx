@@ -8,12 +8,20 @@ import { useLinkRoutes } from '@/lib/route'
 
 const AdminController = ({ user }: any) => {
     const [logoutModal, setLogoutModal] = useState(false)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const routes = useLinkRoutes()
 
     const handleLogout = async () => {
-        const res = await logout()
-        if (res === 'success') navigate(routes.unauthorized())
+        try {
+            setLoading(true)
+            const res = await logout()
+            if (res === 'success') navigate(routes.unauthorized())
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -24,7 +32,7 @@ const AdminController = ({ user }: any) => {
                 <span className='text-c-contrast capitalize'>{user.username}</span>
             </div>
             <CButton onClick={() => setLogoutModal(true)} className="bg-c-secondary !min-w-[100px]">Logout</CButton>
-            <LogoutDialog isLogoutModalOpen={logoutModal} setIsLogoutModalOpen={setLogoutModal} handleLogout={handleLogout} />
+            <LogoutDialog isLogoutModalOpen={logoutModal} setIsLogoutModalOpen={setLogoutModal} handleLogout={handleLogout} loading={loading} />
         </div>
     )
 }
