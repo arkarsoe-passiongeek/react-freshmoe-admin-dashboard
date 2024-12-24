@@ -1,11 +1,11 @@
 
 import { createContext, useState } from 'react';
-import { IntlProvider, FormattedMessage, FormattedNumber } from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import { Outlet, useParams } from 'react-router';
 
 export const LanguageContext = createContext({})
 
-const LanguageHandler = ({ children }: any) => {
+const LanguageHandler = () => {
     let { lang } = useParams();
     const [language, setLanguage] = useState('en')
     console.log(lang)

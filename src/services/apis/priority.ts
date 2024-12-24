@@ -8,6 +8,7 @@ export const getAll = async () => {
 
 export const create = async (values: any) => {
     try {
+        console.log(values)
         // const res = await http.post('/admin/login', generateFormdata(payload))
         const res = await Promise.resolve({ data: data })
         return { data: res.data }

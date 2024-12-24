@@ -4,7 +4,7 @@ import { useLocation } from "react-router"
 
 const usePathname = () => {
     const { locale } = useIntl()
-    const { pathname, search } = useLocation()
+    const { pathname } = useLocation()
 
     return React.useMemo(() => {
         const cleanPathname = pathname.replace(`/${locale}`, '');

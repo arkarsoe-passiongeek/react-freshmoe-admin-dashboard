@@ -7,7 +7,6 @@ import AdminController from "./account-controller";
 import { getUser } from "@/services/apis/user";
 import Cookies from 'js-cookie'
 import { LanguageContext } from "./language-handler";
-import { useIntl } from "react-intl";
 import { useLinkRoutes } from "@/lib/route";
 
 const DashboardLayout = () => {

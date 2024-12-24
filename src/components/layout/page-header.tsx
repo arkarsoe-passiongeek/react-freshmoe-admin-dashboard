@@ -31,6 +31,7 @@ const PageHeader = (params: any) => {
     }
 
     const getLastHref = (end: number, path: any) => {
+        console.log(path)
         return paths.slice(0, end + 1).join('/')
     }
 
