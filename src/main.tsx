@@ -22,6 +22,7 @@ import PriorityEditPage from './features/service-parameter/priority/priority-edi
 import PriorityCreatePage from './features/service-parameter/priority/priority-create-page.tsx';
 import LayerPriorityCreatePage from './features/service-parameter/layer-priority/layer-priority-create-page.tsx';
 import LayerPriorityEditPage from './features/service-parameter/layer-priority/layer-priority-edit-page.tsx';
+import Unauthorized from './features/auth/unauthorized.tsx';
 
 const queryClient = new QueryClient()
 
@@ -32,7 +33,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path={`:lang`} element={<LanguageHandler />}>
             <Route path="auth" element={<AuthLayout />}>
-              <Route path='unauthorized' element={<Dashboard />} />
+              <Route path='unauthorized' element={<Unauthorized />} />
             </Route>
             <Route path="" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />

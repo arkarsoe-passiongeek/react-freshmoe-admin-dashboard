@@ -8,6 +8,7 @@ import { getUser } from "@/services/apis/user";
 import Cookies from 'js-cookie'
 import { LanguageContext } from "./language-handler";
 import { useIntl } from "react-intl";
+import { useLinkRoutes } from "@/lib/route";
 
 const DashboardLayout = () => {
     const [user, setUser] = useState({})
@@ -15,13 +16,18 @@ const DashboardLayout = () => {
     const navigate = useNavigate()
     const { pathname, search } = useLocation()
     const { lang } = useParams();
+    const routes = useLinkRoutes()
 
     const getUserData = async () => {
         const res = await getUser()
         setUser(res.data.data)
+        localStorage.setItem('userdata', JSON.stringify(res.data.data))
     }
 
     useEffect(() => {
+        if (!Cookies.get('token')) {
+            navigate(routes.unauthorized())
+        }
         console.log(Cookies.get('test'))
         getUserData()
     }, [])
@@ -38,13 +44,13 @@ const DashboardLayout = () => {
                     <AppSidebar />
                     <main className="mt-[50px] w-full">
                         <div className="flex justify-between items-center p-3 bg-c-white border-b border-c-border-stroke">
-                            <select className="hidden" name="tet" id="test" onChange={(e) => {
+                            <select className="hidden" defaultValue={language} name="tet" id="test" onChange={(e) => {
                                 setLanguage(e.target.value)
                                 console.log(pathname.replace(lang ?? '', e.target.value), language, lang)
                                 navigate(`${pathname.replace(lang ?? '', e.target.value) + search}`)
                             }}>
-                                <option value="en" selected={language === 'en'}>en</option>
-                                <option value="fr" selected={language === 'fr'}>fr</option>
+                                <option value="en">en</option>
+                                <option value="fr">fr</option>
                             </select>
                             <SidebarTrigger className="[&_svg]:size-8" />
                             <AdminController user={user} />

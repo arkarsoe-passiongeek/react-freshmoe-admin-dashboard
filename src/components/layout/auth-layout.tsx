@@ -1,21 +1,20 @@
 import { useEffect } from "react"
 import { Outlet, useNavigate } from "react-router"
 import Loading from "./loading"
+import Cookies from 'js-cookie'
 import { useLinkRoutes } from "@/lib/route"
 
 const AuthLayout = () => {
-    const userData = localStorage.getItem('userdata')
     const navigate = useNavigate()
     const routes = useLinkRoutes()
+    const userData = localStorage.getItem('userdata')
 
     useEffect(() => {
-        if (userData) {
+        if (Cookies.get('token')) {
             navigate('/')
         } else {
             navigate(routes.unauthorized())
         }
-
-        console.log(userData)
     }, [])
 
     return (

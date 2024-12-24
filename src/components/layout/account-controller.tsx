@@ -3,12 +3,17 @@ import { IoPersonCircle } from 'react-icons/io5'
 import CButton from '../custom/c-button'
 import LogoutDialog from './dialogs/logout-dialog'
 import { logout } from '@/services/apis/auth'
+import { useNavigate } from 'react-router'
+import { useLinkRoutes } from '@/lib/route'
 
 const AdminController = ({ user }: any) => {
     const [logoutModal, setLogoutModal] = useState(false)
+    const navigate = useNavigate()
+    const routes = useLinkRoutes()
 
     const handleLogout = async () => {
-        await logout()
+        const res = await logout()
+        if (res === 'success') navigate(routes.unauthorized())
     }
 
     return (
