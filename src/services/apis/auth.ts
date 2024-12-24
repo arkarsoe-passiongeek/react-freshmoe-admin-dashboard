@@ -5,7 +5,7 @@ export const logout = async () => {
     console.log('logout')
     const token = decodeURIComponent(Cookies.get('token') ?? '')
     console.log(token)
-    await axios.post(`https://dev-api.freshmoe.com/api/admin/logout`, {
+    await axios.post(`https://dev-api.freshmoe.com/api/admin/logout`, undefined, {
         withCredentials: true, headers: {
             'Authorization': `Bearer ${token}`,
         },
