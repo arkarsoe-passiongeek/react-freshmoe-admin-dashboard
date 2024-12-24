@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 
 export const logout = async () => {
     console.log('logout')
-    const token = Cookies.get('token')
+    const token = decodeURIComponent(Cookies.get('token') ?? '')
+    console.log(token)
     await axios.post(`https://dev-api.freshmoe.com/api/admin/logout`, {
         withCredentials: true, headers: {
             'Authorization': `Bearer ${token}`,
