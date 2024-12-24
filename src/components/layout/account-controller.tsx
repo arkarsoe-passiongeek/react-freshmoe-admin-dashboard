@@ -3,20 +3,16 @@ import { IoPersonCircle } from 'react-icons/io5'
 import CButton from '../custom/c-button'
 import LogoutDialog from './dialogs/logout-dialog'
 import { logout } from '@/services/apis/auth'
-import { useNavigate } from 'react-router'
-import { useLinkRoutes } from '@/lib/route'
 
 const AdminController = ({ user }: any) => {
     const [logoutModal, setLogoutModal] = useState(false)
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-    const routes = useLinkRoutes()
 
     const handleLogout = async () => {
         try {
             setLoading(true)
             const res = await logout()
-            if (res === 'success') navigate(routes.unauthorized())
+            if (res == 'success') window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`
         } catch (error) {
             console.log(error)
         } finally {
