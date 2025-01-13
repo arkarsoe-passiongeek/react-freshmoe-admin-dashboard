@@ -92,7 +92,7 @@ export default {
 				'c-disable': '#DBDBDB',
 				'c-hover': '#4D9F3C',
 				'c-blue': '#29BFFF',
-				'c-yellow': '#FDCA48',
+				'c-yellow': '#D08813',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

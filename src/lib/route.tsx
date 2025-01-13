@@ -1,8 +1,32 @@
-import { useIntl } from "react-intl"
+import { useMemo } from "react";
+import { useIntl } from "react-intl";
 
-const getRoutes = (locale: string) => {
-    let currentLocale = ''
-    if (locale) currentLocale = `/${locale}`
+// Define the Routes interface
+export interface Routes {
+    contentHome: () => string;
+    dashboard: () => string;
+    maintenance: () => string;
+    layer: () => string;
+    layerCreate: () => string;
+    layerEdit: (id: string) => string;
+    priority: () => string;
+    priorityCreate: () => string;
+    priorityEdit: (id: string) => string;
+    layerPriority: () => string;
+    layerPriorityCreate: () => string;
+    layerPriorityEdit: (id: string) => string;
+    paths: () => string;
+    unauthorized: () => string;
+}
+
+interface GetRoutesProps {
+    locale?: string;
+}
+
+// Function to generate routes based on the current locale
+export const getRoutes = (props: GetRoutesProps): Routes => {
+    let currentLocale = '';
+    if (props && props.locale) currentLocale = `/${props.locale}`;
 
     return {
         contentHome: () => `${currentLocale}/content-image/home`,
@@ -10,21 +34,23 @@ const getRoutes = (locale: string) => {
         maintenance: () => `${currentLocale}/maintenance`,
         layer: () => `${currentLocale}/service-parameter/layer`,
         layerCreate: () => `${currentLocale}/service-parameter/layer/create-layer`,
-        layerEdit: (id: string) => `${currentLocale}/service-parameter/layer/${id}/edit-layer`,
+        layerEdit: (id: string) => `${currentLocale}/service-parameter/layer${id ? '/' + id : ''}/edit-layer`,
         priority: () => `${currentLocale}/service-parameter/priority`,
         priorityCreate: () => `${currentLocale}/service-parameter/priority/create-priority`,
-        priorityEdit: (id: string) => `${currentLocale}/service-parameter/priority/${id}/edit-priority`,
+        priorityEdit: (id: string) => `${currentLocale}/service-parameter/priority${id ? '/' + id : ''}/edit-priority`,
         layerPriority: () => `${currentLocale}/service-parameter/layer-priority`,
         layerPriorityCreate: () => `${currentLocale}/service-parameter/layer-priority/create-layer-priority`,
-        layerPriorityEdit: (id: string) => `${currentLocale}/service-parameter/layer-priority/${id}/edit-layer-priority`,
+        layerPriorityEdit: (id: string) => `${currentLocale}/service-parameter/layer-priority${id ? '/' + id : ''}/edit-layer-priority`,
         paths: () => `${currentLocale}/service-parameter/layer-priority/paths`,
         unauthorized: () => `${currentLocale}/auth/unauthorized`,
-    }
-}
+    };
+};
 
+// Hook to retrieve routes with the current locale
+export const useLinkRoutes = (): Routes => {
+    const { locale } = useIntl();
 
-export const useLinkRoutes = () => {
-    const { locale } = useIntl()
-
-    return getRoutes(locale)
-}
+    return useMemo(() => {
+        return getRoutes({ locale });
+    }, [locale]);
+};
