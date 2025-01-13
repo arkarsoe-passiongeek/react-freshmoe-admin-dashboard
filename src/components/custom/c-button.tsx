@@ -11,13 +11,13 @@ const CButton: React.FC<CButtonProps> = ({ children, loading = false, styleType 
     const baseClass = 'text-lg py-5 px-10 min-w-[216px] min-h-[52px] border shadow-none'
     let typeClass = ''
     if (styleType === 'cancel') {
-        typeClass = 'bg-c-white text-c-black hover:bg-c-primary hover:text-c-white'
+        typeClass = 'bg-c-white text-c-black hover:bg-primary hover:text-c-white'
     } else if (styleType === 'default') {
         typeClass = 'text-lg py-5 px-10'
     } else if (styleType === 'create' || styleType === 'update' || styleType === 'success') {
-        typeClass = 'bg-c-primary hover:bg-c-hover'
+        typeClass = 'bg-primary hover:bg-c-hover'
     } else if (styleType === 'delete') {
-        typeClass = 'bg-c-secondary hover:bg-c-secondary'
+        typeClass = 'bg-secondary hover:bg-secondary'
     }
 
     return (

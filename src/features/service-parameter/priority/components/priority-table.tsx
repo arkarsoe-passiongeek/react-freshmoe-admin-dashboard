@@ -10,6 +10,7 @@ import DeleteConfirmDialog from "@/components/layout/dialogs/delete-confirm-dial
 import { useLinkRoutes } from "@/lib/route";
 import { useQuery } from "@tanstack/react-query";
 import { getAll } from "@/services/apis/priority";
+import CLink from "@/components/custom/c-link";
 
 const PriorityTable = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -33,11 +34,11 @@ const PriorityTable = () => {
     }
 
     const getCreateButton = () => {
-        return <Link to={routes.priorityCreate()} className="py-3 px-10 bg-c-primary rounded-xl text-base text-c-white hover:bg-c-hover capitalize">Create {src}</Link>
+        return <CLink to={routes.priorityCreate()} className="py-3 px-10 bg-c-primary rounded-xl text-base text-c-white hover:bg-c-hover capitalize">Create {src}</CLink>
     }
 
     const getEditButton = (id: string) => {
-        return <Link to={routes.priorityEdit(id)}><Button variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></Link>
+        return <CLink to={routes.priorityEdit(id)}><Button tabIndex={-1} variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></CLink>
     }
     const getDeleteButton = (data: object) => {
         return <Button variant="ghost" onClick={() => handleDeleteButtonClick(data)}><MdDelete className="text-c-secondary !w-[20px] !h-[20px]" /></Button>

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { getAll } from "@/services/apis/layer-priority";
 import { getLayersArr } from "@/mock/layer";
 import useSearchParams from "@/hooks/use-search-params";
+import CLink from "@/components/custom/c-link";
 
 const LayerPriorityTable = () => {
     const [data, setData] = useState([])
@@ -57,12 +58,12 @@ const LayerPriorityTable = () => {
 
 
     const getCreateButton = () => {
-        return <Link to={{ pathname: routes.layerPriorityCreate(), search: `?layer=${layer.toLowerCase()}&paths=${paths}/create-${layer}` }} className="py-3 px-10 bg-c-primary rounded-xl text-base text-c-white hover:bg-c-hover capitalize" > Create {layer}</Link>
+        return <CLink to={{ pathname: routes.layerPriorityCreate(), search: `?layer=${layer.toLowerCase()}&paths=${paths}/create-${layer}` }} className="py-3 px-10 bg-c-primary rounded-xl text-base text-c-white hover:bg-c-hover capitalize" > Create {layer}</CLink>
     }
 
 
     const getEditButton = (id: string, slug: string) => {
-        return <Link to={{ pathname: routes.layerPriorityEdit(id), search: `?layer=${layer.toLowerCase()}&paths=${paths}/${slug}/edit-${layer}` }}><Button variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></Link>
+        return <CLink to={{ pathname: routes.layerPriorityEdit(id), search: `?layer=${layer.toLowerCase()}&paths=${paths}/${slug}/edit-${layer}` }}><Button tabIndex={-1} variant="ghost"><RiEditFill className="text-blue-400 !w-[20px] !h-[20px]" /></Button></CLink>
     }
 
     const getDeleteButton = (data: object) => {
@@ -82,10 +83,10 @@ const LayerPriorityTable = () => {
                 accessorKey: "name",
                 header: "Name",
                 cell: ({ row }) => {
-                    return <Link className="hover:underline hover:text-c-primary" to={{
+                    return <CLink className="hover:underline hover:text-c-primary" to={{
                         pathname: routes.layerPriority(),
                         search: `?src=${row.original?.slug}&paths=${paths}/${row.original.slug}&layer=${getLayersArr()[getNextLayer(layer.toLowerCase())]}`
-                    }}> {row.original.name}</Link >
+                    }}> {row.original.name}</CLink >
                 }
             },
             {

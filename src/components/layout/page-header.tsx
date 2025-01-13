@@ -12,6 +12,7 @@ import usePathname from "@/hooks/use-pathname";
 import { useIntl } from "react-intl";
 import { useParams } from "react-router";
 import { getPageHeader } from "@/lib/data";
+import CLink from "../custom/c-link";
 
 const PageHeader = () => {
     const routeParams = useParams()
@@ -35,7 +36,7 @@ const PageHeader = () => {
                                         <BreadcrumbItem>
                                             {!link.path ? (
                                                 <span className={`text-base  ${link.current ? 'text-primary' : ''}`}>{typeof link.value === 'function' ? link.value(routeParams.id) : link.value}</span>
-                                            ) : <BreadcrumbLink asChild><Link className={`text-base  ${link.current ? 'text-primary hover:!text-primary' : 'hover:!text-primary hover:underline'}`} to={`/${locale}` + link.path(routeParams.id)}>{typeof link.value === 'function' ? link.value(routeParams.id) : link.value}</Link></BreadcrumbLink>}
+                                            ) : <BreadcrumbLink asChild><CLink className={`text-base  ${link.current ? 'text-primary hover:!text-primary' : 'hover:!text-primary hover:underline'}`} to={`/${locale}` + link.path(routeParams.id)}>{typeof link.value === 'function' ? link.value(routeParams.id) : link.value}</CLink></BreadcrumbLink>}
                                         </BreadcrumbItem>
                                         {
                                             index !== pageHeaderData.links.length - 1 && (<BreadcrumbSeparator>
