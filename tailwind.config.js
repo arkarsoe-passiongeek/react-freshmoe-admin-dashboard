@@ -91,6 +91,7 @@ export default {
 				'c-home-bg': '#ECF6F4',
 				'c-disable': '#DBDBDB',
 				'c-hover': '#4D9F3C',
+				'c-secondary-hover': '#AC0F15',
 				'c-blue': '#29BFFF',
 				'c-yellow': '#D08813',
 				sidebar: {

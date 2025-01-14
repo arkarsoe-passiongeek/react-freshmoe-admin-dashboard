@@ -71,7 +71,7 @@ export function DataTablePagination<TData>({
               <span className="sr-only">Go to previous page</span>
               <ChevronLeft />
             </Button>
-            <div className="h-10 w-10 bg-c-white rounded-full flex items-center justify-center">
+            <div className="h-10 w-10 bg-c-button-bg border border-c-primary rounded-full flex items-center justify-center">
               <span className="text-c-primary text-base">{table.getState().pagination.pageIndex + 1}</span>
             </div>
             <Button
