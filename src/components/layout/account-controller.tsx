@@ -27,7 +27,7 @@ const AdminController = ({ user }: any) => {
                 <span >{user.email}</span>
                 <span className='text-c-contrast capitalize'>{user.username}</span>
             </div>
-            <CButton onClick={() => setLogoutModal(true)} className="bg-c-secondary !min-w-[100px]">Logout</CButton>
+            <CButton styleType='delete' onClick={() => setLogoutModal(true)} className="bg-c-secondary !min-w-[100px]">Logout</CButton>
             <LogoutDialog isLogoutModalOpen={logoutModal} setIsLogoutModalOpen={setLogoutModal} handleLogout={handleLogout} loading={loading} />
         </div>
     )

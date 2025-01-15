@@ -17,7 +17,7 @@ const CButton: React.FC<CButtonProps> = ({ children, loading = false, styleType 
     } else if (styleType === 'create' || styleType === 'update' || styleType === 'success') {
         typeClass = 'bg-primary hover:bg-c-hover'
     } else if (styleType === 'delete') {
-        typeClass = 'bg-secondary hover:bg-secondary'
+        typeClass = 'bg-secondary hover:bg-c-secondary-hover'
     }
 
     return (
