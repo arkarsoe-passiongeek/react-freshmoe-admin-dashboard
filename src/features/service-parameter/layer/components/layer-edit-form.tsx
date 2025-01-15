@@ -17,6 +17,8 @@ import { updateLayer } from "@/services/actions/layer";
 import { Layer } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { queryClient } from "@/main";
+import { API_ROUTES } from "@/lib/constants";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -41,6 +43,12 @@ export function LayerEditForm({ defaultValues }: { defaultValues: Layer }) {
     },
     onSuccess: () => {
       // Boom baby!
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.layer.view(Number(defaultValues.id))],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.layer.getAll()],
+      });
       navigate(routes.layer());
     },
   });

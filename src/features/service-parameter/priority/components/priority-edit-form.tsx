@@ -1,81 +1,106 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+import CButton from "@/components/custom/c-button";
+import CFormLabel from "@/components/custom/c-form-label";
+import CInput from "@/components/custom/c-input";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form"
-import CInput from "@/components/custom/c-input"
-import CFormLabel from "@/components/custom/c-form-label"
-import CButton from "@/components/custom/c-button"
-import { useState } from "react"
-import { useNavigate } from "react-router"
-import { useLinkRoutes } from "@/lib/route"
-import { create } from "@/services/apis/priority"
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { useLinkRoutes } from "@/lib/route";
+import { useNavigate } from "react-router";
+import { updatePriority } from "@/services/actions/priority";
+import { useMutation } from "@tanstack/react-query";
+import { Priority } from "@/types";
+import { queryClient } from "@/main";
+import { API_ROUTES } from "@/lib/constants";
 
 const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "name must be at least 2 characters.",
-    })
-})
+  name: z.string().min(2, {
+    message: "name must be at least 2 characters.",
+  }),
+});
 
-export function PriorityEditForm({ defaultValues }: { defaultValues: { name: string } }) {
-    const routes = useLinkRoutes()
-    const navigate = useNavigate()
-    const [updating, setUpdating] = useState(false)
-    // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: defaultValues
-    })
+export function PriorityEditForm({
+  defaultValues,
+}: {
+  defaultValues: Priority;
+}) {
+  const routes = useLinkRoutes();
+  const navigate = useNavigate();
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: defaultValues,
+  });
 
-    // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        setUpdating(true)
-        setTimeout(() => {
-            navigate(routes.priority())
-            setUpdating(false)
-        }, 2000);
-        const res: any = await create(values)
+  const updateMutation = useMutation({
+    mutationFn: (values: z.infer<typeof formSchema>) =>
+      updatePriority(values, defaultValues.id),
+    onError: (error) => {
+      form.setError("name", { type: "manual", message: error.message });
+    },
+    onSuccess: () => {
+      // Boom baby!
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.priority.view(Number(defaultValues.id))],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.priority.getAll()],
+      });
+      navigate(routes.priority());
+    },
+  });
 
-        if (res.error?.status === 422) {
-            // for (let key in error.data) {
-            //     form.setError(key as any, { type: 'manual', message: error.data[key][0] })
-            // }
-            form.setError('name', { type: 'manual', message: 'Credentials are not valid' })
-        } else {
-            console.log(res)
-        }
-    }
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    updateMutation.mutate(values);
+  }
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <h3 className="text-xl font-semibold">Priority Information</h3>
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CFormLabel className="!text-black">Name</CFormLabel>
-                            <FormControl>
-                                <CInput.Base placeholder="Name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="flex gap-4 justify-end">
-                    <CButton styleType="cancel" type="button" onClick={() => form.reset()} > Cancel</CButton>
-                    <CButton loading={updating} styleType="update" type="submit" className={`${(form.formState.isDirty && form.formState.isValid === false) ? 'bg-c-contrast hover:bg-c-contrast' : ''}`}>Update</CButton>
-                </div>
-            </form>
-        </Form >
-    )
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <h3 className="text-xl font-semibold">Priority Information</h3>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <CFormLabel className="!text-black">Name</CFormLabel>
+              <FormControl>
+                <CInput.Base placeholder="Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-4 justify-end">
+          <CButton
+            styleType="cancel"
+            type="button"
+            onClick={() => form.reset()}
+          >
+            Cancel
+          </CButton>
+          <CButton
+            loading={updateMutation.isPending}
+            styleType="update"
+            type="submit"
+            className={`${
+              form.formState.isDirty && form.formState.isValid === false
+                ? "bg-c-contrast hover:bg-c-contrast"
+                : ""
+            }`}
+          >
+            Update
+          </CButton>
+        </div>
+      </form>
+    </Form>
+  );
 }

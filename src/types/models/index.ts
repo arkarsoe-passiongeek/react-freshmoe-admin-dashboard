@@ -1,1 +1,2 @@
-export * from './layer'
+export * from "./layer";
+export * from "./priority";
