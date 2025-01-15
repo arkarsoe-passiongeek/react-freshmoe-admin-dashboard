@@ -21,7 +21,7 @@ import LayerPriorityCreatePage from "./features/service-parameter/layer-priority
 import LayerPriorityEditPage from "./features/service-parameter/layer-priority/layer-priority-edit-page.tsx";
 import Unauthorized from "./features/auth/unauthorized.tsx";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

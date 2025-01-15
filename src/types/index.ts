@@ -1,4 +1,6 @@
 import * as React from "react";
+export * from './models'
+
 export interface IconTree {
     tag: string;
     attr: {
