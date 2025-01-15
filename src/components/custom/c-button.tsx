@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "../ui/button";
+import React from "react";
 
 interface CButtonProps extends ButtonProps {
     children: React.ReactNode;
@@ -7,7 +8,7 @@ interface CButtonProps extends ButtonProps {
     loading?: boolean
 }
 
-const CButton: React.FC<CButtonProps> = ({ children, loading = false, styleType = 'default', className, ...rest }) => {
+const CButton = React.forwardRef<HTMLButtonElement,CButtonProps>(({ children, loading = false, styleType = 'default', className, ...rest }, ref) => {
     const baseClass = 'text-lg py-5 px-10 min-w-[216px] min-h-[52px] border shadow-none'
     let typeClass = ''
     if (styleType === 'cancel') {
@@ -21,7 +22,7 @@ const CButton: React.FC<CButtonProps> = ({ children, loading = false, styleType 
     }
 
     return (
-        <Button className={cn(baseClass, typeClass, className)} {...rest}>
+        <Button ref={ref} className={cn(baseClass, typeClass, className)} {...rest}>
             {
                 loading ? (<div><svg aria-hidden="true" className="!w-6 !h-6 text-gray-200 animate-spin dark:text-gray-600 fill-c-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -30,6 +31,6 @@ const CButton: React.FC<CButtonProps> = ({ children, loading = false, styleType 
             }
         </Button>
     );
-}
+})
 
 export default CButton;
