@@ -45,14 +45,20 @@ const PageHeader = () => {
     linksArr?.map((each, index) => {
       const obj = {
         value: each[0],
-        path: () => routes.layerPriority(),
         current: index === linksArr.length - 1,
       };
 
+      if (index !== linksArr.length - 1) {
+        obj["path"] = () => routes.layerPriority();
+      }
+
       if (each.length >= 3) {
-        obj['search'] = () => `?src=${each[0]}&paths=${individualPaths.slice(0, index + 2).join('/')}&layer=${
-            each[1].split("=")[1]
-          }&parentId=${each[2].split("=")[1]}`
+        obj["search"] = () =>
+          `?src=${each[0]}&paths=${individualPaths
+            .slice(0, index + 2)
+            .join("/")}&layer=${each[1].split("=")[1]}&parentId=${
+            each[2].split("=")[1]
+          }`;
       }
       extraLinks.push(obj);
     });
@@ -89,8 +95,7 @@ const PageHeader = () => {
                                 : "hover:!text-primary hover:underline"
                             }`}
                             to={{
-                              pathname:
-                                link.path(routeParams.id),
+                              pathname: link.path(routeParams.id),
                               search: link.search && link.search(),
                             }}
                           >

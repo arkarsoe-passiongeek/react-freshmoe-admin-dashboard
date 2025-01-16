@@ -176,7 +176,7 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
                         getSlug(row.original.layer.name).toLowerCase()
                       )
                     ]
-                  }$parentId=${row.original.selfParentId}&layer=${
+                  }$parentId=${row.original.id}&layer=${
                     getLayersArr(layers)[
                       getNextLayer(layers, currentLayer.toLowerCase())
                     ]

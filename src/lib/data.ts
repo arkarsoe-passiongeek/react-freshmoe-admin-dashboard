@@ -125,7 +125,7 @@ const getPageHeaders = () => {
         header: 'Layer-Priority',
         links: [
             { value: 'Service Parameter', current: false },
-            { value: 'Layer-Priority', path: () => routes.layerPriority(), current: true },
+            { value: 'Layer-Priority', path: () => routes.layerPriority(), current: false },
         ]
     };
 
