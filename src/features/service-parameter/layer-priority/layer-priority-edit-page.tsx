@@ -1,43 +1,73 @@
-import { isObject } from "@/lib/utils"
-import { get } from "@/services/apis/layer-priority"
-import { LayerPriorityEditForm } from "./components/layer-priority-edit-form"
-import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router"
-import { useLinkRoutes } from "@/lib/route"
+import Loading from "@/components/layout/loading";
+import { API_ROUTES } from "@/lib/constants";
+import { useLinkRoutes } from "@/lib/route";
+import { fetchLayerList } from "@/services/actions/layer";
+import { fetchLayerPriorityDetail } from "@/services/actions/layer-priority"; // Assuming the fetch function is imported
+import { fetchPriorityList } from "@/services/actions/priority";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
+import { LayerPriorityEditForm } from "./components/layer-priority-edit-form";
 
 const LayerPriorityEditPage = () => {
-    const { id }: any = useParams()
-    const [defaultData, setDefaultData] = useState({})
-    const navigate = useNavigate()
-    const routes = useLinkRoutes()
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const routes = useLinkRoutes();
 
+  // Fetching the layers
+  const {
+    data: layers,
+    isLoading: isLayersLoading,
+    error: layersError,
+  } = useQuery({
+    queryKey: [API_ROUTES.layer.getAll()],
+    queryFn: async () => await fetchLayerList(),
+  });
 
-    const getData = async () => {
-        const defaultValues: any = {}
-        const res = (await get({ id })).data
-        Object.keys(res).map(each => {
-            if (isObject(res[each])) {
-                return defaultValues[each] = res[each].id
-            }
-            defaultValues[each] = res[each]
-        })
+  // Fetching the priorities
+  const {
+    data: priorities,
+    isLoading: isPrioritiesLoading,
+    error: prioritiesError,
+  } = useQuery({
+    queryKey: [API_ROUTES.priority.getAll()],
+    queryFn: async () => await fetchPriorityList(),
+  });
 
-        setDefaultData(defaultValues)
+  // Fetch LayerPriority data
+  const { data, isLoading } = useQuery({
+    queryKey: [API_ROUTES.layerPriority.view(Number(id))],
+    queryFn: async () => await fetchLayerPriorityDetail(Number(id)),
+    enabled: !!id, // Only fetch if `id` exists
+  });
+
+  // Redirect if `id` is missing
+  useEffect(() => {
+    if (!id) {
+      navigate(routes.layerPriority());
     }
+  }, [id, navigate, routes]);
 
-    useEffect(() => {
-        if (!id) {
-            navigate(routes.layerPriority())
-        }
+  if (isLayersLoading || isPrioritiesLoading) {
+    return <div>Loading...</div>;
+  }
 
-        getData()
-    }, [id])
+  if (layersError || prioritiesError) {
+    return <div>Error loading data</div>;
+  }
 
-    return (
-        <div className="bg-c-white border p-10 rounded-md max-w-3xl">{
-            Object.keys(defaultData).length > 0 && (<LayerPriorityEditForm defaultValues={defaultData} />)
-        }</div>
-    )
-}
+  return (
+    <div className="bg-c-white border p-10 rounded-md max-w-3xl">
+      {isLoading && <Loading />}
+      {!isLoading && data && (
+        <LayerPriorityEditForm
+          layers={layers ?? []}
+          priorities={priorities ?? []}
+          defaultValues={data}
+        />
+      )}
+    </div>
+  );
+};
 
-export default LayerPriorityEditPage
+export default LayerPriorityEditPage;

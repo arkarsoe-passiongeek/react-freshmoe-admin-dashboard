@@ -1,18 +1,17 @@
+import CLink from "@/components/custom/c-link";
+import DeleteConfirmDialog from "@/components/layout/dialogs/delete-confirm-dialog";
 import { DataTable } from "@/components/layout/table/data-table";
-import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { RiEditFill } from "react-icons/ri";
+import { API_ROUTES } from "@/lib/constants";
+import { useLinkRoutes } from "@/lib/route";
+import { queryClient } from "@/main";
+import { deleteLayer, fetchLayerList } from "@/services/actions/layer";
+import { Layer } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
-import ListEmpty from "@/assets/images/list-empty.png";
-import DeleteConfirmDialog from "@/components/layout/dialogs/delete-confirm-dialog";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useLinkRoutes } from "@/lib/route";
-import CLink from "@/components/custom/c-link";
-import { deleteLayer, fetchLayerList } from "@/services/actions/layer";
-import { API_ROUTES } from "@/lib/constants";
-import { Layer } from "@/types";
-import { queryClient } from "@/main";
+import { RiEditFill } from "react-icons/ri";
 
 const LayerTable: React.FC = () => {
   const routes = useLinkRoutes();
@@ -119,21 +118,7 @@ const LayerTable: React.FC = () => {
   return (
     <div>
       <div>
-        <div
-          className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
-            data && data.length > 0 && "hidden"
-          }`}
-        >
-          <img src={ListEmpty} width={135} height={160} alt="logo" />
-          <h3 className="font-semibold text-2xl text-c-border-stroke">
-            Your {src} List is empty
-          </h3>
-        </div>
-        {data && (
-          <div className={`${data.length <= 0 && "hidden"}`}>
-            <DataTable data={data} columns={columns} config={config} />
-          </div>
-        )}
+        <DataTable data={data ?? []} columns={columns} config={config} />
         <DeleteConfirmDialog
           src={src}
           data={currentData}

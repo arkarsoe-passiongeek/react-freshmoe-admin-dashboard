@@ -23,23 +23,25 @@ interface CBaseSelectProps {
 export function CBaseSelect({ items, placeholder, defaultValue, disabled = false, selector = 'name', valueSelector = "id", ...rest }: CBaseSelectProps) {
     return (
         <Select disabled={disabled} defaultValue={defaultValue} {...rest}>
-            <SelectTrigger className={`text-lg !h-[52px] ${defaultValue ? '' : 'text-c-contrast'}`}>
+            <SelectTrigger className={`text-base !h-[46px] !mt-[6px] ${defaultValue ? '' : 'text-c-contrast'}`}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="!p-0">
                 <SelectGroup className="p-[15px]">
-                    <SelectLabel className="p-0 mb-[15px] text-lg font-medium">{placeholder}</SelectLabel>
+                    <SelectLabel className="p-0 mb-[15px] text-base font-medium">{placeholder}</SelectLabel>
                     <div className="space-y-[10px]">
                         {
                             items.map(item => {
                                 return (
-                                    <SelectItem className="text-lg" key={item.value ?? item.id} value={item.value ?? item[valueSelector]}>{item.label ?? item.name ?? item[`${selector}`]}</SelectItem>
+                                    <div key={item.id}>
+                                        <SelectItem className="text-base" value={`${item[valueSelector]}`}>{item[`${selector}`]}</SelectItem>
+                                    </div>
                                 )
                             })
                         }
                     </div>
                 </SelectGroup>
             </SelectContent>
-        </Select>
+        </Select >
     )
 }
