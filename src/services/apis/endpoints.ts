@@ -40,3 +40,11 @@ export const UPDATE_LAYER_PRIORITY =
 
 export const DELETE_LAYER_PRIORITY =
   import.meta.env.VITE_PUBLIC_APP_BASE_URL + "/api/v1/layer-priority";
+
+// Maintenance
+export const GET_MAINTENANCE_LIST =
+  import.meta.env.VITE_PUBLIC_APP_BASE_URL + "/api/v1/maintenance";
+
+export const CHANGE_MAINTENANCE =
+  import.meta.env.VITE_PUBLIC_APP_BASE_URL +
+  "/api/v1/maintenance/change-status";
