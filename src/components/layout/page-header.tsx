@@ -31,13 +31,6 @@ const PageHeader = () => {
 
   const pageHeaderData = getPageHeader(pathname);
 
-  console.log(
-    searchParam
-      .get("paths")
-      ?.split("/")
-      .map((each) => each.split("$"))
-  );
-
   if (searchParam.get("paths")) {
     const individualPaths = searchParam.get("paths")?.split("/") ?? [];
 

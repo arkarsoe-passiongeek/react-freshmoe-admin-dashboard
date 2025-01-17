@@ -2,7 +2,6 @@
 import Cookies from 'js-cookie'
 
 export const logout = async () => {
-    console.log('logout')
     // this is commented assuming that backend doesn't do anything
 
     // const token = decodeURIComponent(Cookies.get('token') ?? '')

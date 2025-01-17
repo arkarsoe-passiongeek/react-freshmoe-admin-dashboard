@@ -12,7 +12,6 @@ export const generateFormdata = (values: any) => {
     if (values.hasOwnProperty(key)) {
       const value = values[key];
       formData.append(key, value);
-      console.log(value, key);
     }
   }
 

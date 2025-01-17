@@ -63,11 +63,6 @@ const DashboardLayout: React.FC = () => {
                 onChange={(e) => {
                   const newLang = e.target.value;
                   setLanguage(newLang);
-                  console.log(
-                    pathname.replace(lang ?? "", newLang),
-                    language,
-                    lang
-                  );
                   navigate(`${pathname.replace(lang ?? "", newLang) + search}`);
                 }}
               >

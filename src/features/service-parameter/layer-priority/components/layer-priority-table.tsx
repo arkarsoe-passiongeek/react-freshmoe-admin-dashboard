@@ -53,7 +53,6 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
   const deleteMutation = useMutation({
     mutationFn: deleteLayerPriority,
     onSuccess: () => {
-      console.log("success");
       queryClient.invalidateQueries({
         queryKey: [API_ROUTES.layerPriority.getAll(), { src, currentLayer }],
       });
@@ -164,7 +163,6 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
         header: "Name",
         cell: ({ row }) => {
           if (!isLastLayer(layers, currentLayer)) {
-            console.log(currentLayer);
             return (
               <CLink
                 className="hover:underline hover:text-c-primary"
