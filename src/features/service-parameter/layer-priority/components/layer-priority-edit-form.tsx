@@ -73,6 +73,9 @@ export function LayerPriorityEditForm({
       queryClient.invalidateQueries({
         queryKey: [API_ROUTES.layerPriority.getAll()],
       });
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.layerPriority.view(defaultValues.id)],
+      });
       navigate(routes.layerPriority());
     },
   });

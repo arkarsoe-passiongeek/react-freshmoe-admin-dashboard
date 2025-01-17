@@ -14,6 +14,7 @@ import { getPageHeader } from "@/lib/data";
 import CLink from "../custom/c-link";
 import useSearchParams from "@/hooks/use-search-params";
 import { useLinkRoutes } from "@/lib/route";
+import { cleanWords } from "@/lib/utils";
 
 const PageHeader = () => {
   const routeParams = useParams();
@@ -48,7 +49,7 @@ const PageHeader = () => {
         current: index === linksArr.length - 1,
       };
 
-      if (index !== linksArr.length - 1) {
+      if (index !== linksArr.length - 1 && each.length >= 3) {
         obj["path"] = () => routes.layerPriority().replace(`/${locale}`, "");
       }
 
@@ -82,9 +83,11 @@ const PageHeader = () => {
                             link.current ? "text-primary" : ""
                           }`}
                         >
-                          {typeof link.value === "function"
-                            ? link.value(routeParams.id)
-                            : link.value}
+                          {cleanWords(
+                            typeof link.value === "function"
+                              ? link.value(routeParams.id)
+                              : link.value
+                          )}
                         </span>
                       ) : (
                         <BreadcrumbLink asChild>
@@ -101,9 +104,11 @@ const PageHeader = () => {
                               search: link.search && link.search(),
                             }}
                           >
-                            {typeof link.value === "function"
-                              ? link.value(routeParams.id)
-                              : link.value}
+                            {cleanWords(
+                              typeof link.value === "function"
+                                ? link.value(routeParams.id)
+                                : link.value
+                            )}
                           </CLink>
                         </BreadcrumbLink>
                       )}

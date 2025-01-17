@@ -35,17 +35,16 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
   const parentId: string = searchParam.get("parentId") ?? "";
 
   const { data } = useQuery<LayerPriority[]>({
-    queryKey: [API_ROUTES.layerPriority.getAll(), { currentLayer, src }],
+    queryKey: [API_ROUTES.layerPriority.getAll(), { src, currentLayer }],
     queryFn: () => fetchLayerPriorityList({ query: { parentId } }),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      deleteLayerPriority(Number(id));
-    },
+    mutationFn: deleteLayerPriority,
     onSuccess: () => {
+      console.log("success");
       queryClient.invalidateQueries({
-        queryKey: [API_ROUTES.layerPriority.getAll()],
+        queryKey: [API_ROUTES.layerPriority.getAll(), { src, currentLayer }],
       });
     },
   });
@@ -94,9 +93,9 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
     setIsDeleteModalOpen(true);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (currentData) {
-      await deleteMutation.mutateAsync(String(currentData.id));
+      deleteMutation.mutate(Number(currentData.id));
     }
     setIsDeleteModalOpen(false);
   };
