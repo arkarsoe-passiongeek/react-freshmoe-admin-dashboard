@@ -1,4 +1,3 @@
-import { useLinkRoutes } from "@/lib/route";
 import { logout } from "@/services/apis/auth";
 import {
   Popover,
@@ -9,18 +8,13 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import CButton from "../custom/c-button";
-import CLink from "../custom/c-link";
-import LogoutDialog from "./dialogs/logout-dialog";
 import { User as IUser } from "./dashboard-layout";
-import IconUser from "../icons/user";
-import IconLock from "../icons/lock";
+import LogoutDialog from "./dialogs/logout-dialog";
 
 const AdminController = ({ user }: { user: IUser | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
-
-  const routes = useLinkRoutes();
 
   const handleLogout = async () => {
     try {
@@ -57,7 +51,7 @@ const AdminController = ({ user }: { user: IUser | null }) => {
           className="bg-c-white p-4 shadow rounded-lg space-y-2"
           align="end"
         >
-          <CLink
+          {/* <CLink
             to={routes.profile()}
             className="flex text-c-contrast gap-1 p-1 items-center text-base hover:bg-accent"
           >
@@ -70,7 +64,7 @@ const AdminController = ({ user }: { user: IUser | null }) => {
           >
             <IconLock className="mr-2 w-5 h-5 font-bold" />
             <span>Change Password</span>
-          </CLink>
+          </CLink> */}
           <CButton
             className="min-w-[157px] w-full min-h-[34px] text-base !p-0 bg-red-500 hover:bg-red-600 text-white"
             onClick={() => setLogoutModal(true)}

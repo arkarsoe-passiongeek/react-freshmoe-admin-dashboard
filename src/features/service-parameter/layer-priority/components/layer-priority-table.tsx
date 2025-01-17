@@ -1,3 +1,4 @@
+import ListEmpty from "@/assets/images/list-empty.png";
 import CInput from "@/components/custom/c-input";
 import CLink from "@/components/custom/c-link";
 import DeleteConfirmDialog from "@/components/layout/dialogs/delete-confirm-dialog";
@@ -29,7 +30,6 @@ import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import { useNavigate } from "react-router";
-import ListEmpty from "@/assets/images/list-empty.png";
 
 const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
   const navigate = useNavigate();
@@ -152,13 +152,6 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
         <MdDelete className="text-c-secondary !w-[20px] !h-[20px]" />
       </Button>
     );
-  };
-
-  const config = {
-    toolbar: {
-      viewOptions: false,
-      getCreateButton,
-    },
   };
 
   const getColumns = (
