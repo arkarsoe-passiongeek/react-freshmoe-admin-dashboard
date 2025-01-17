@@ -178,7 +178,10 @@ const LayerPriorityTable = ({ layers }: { layers: Layer[] }) => {
                     ]
                   }$parentId=${row.original.id}&layer=${
                     getLayersArr(layers)[
-                      getNextLayer(layers, currentLayer.toLowerCase())
+                      getNextLayer(
+                        layers,
+                        currentLayer ? currentLayer.toLowerCase() : ""
+                      )
                     ]
                   }&parentId=${row.original.id}`,
                 }}

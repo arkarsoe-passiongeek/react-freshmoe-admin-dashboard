@@ -49,13 +49,13 @@ const PageHeader = () => {
       };
 
       if (index !== linksArr.length - 1) {
-        obj["path"] = () => routes.layerPriority();
+        obj["path"] = () => routes.layerPriority().replace(`/${locale}`, "");
       }
 
       if (each.length >= 3) {
         obj["search"] = () =>
           `?src=${each[0]}&paths=${individualPaths
-            .slice(0, index + 2)
+            .slice(0, index + 3)
             .join("/")}&layer=${each[1].split("=")[1]}&parentId=${
             each[2].split("=")[1]
           }`;
@@ -95,7 +95,9 @@ const PageHeader = () => {
                                 : "hover:!text-primary hover:underline"
                             }`}
                             to={{
-                              pathname: link.path(routeParams.id),
+                              pathname: `/${locale}${link.path(
+                                routeParams.id
+                              )}`,
                               search: link.search && link.search(),
                             }}
                           >

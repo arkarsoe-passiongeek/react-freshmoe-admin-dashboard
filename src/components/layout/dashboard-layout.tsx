@@ -40,7 +40,6 @@ const DashboardLayout: React.FC = () => {
     if (!Cookies.get("token")) {
       navigate(routes.unauthorized());
     }
-    console.log(Cookies.get("test"));
     getUserData();
   }, []);
 
