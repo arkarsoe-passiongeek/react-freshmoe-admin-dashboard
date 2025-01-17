@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IconBaseProps } from "@/types"; // Adjust the import path as necessary
 
-export const IconUser: React.FC<IconBaseProps> = ({
+export const IconUserCircle: React.FC<IconBaseProps> = ({
   size = 20,
   color = "currentColor",
   title,
@@ -22,4 +22,4 @@ export const IconUser: React.FC<IconBaseProps> = ({
   );
 };
 
-export default IconUser;
+export default IconUserCircle;

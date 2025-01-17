@@ -1,18 +1,21 @@
 import { RxDashboard } from "react-icons/rx";
 import { LuDot } from "react-icons/lu";
 import { getRoutes, Routes } from "./route";
-import { Home } from "lucide-react";
+import IconDashboard from "@/components/icons/IconDashboard";
+import IconService from "@/components/icons/IconService";
+import IconHamburger from "@/components/icons/IconHamburger";
+import IconAlert from "@/components/icons/IconAlert";
 
 export const getSidebarData = (routes: Routes) => {
   return [
     {
       title: "Dashboard",
-      icon: Home,
+      icon: IconDashboard,
       url: routes.dashboard(),
     },
     {
       title: "Service Parameter",
-      icon: RxDashboard,
+      icon: IconService,
       url: "#1",
       items: [
         {
@@ -37,7 +40,7 @@ export const getSidebarData = (routes: Routes) => {
     },
     {
       title: "Content & Image",
-      icon: RxDashboard,
+      icon: IconHamburger,
       url: "#2",
       items: [
         {
@@ -49,7 +52,7 @@ export const getSidebarData = (routes: Routes) => {
     },
     {
       title: "Maintenance",
-      icon: RxDashboard,
+      icon: IconAlert,
       url: routes.maintenance(),
     },
   ];
