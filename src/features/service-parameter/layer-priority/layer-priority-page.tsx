@@ -13,7 +13,9 @@ const LayerPriorityPage = () => {
   return (
     <div>
       {isLayersLoading && <Loading />}
-      {!isLayersLoading && layers && <LayerPriorityTable layers={layers} />}
+      {!isLayersLoading && layers && layers.length > 0 && (
+        <LayerPriorityTable layers={layers} />
+      )}
     </div>
   );
 };
