@@ -131,68 +131,73 @@ const PriorityTable: React.FC = () => {
     table.getState().columnFilters.filter((each) => each.id === "name").length >
     0;
 
-  return (
-    <div>
+    return (
       <div>
-        {isLoading && <Loading />}
-        {!isLoading && data && (
-          <>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <CInput.SearchInput
-                  placeholder="Search..."
-                  value={
-                    (table.getColumn("name")?.getFilterValue() as string) ?? ""
-                  }
-                  onChange={(event) =>
-                    table.getColumn("name")?.setFilterValue(event.target.value)
-                  }
-                  className="h-[50px] w-[150px] lg:w-[250px] xl:w-[380px]"
-                />
-                {isFiltered && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => table.resetColumnFilters()}
-                    className="h-8 px-2 lg:px-3"
-                  >
-                    Reset
-                    <X />
-                  </Button>
-                )}
-              </div>
-              <div className="flex items-center gap-3 shrink-0">
-                {getCreateButton()}
-              </div>
+        <div>
+          {/* {isLoading && <Loading />} */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <CInput.SearchInput
+                placeholder="Search..."
+                value={
+                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("name")?.setFilterValue(event.target.value)
+                }
+                className="h-[50px] w-[150px] lg:w-[250px] xl:w-[380px]"
+              />
+              {isFiltered && (
+                <Button
+                  variant="ghost"
+                  onClick={() => table.resetColumnFilters()}
+                  className="h-8 px-2 lg:px-3"
+                >
+                  Reset
+                  <X />
+                </Button>
+              )}
             </div>
-            <div className="mb-2">
-              <div className={`${data.length <= 0 && "hidden"}`}>
-                <PureDataTable columns={columns} table={table} />
-              </div>
-              <div
-                className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
-                  data && data.length > 0 && "hidden"
-                }`}
-              >
-                <img src={ListEmpty} width={135} height={160} alt="logo" />
-                <h3 className="font-semibold text-2xl text-c-border-stroke">
-                  Your {src} List is empty
-                </h3>
-              </div>
+            <div className="flex items-center gap-3 shrink-0">
+              {getCreateButton()}
             </div>
-            <DataTablePagination table={table} />
-          </>
-        )}
-        <DeleteConfirmDialog
-          src={src}
-          data={currentData}
-          isDeleteModalOpen={isDeleteModalOpen}
-          isDeleting={deleteMutation.isPending}
-          setIsDeleteModalOpen={setIsDeleteModalOpen}
-          handleDelete={handleDelete}
-        />
+          </div>
+          <div className="mb-2">
+            {isLoading && (
+              <div className="p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md">
+                <Loading />
+              </div>
+            )}
+            {!isLoading && data && (
+              <>
+                <div className={`${data.length <= 0 && "hidden"}`}>
+                  <PureDataTable columns={columns} table={table} />
+                </div>
+                <div
+                  className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
+                    data && data.length > 0 && "hidden"
+                  }`}
+                >
+                  <img src={ListEmpty} width={135} height={160} alt="logo" />
+                  <h3 className="font-semibold text-2xl text-c-border-stroke">
+                    Your {src} List is empty
+                  </h3>
+                </div>
+              </>
+            )}
+          </div>
+          <DataTablePagination table={table} />
+          <DeleteConfirmDialog
+            src={src}
+            data={currentData}
+            isDeleteModalOpen={isDeleteModalOpen}
+            isDeleting={deleteMutation.isPending}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
+            handleDelete={handleDelete}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default PriorityTable;

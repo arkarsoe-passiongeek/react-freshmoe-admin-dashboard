@@ -31,24 +31,24 @@ const AdminController = ({ user }: { user: IUser | null }) => {
     <>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex justify-between items-center gap-4 cursor-pointer">
             <IoPersonCircle className="w-[50px] h-[50px] text-primary" />
-            <div className="flex flex-col">
-              {user && (
-                <>
-                  <span>{user.email}</span>
-                  <span className="text-c-contrast capitalize">
-                    {user.username}
-                  </span>
-                </>
-              )}
-            </div>
           </div>
         </PopoverTrigger>
         <PopoverContent
           className="bg-c-white p-4 shadow rounded-lg space-y-2"
           align="end"
         >
+          <div className="flex flex-col">
+            {user && (
+              <>
+                <span>{user.email}</span>
+                <span className="text-c-contrast capitalize">
+                  {user.username}
+                </span>
+              </>
+            )}
+          </div>
           {/* <CLink
             to={routes.profile()}
             className="flex text-c-contrast gap-1 p-1 items-center text-base hover:bg-accent"

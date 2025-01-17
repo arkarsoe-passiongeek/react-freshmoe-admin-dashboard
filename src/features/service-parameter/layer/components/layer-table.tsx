@@ -135,37 +135,42 @@ const LayerTable: React.FC = () => {
   return (
     <div>
       <div>
-        {isLoading && <Loading />}
-        {!isLoading && data && (
-          <>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <CInput.SearchInput
-                  placeholder="Search..."
-                  value={
-                    (table.getColumn("name")?.getFilterValue() as string) ?? ""
-                  }
-                  onChange={(event) =>
-                    table.getColumn("name")?.setFilterValue(event.target.value)
-                  }
-                  className="h-[50px] w-[150px] lg:w-[250px] xl:w-[380px]"
-                />
-                {isFiltered && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => table.resetColumnFilters()}
-                    className="h-8 px-2 lg:px-3"
-                  >
-                    Reset
-                    <X />
-                  </Button>
-                )}
-              </div>
-              <div className="flex items-center gap-3 shrink-0">
-                {getCreateButton()}
-              </div>
+        {/* {isLoading && <Loading />} */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <CInput.SearchInput
+              placeholder="Search..."
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
+              className="h-[50px] w-[150px] lg:w-[250px] xl:w-[380px]"
+            />
+            {isFiltered && (
+              <Button
+                variant="ghost"
+                onClick={() => table.resetColumnFilters()}
+                className="h-8 px-2 lg:px-3"
+              >
+                Reset
+                <X />
+              </Button>
+            )}
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            {getCreateButton()}
+          </div>
+        </div>
+        <div className="mb-2">
+          {isLoading && (
+            <div className="p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md">
+              <Loading />
             </div>
-            <div className="mb-2">
+          )}
+          {!isLoading && data && (
+            <>
               <div className={`${data.length <= 0 && "hidden"}`}>
                 <PureDataTable columns={columns} table={table} />
               </div>
@@ -179,10 +184,10 @@ const LayerTable: React.FC = () => {
                   Your {src} List is empty
                 </h3>
               </div>
-            </div>
-            <DataTablePagination table={table} />
-          </>
-        )}
+            </>
+          )}
+        </div>
+        <DataTablePagination table={table} />
         <DeleteConfirmDialog
           src={src}
           data={currentData}

@@ -60,7 +60,7 @@ const PageHeader = () => {
 
   return (
     <div className="flex justify-between items-center mb-5">
-      <h1 className="font-medium text-2xl capitalize">
+      <h1 className="font-medium text-2xl capitalize select-none">
         {pageHeaderData.header}
       </h1>
       <Breadcrumb>
