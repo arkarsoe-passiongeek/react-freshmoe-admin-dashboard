@@ -21,7 +21,7 @@ const AdminController = ({ user }: { user: IUser | null }) => {
       setSubmitting(true);
       const res = await logout();
       if (res == "success") console.log(res);
-      // window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`;
+      window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`;
     } finally {
       setSubmitting(false);
     }

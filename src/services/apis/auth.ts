@@ -7,7 +7,7 @@ export const logout = async () => {
   // const token = decodeURIComponent(Cookies.get('token') ?? '')
   // console.log(token)
   //   const token = Cookies.get("token");
-  await axios.post(
+  const res = await axios.post(
     `https://dev-main-api.freshmoe.com/api/v1/logout`,
     undefined,
     {
@@ -17,7 +17,9 @@ export const logout = async () => {
       //   },
     }
   );
-  localStorage.removeItem("userdata");
-  Cookies.remove("token");
-  return "success";
+  if (res.data.status) {
+    localStorage.removeItem("userdata");
+    Cookies.remove("token");
+    return "success";
+  }
 };
