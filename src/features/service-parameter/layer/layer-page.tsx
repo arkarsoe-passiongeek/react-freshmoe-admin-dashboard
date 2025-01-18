@@ -1,11 +1,11 @@
-import LayerTable from "./components/layer-table"
+import LayerTable from './components/layer-table';
 
 const LayerPage = () => {
-    return (
-        <div>
-            <LayerTable />
-        </div>
-    )
-}
+   return (
+      <div>
+         <LayerTable />
+      </div>
+   );
+};
 
-export default LayerPage
+export default LayerPage;

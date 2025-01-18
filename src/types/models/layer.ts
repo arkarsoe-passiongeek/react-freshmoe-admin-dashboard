@@ -1,16 +1,20 @@
 export interface Layer {
-    id: number;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-};
+   id: number;
+   name: string;
+   createdAt: string;
+   updatedAt: string;
+}
 
-// Type for Create Layer 
+// Type for Create Layer
 export interface CreateLayer {
-    name: string;
-};
+   name: string;
+}
 
-// Type for Update Layer 
+// Type for Update Layer
 export interface UpdateLayer {
-    name: string;
-};
+   name: string;
+}
+
+export interface DeleteLayer {
+   id: number | null;
+}

@@ -134,7 +134,6 @@ const PriorityTable: React.FC = () => {
     return (
       <div>
         <div>
-          {/* {isLoading && <Loading />} */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
               <CInput.SearchInput
