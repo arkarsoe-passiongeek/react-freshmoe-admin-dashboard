@@ -41,8 +41,8 @@ const AdminController = ({ user }: { user: IUser | null }) => {
                <div className='flex flex-col'>
                   {user && (
                      <>
-                        <span>{user.email}</span>
-                        <span className='text-c-contrast capitalize'>
+                        <span className='text-sm'>{user.email}</span>
+                        <span className='text-c-contrast capitalize text-xs'>
                            {user.username}
                         </span>
                      </>
@@ -63,7 +63,7 @@ const AdminController = ({ user }: { user: IUser | null }) => {
             <span>Change Password</span>
           </CLink> */}
                <CButton
-                  className='min-w-[157px] w-full min-h-[34px] text-base !p-0 bg-red-500 hover:bg-red-600 text-white'
+                  className='min-w-[146px] w-full min-h-[34px] text-sm !p-0 bg-red-500 hover:bg-red-600 text-white'
                   onClick={() => setLogoutModal(true)}>
                   Log Out
                </CButton>
