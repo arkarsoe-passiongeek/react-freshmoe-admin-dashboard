@@ -40,11 +40,11 @@ export function LayerPriorityEditForm({
    defaultValues,
    layers,
    priorities,
-}: {
+}: Readonly<{
    defaultValues: LayerPriority;
    layers: Layer[];
    priorities: Priority[];
-}) {
+}>) {
    const routes = useLinkRoutes();
    const navigate = useNavigate();
    const searchParam = useSearchParams();

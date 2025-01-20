@@ -73,6 +73,7 @@ export function LayerPriorityCreateForm({
          queryClient.invalidateQueries({
             queryKey: [API_ROUTES.layerPriority.getAll()],
          });
+         form.reset();
          onCreateSuccess();
       },
    });

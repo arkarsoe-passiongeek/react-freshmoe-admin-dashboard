@@ -43,6 +43,7 @@ export function LayerCreateForm({
          form.setError('name', { type: 'manual', message: error.message });
       },
       onSuccess: () => {
+         form.reset();
          onCreateSuccess();
       },
    });
