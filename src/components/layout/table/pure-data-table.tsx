@@ -21,7 +21,7 @@ export function PureDataTable<TData, TValue>({
    return (
       <div className='rounded-xl p-2 bg-c-white'>
          <Table>
-            <TableHeader className='bg-primary'>
+            <TableHeader className=''>
                {table.getHeaderGroups().map(headerGroup => (
                   <TableRow
                      className='first:[&_th]:rounded-l-lg last:[&_th]:rounded-r-lg hover:bg-primary'
@@ -29,7 +29,7 @@ export function PureDataTable<TData, TValue>({
                      {headerGroup.headers.map(header => {
                         return (
                            <TableHead
-                              className='text-c-white'
+                              className='text-c-white bg-c-primary'
                               key={header.id}
                               colSpan={header.colSpan}>
                               {header.isPlaceholder
