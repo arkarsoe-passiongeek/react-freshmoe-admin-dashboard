@@ -1,4 +1,4 @@
-import { logout } from '@/services/apis/auth';
+import { logout } from '@/services/actions/auth';
 import {
    Popover,
    PopoverContent,
@@ -20,8 +20,8 @@ const AdminController = ({ user }: { user: IUser | null }) => {
       try {
          setSubmitting(true);
          const res = await logout();
-         if (res == 'success') console.log(res);
-         window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`;
+         if (res?.status === 201)
+            window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`;
       } finally {
          setSubmitting(false);
       }
