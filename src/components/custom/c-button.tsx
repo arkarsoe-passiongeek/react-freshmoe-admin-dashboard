@@ -14,7 +14,7 @@ const CButton = React.forwardRef<HTMLButtonElement, CButtonProps>(
       ref
    ) => {
       const baseClass =
-         'text-lg py-5 px-10 min-w-[216px] min-h-[52px] border shadow-none';
+         'text-lg py-5 px-10 min-w-[216px] min-h-[52px] border shadow-none disabled:bg-c-contrast';
       let typeClass = '';
       if (styleType === 'cancel') {
          typeClass =
