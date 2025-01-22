@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-   'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+   'border inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
    {
       variants: {
          variant: {
@@ -20,11 +20,11 @@ const buttonVariants = cva(
             link: 'text-primary underline-offset-4 hover:underline',
          },
          size: {
-            default: 'text-base py-3 px-10 h-14 rounded-lg',
-            xs: 'text-sm py-1 px-4 h-8 rounded-lg', // Extra small size
-            sm: 'text-sm py-2 px-6 h-10 rounded-lg', // Small size
-            md: 'text-base py-3 px-10 h-14 rounded-lg', // Medium size (default)
-            lg: 'text-lg py-4 px-12 h-16 rounded-lg', // Large size
+            default: 'text-base py-3',
+            xs: 'text-xs py-1 px-4 h-8 rounded-xl font-light', // Extra small size
+            sm: 'text-sm py-2 px-6 h-9 rounded-xl', // Small size
+            md: 'text-base py-3 px-10 h-12 min-w-[210px] rounded-xl font-light', // Medium size (default)
+            lg: 'text-lg py-4 px-12 h-16 rounded-xl', // Large size
             icon: 'h-10 w-10',
          },
       },

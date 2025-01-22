@@ -80,6 +80,7 @@ export function LayerCreateForm({
             />
             <div className='flex gap-4 justify-end'>
                <CButton
+                  size='md'
                   styleType='cancel'
                   type='button'
                   className=' '
@@ -87,6 +88,7 @@ export function LayerCreateForm({
                   Cancel
                </CButton>
                <CButton
+                  size='md'
                   loading={createMutation.isPending}
                   disabled={
                      form.formState.isDirty && form.formState.isValid === false

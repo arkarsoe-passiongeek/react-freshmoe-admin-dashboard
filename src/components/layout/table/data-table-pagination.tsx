@@ -1,7 +1,11 @@
-import { Table } from '@tanstack/react-table';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
+import {
+   Pagination,
+   PaginationContent,
+   PaginationItem,
+   PaginationLink,
+   PaginationNext,
+   PaginationPrevious,
+} from '@/components/ui/pagination';
 import {
    Select,
    SelectContent,
@@ -9,6 +13,9 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/components/ui/select';
+import { ROWS_PER_PAGE } from '@/lib/constants';
+import { cn } from '@/lib/utils';
+import { Table } from '@tanstack/react-table';
 
 interface DataTablePaginationProps<TData> {
    table: Table<TData>;
@@ -17,79 +24,103 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
    table,
 }: Readonly<DataTablePaginationProps<TData>>) {
+   const currentPage = table.getState().pagination.pageIndex + 1;
+   const pageCount = table.getPageCount();
+   const pageSize = table.getState().pagination.pageSize;
+
    return (
       <div className='flex items-center justify-between px-2'>
-         {/* <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div> */}
          <div className='flex items-center justify-between w-full space-x-6 lg:space-x-8'>
+            {/* Rows per page selection */}
             <div className='flex items-center space-x-2'>
                <p className='text-sm font-medium'>Rows per page</p>
                <Select
-                  value={`${table.getState().pagination.pageSize}`}
+                  value={`${pageSize}`}
                   onValueChange={(value: any) => {
                      table.setPageSize(Number(value));
                   }}>
                   <SelectTrigger className='h-auto bg-c-white w-[70px]'>
-                     <SelectValue
-                        placeholder={table.getState().pagination.pageSize}
-                     />
+                     <SelectValue placeholder={pageSize.toString()} />
                   </SelectTrigger>
                   <SelectContent side='top'>
-                     {[10, 20, 30, 40, 50].map(pageSize => (
-                        <SelectItem key={pageSize} value={`${pageSize}`}>
-                           {pageSize}
+                     {ROWS_PER_PAGE.map(size => (
+                        <SelectItem key={size} value={`${size}`}>
+                           {size}
                         </SelectItem>
                      ))}
                   </SelectContent>
                </Select>
             </div>
+
+            {/* Page information */}
             <div className='flex space-x-2'>
-               <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-                  Page {table.getState().pagination.pageIndex + 1} of{' '}
-                  {table.getPageCount()}
-               </div>
+               {/* <div className="flex items-center justify-center text-sm font-medium">
+             Page {currentPage} of {pageCount}
+           </div> */}
+
+               {/* Pagination buttons */}
                <div className='flex items-center space-x-2'>
-                  {/* <Button
-              variant="outline"
-              className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <span className="sr-only">Go to first page</span>
-              <ChevronsLeft />
-            </Button> */}
-                  <Button
-                     variant='ghost'
-                     className='h-8 w-8 p-0'
-                     onClick={() => table.previousPage()}
-                     disabled={!table.getCanPreviousPage()}>
-                     <span className='sr-only'>Go to previous page</span>
-                     <ChevronLeft />
-                  </Button>
-                  <div className='h-10 w-10 bg-c-button-bg border border-c-primary rounded-full flex items-center justify-center'>
-                     <span className='text-c-primary text-base'>
-                        {table.getState().pagination.pageIndex + 1}
-                     </span>
-                  </div>
-                  <Button
-                     variant='ghost'
-                     className='h-8 w-8 p-0'
-                     onClick={() => table.nextPage()}
-                     disabled={!table.getCanNextPage()}>
-                     <span className='sr-only'>Go to next page</span>
-                     <ChevronRight />
-                  </Button>
-                  {/* <Button
-              variant="outline"
-              className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              <span className="sr-only">Go to last page</span>
-              <ChevronsRight />
-            </Button> */}
+                  <Pagination>
+                     <PaginationContent className='space-x-3'>
+                        <PaginationItem>
+                           <PaginationPrevious
+                              href='#'
+                              onClick={e => {
+                                 e.preventDefault();
+                                 table.previousPage();
+                              }}
+                              className={cn(
+                                 !table.getCanPreviousPage()
+                                    ? 'opacity-50 pointer-events-none'
+                                    : '',
+                                 'border-0'
+                              )}
+                           />
+                        </PaginationItem>
+
+                        {/* Display page numbers */}
+                        {Array.from({ length: pageCount }, (_, index) => (
+                           <PaginationItem key={index}>
+                              <PaginationLink
+                                 href='#'
+                                 onClick={e => {
+                                    e.preventDefault();
+                                    table.setPageIndex(index);
+                                 }}
+                                 isActive={currentPage === index + 1}
+                                 className={
+                                    currentPage === index + 1
+                                       ? 'border-primary'
+                                       : 'border-0'
+                                 }>
+                                 {index + 1}
+                              </PaginationLink>
+                           </PaginationItem>
+                        ))}
+
+                        {/* Ellipsis for pages not shown */}
+                        {/* {pageCount > 5 && (
+                   <PaginationItem>
+                     <PaginationEllipsis />
+                   </PaginationItem>
+                 )} */}
+                        <PaginationItem>
+                           <PaginationNext
+                              href='#'
+                              onClick={e => {
+                                 e.preventDefault();
+                                 table.nextPage();
+                              }}
+                              className={cn(
+                                 !table.getCanNextPage()
+                                    ? 'opacity-50 pointer-events-none'
+                                    : '',
+                                 'border-0'
+                              )}
+                           />
+                        </PaginationItem>
+                     </PaginationContent>
+                  </Pagination>
                </div>
             </div>
          </div>
