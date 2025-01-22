@@ -1,40 +1,60 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
 import { Button, ButtonProps } from '../ui/button';
+
+/**
+ * Variants for button styles
+ */
+const buttonVariants = cva('shadow-none disabled:bg-c-disable text-c-white', {
+   variants: {
+      styleType: {
+         default: 'bg-primary hover:bg-c-primary',
+         cancel: 'bg-c-white text-c-black hover:bg-c-border-stroke',
+         create: 'bg-primary hover:bg-c-hover',
+         update: 'bg-primary hover:bg-c-hover',
+         success: 'bg-primary hover:bg-c-hover',
+         delete: 'bg-secondary hover:bg-c-secondary-hover',
+      },
+      loading: {
+         true: 'pointer-events-none',
+      },
+   },
+   defaultVariants: {
+      styleType: 'default',
+      loading: false,
+   },
+});
 
 interface CButtonProps extends ButtonProps {
    children: React.ReactNode;
-   styleType?: string;
+   styleType?:
+      | 'default'
+      | 'cancel'
+      | 'create'
+      | 'update'
+      | 'success'
+      | 'delete';
    loading?: boolean;
 }
 
-const CButton = React.forwardRef<HTMLButtonElement, CButtonProps>(
+const CButton = forwardRef<HTMLButtonElement, CButtonProps>(
    (
-      { children, loading = false, styleType = 'default', className, ...rest },
+      {
+         children,
+         disabled = false,
+         loading = false,
+         styleType = 'default',
+         className,
+         ...rest
+      },
       ref
    ) => {
-      const baseClass =
-         'text-lg py-5 px-10 min-w-[216px] min-h-[52px] border shadow-none disabled:bg-c-contrast';
-      let typeClass = '';
-      if (styleType === 'cancel') {
-         typeClass =
-            'bg-c-white text-c-black hover:bg-primary hover:text-c-white';
-      } else if (styleType === 'default') {
-         typeClass = 'text-lg py-5 px-10';
-      } else if (
-         styleType === 'create' ||
-         styleType === 'update' ||
-         styleType === 'success'
-      ) {
-         typeClass = 'bg-primary hover:bg-c-hover';
-      } else if (styleType === 'delete') {
-         typeClass = 'bg-secondary hover:bg-c-secondary-hover';
-      }
-
       return (
          <Button
-            ref={ref}
-            className={cn(baseClass, typeClass, className)}
+            ref={ref} // Forward ref to the Button component
+            disabled={disabled}
+            className={cn(buttonVariants({ styleType, loading }), className)}
             {...rest}>
             {loading ? (
                <div>
@@ -61,5 +81,7 @@ const CButton = React.forwardRef<HTMLButtonElement, CButtonProps>(
       );
    }
 );
+
+CButton.displayName = 'CButton'; // Setting displayName for better debugging in React DevTools
 
 export default CButton;

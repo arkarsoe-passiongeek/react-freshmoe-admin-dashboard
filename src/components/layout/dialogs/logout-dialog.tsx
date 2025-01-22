@@ -2,52 +2,53 @@ import CButton from '@/components/custom/c-button';
 import { IoIosLogOut } from 'react-icons/io';
 import { BaseDialog } from './base-dialog';
 
-// Props type for LogoutDialog
-interface LogoutDialogProps {
-   isLogoutModalOpen: boolean; // Whether the logout modal is open
-   setIsLogoutModalOpen: (isOpen: boolean) => void; // Function to toggle modal state
-   handleLogout: () => void; // Function to handle the logout action
-   loading?: boolean; // Optional: Whether the logout action is in progress
-}
+type LogoutDialogProps = {
+   isLogoutModalOpen: boolean;
+   setIsLogoutModalOpen: (isOpen: boolean) => void;
+   handleLogout: () => void;
+   loading: boolean;
+};
 
 const LogoutDialog: React.FC<LogoutDialogProps> = ({
    isLogoutModalOpen,
    setIsLogoutModalOpen,
    handleLogout,
-   loading = false, // Default to false if not provided
+   loading,
 }) => {
    return (
       <div>
          <BaseDialog
-            title='Logout'
+            title={`Logout`}
             description='Do you want to log out from Dashboard?'
             isOpen={isLogoutModalOpen}
             onClose={() => setIsLogoutModalOpen(false)}>
-            <div className='h-[311px]'>
+            <div className='h-[311px] p-10'>
                <div className='text-center flex flex-col space-y-[15px] items-center h-full justify-center'>
-                  <div className='w-[90px] h-[90px] bg-c-secondary bg-opacity-20 rounded-full shrink-0 flex items-center justify-center'>
-                     <IoIosLogOut className='text-c-secondary w-[40px] h-[40px]' />
+                  <div className='w-[90px] h-[90px] bg-secondary/20 rounded-full shrink-0 flex items-center justify-center'>
+                     <IoIosLogOut className='text-secondary w-[40px] h-[40px]' />
                   </div>
                   <div className='space-y-[10px]'>
-                     <h1 className='text-lg text-c-secondary font-semibold capitalize'>
+                     <h1 className='text-lg text-secondary font-semibold capitalize'>
                         Logout
                      </h1>
                      <p className='max-w-[309px] text-base text-c-contrast'>
                         Do you want to log out from Dashboard?
                      </p>
                   </div>
-                  <div className='flex gap-4'>
+                  <div className='flex gap-4 w-full'>
                      <CButton
+                        className='w-full'
                         styleType='cancel'
                         type='button'
                         onClick={() => setIsLogoutModalOpen(false)}>
                         Cancel
                      </CButton>
                      <CButton
+                        className='w-full'
                         styleType='delete'
-                        loading={loading}
                         type='button'
-                        onClick={() => handleLogout()}>
+                        onClick={() => handleLogout()}
+                        loading={loading}>
                         Logout
                      </CButton>
                   </div>

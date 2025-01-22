@@ -4,8 +4,9 @@ const EmptyData = () => {
    return (
       <div className='space-y-7'>
          <img
+            className='mx-auto'
             src={EmptyResult}
-            width={391}
+            width={250}
             height={324}
             alt='empty result logo'
          />

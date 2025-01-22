@@ -54,7 +54,7 @@ const DashboardLayout: React.FC = () => {
             <SidebarProvider>
                <AppSidebar />
                <main className='mt-[50px] w-full'>
-                  <div className='flex justify-between items-center p-3 px-10 bg-c-white border-b border-c-border-stroke'>
+                  <div className='flex justify-between items-center p-3 px-6 bg-c-white border-b border-c-border-stroke'>
                      <select
                         className='hidden'
                         defaultValue={language}
