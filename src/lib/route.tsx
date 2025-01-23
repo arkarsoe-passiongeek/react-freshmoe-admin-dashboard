@@ -15,7 +15,7 @@ export interface Routes {
    layerPriority: () => string;
    layerPriorityCreate: () => string;
    layerPriorityEdit: (id: string) => string;
-   serviceArea: () => string;
+   serviceArea: (payload?: { search?: string }) => string;
    serviceAreaCreate: () => string;
    serviceAreaEdit: (id: string) => string;
    paths: () => string;
@@ -58,7 +58,10 @@ export const getRoutes = (props: GetRoutesProps): Routes => {
          `${currentLocale}/service-parameter/layer-priority${
             id ? '/' + id : ''
          }/edit-layer-priority`,
-      serviceArea: () => `${currentLocale}/service-parameter/service-area`,
+      serviceArea: payload => {
+         const pathname = `${currentLocale}/service-parameter/service-area`;
+         return payload ? `${pathname}${payload.search}` : pathname;
+      },
       serviceAreaCreate: () =>
          `${currentLocale}/service-parameter/service-area/create-service-area`,
       serviceAreaEdit: (id: string) =>

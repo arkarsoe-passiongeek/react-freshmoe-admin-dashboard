@@ -26,20 +26,21 @@ export function CBaseSelect({
    defaultValue,
    disabled = false,
    selector = 'name',
+   getValue,
    valueSelector = 'id',
    ...rest
 }: CBaseSelectProps) {
    return (
       <Select disabled={disabled} defaultValue={defaultValue} {...rest}>
          <SelectTrigger
-            className={`text-base !h-[46px] !mt-[6px] ${
+            className={`text-sm !h-[46px] !mt-[6px] ${
                defaultValue ? '' : 'text-c-contrast'
             }`}>
             <SelectValue placeholder={placeholder} />
          </SelectTrigger>
          <SelectContent className='!p-0'>
             <SelectGroup className='p-[15px]'>
-               <SelectLabel className='p-0 mb-[15px] text-base font-medium'>
+               <SelectLabel className='p-0 mb-[15px] text-sm font-medium'>
                   {placeholder}
                </SelectLabel>
                <div className='space-y-[10px]'>
@@ -47,9 +48,10 @@ export function CBaseSelect({
                      return (
                         <div key={item.id}>
                            <SelectItem
-                              className='text-base'
+                              className='text-sm'
                               value={`${item[valueSelector]}`}>
-                              {item[`${selector}`]}
+                              {!getValue && item[`${selector}`]}
+                              {getValue && getValue(item)}
                            </SelectItem>
                         </div>
                      );

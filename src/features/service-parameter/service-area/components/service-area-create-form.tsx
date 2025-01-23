@@ -9,6 +9,7 @@ import {
    FormItem,
    FormMessage,
 } from '@/components/ui/form';
+import useSearchParams from '@/hooks/use-search-params';
 import { createServiceArea } from '@/services/actions/service-area'; // Updated to service area service
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
@@ -20,10 +21,10 @@ const formSchema = z.object({
    name: z.string().min(2, {
       message: 'Name must be at least 2 characters.',
    }),
-   service_layer_id: z.string().min(1, {
+   serviceLayerId: z.string().min(1, {
       message: 'Layer must be at least 1 characters.',
    }),
-   parent_id: z.string().min(1, {
+   parentId: z.string().min(1, {
       message: 'Parent Service Area Id must be at least 1 characters.',
    }),
 });
@@ -38,9 +39,10 @@ interface ServiceAreaCreateFormProps {
 
 export function ServiceAreaCreateForm({
    layers,
-   serviceAreas,
    onCreateSuccess,
 }: Readonly<ServiceAreaCreateFormProps>) {
+   const searchParam = useSearchParams();
+
    // Mutation for creating a service area
    const createMutation: UseMutationResult<
       unknown,
@@ -63,6 +65,8 @@ export function ServiceAreaCreateForm({
          resolver: zodResolver(formSchema),
          defaultValues: {
             name: '',
+            serviceLayerId: '',
+            parentId: searchParam.get('parentId') ?? 'null',
          },
       });
 
@@ -70,8 +74,8 @@ export function ServiceAreaCreateForm({
    async function onSubmit(values: ServiceAreaFormSchema) {
       createMutation.mutate({
          name: values.name,
-         parentId: Number(values.parent_id),
-         serviceLayerId: Number(values.service_layer_id),
+         parentId: Number(searchParam.get('parentId')),
+         serviceLayerId: Number(values.serviceLayerId),
       });
    }
 
@@ -94,7 +98,7 @@ export function ServiceAreaCreateForm({
             />
             <FormField
                control={form.control}
-               name='service_layer_id'
+               name='serviceLayerId'
                render={({ field }) => (
                   <FormItem>
                      <CFormLabel className='!text-black'>Layer</CFormLabel>
@@ -110,9 +114,9 @@ export function ServiceAreaCreateForm({
                   </FormItem>
                )}
             />
-            <FormField
+            {/* <FormField
                control={form.control}
-               name='parent_id'
+               name='parentId'
                render={({ field }) => (
                   <FormItem>
                      <CFormLabel className='!text-black'>
@@ -132,7 +136,7 @@ export function ServiceAreaCreateForm({
                      <FormMessage />
                   </FormItem>
                )}
-            />
+            /> */}
             <div className='flex gap-4 justify-end'>
                <CButton
                   size='md'

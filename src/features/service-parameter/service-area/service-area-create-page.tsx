@@ -1,13 +1,14 @@
 import CreateSuccessDialog from '@/components/layout/dialogs/create-success-dialog';
+import useSearchParams from '@/hooks/use-search-params';
 import { useLinkRoutes } from '@/lib/route';
 import { useState } from 'react';
 import { useLayer } from '../layer/hooks';
 import { ServiceAreaCreateForm } from './components/service-area-create-form'; // Updated the import to match service area form
-import { useServiceArea } from './hooks';
 
 const ServiceAreaCreatePage = () => {
    const [createSuccessModalOpen, setCreateSuccessModalOpen] = useState(false);
    const routes = useLinkRoutes();
+   const searchParam = useSearchParams();
 
    const onCreateSuccess = () => {
       setCreateSuccessModalOpen(true);
@@ -15,15 +16,24 @@ const ServiceAreaCreatePage = () => {
 
    const { data, isLoading } = useLayer();
 
-   const { data: serviceAreas, isLoading: isServiceAreaLoading } =
-      useServiceArea();
+   // const { data: serviceAreas, isLoading: isServiceAreaLoading } = useQuery<
+   //    ServiceArea[]
+   // >({
+   //    queryKey: [
+   //       API_ROUTES.serviceArea.getAll(),
+   //       { parentId: searchParam.get('parentId') ?? null },
+   //    ],
+   //    queryFn: () =>
+   //       fetchServiceAreaList({
+   //          parentId: searchParam.get('parentId') ?? null,
+   //       }),
+   // });
 
    return (
       <div className='bg-c-white border p-10 rounded-md max-w-3xl'>
-         {!isLoading && !isServiceAreaLoading && (
+         {!isLoading && (
             <ServiceAreaCreateForm
                layers={data}
-               serviceAreas={serviceAreas}
                onCreateSuccess={onCreateSuccess}
             />
          )}
@@ -32,7 +42,9 @@ const ServiceAreaCreatePage = () => {
             src='Service Area'
             createSuccessModalOpen={createSuccessModalOpen}
             setCreateSuccessModalOpen={setCreateSuccessModalOpen}
-            redirectRoute={routes.serviceArea()}
+            redirectRoute={routes.serviceArea({
+               search: `?parentId=${searchParam.get('parentId')}`,
+            })}
          />
       </div>
    );

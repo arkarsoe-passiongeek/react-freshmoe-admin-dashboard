@@ -1,11 +1,14 @@
 import Loading from '@/components/layout/loading';
 import { API_ROUTES } from '@/lib/constants';
-import { fetchServiceAreaDetail } from '@/services/actions/service-area';
+import {
+   fetchAllServiceArea,
+   fetchServiceAreaDetail,
+} from '@/services/actions/service-area';
+import { ServiceArea } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import { useLayer } from '../layer/hooks';
 import { ServiceAreaEditForm } from './components/service-area-edit-form';
-import { useServiceArea } from './hooks';
 
 const ServiceAreaEditPage = () => {
    const { id } = useParams();
@@ -17,8 +20,12 @@ const ServiceAreaEditPage = () => {
 
    const { data: layers, isLoading: isLayerLoading } = useLayer();
 
-   const { data: serviceAreas, isLoading: isServiceAreaLoading } =
-      useServiceArea();
+   const { data: serviceAreas, isLoading: isServiceAreaLoading } = useQuery<
+      ServiceArea[]
+   >({
+      queryKey: [API_ROUTES.serviceArea.getAll()],
+      queryFn: () => fetchAllServiceArea(),
+   });
 
    return (
       <div className='bg-c-white border p-10 rounded-md max-w-3xl'>

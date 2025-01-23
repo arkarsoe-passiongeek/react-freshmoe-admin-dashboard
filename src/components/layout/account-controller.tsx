@@ -45,14 +45,14 @@ const AdminController = ({ user }: { user: User | null }) => {
                </div>
             </PopoverTrigger>
             <PopoverContent
-               className='bg-c-white p-4 shadow rounded-lg space-y-2 min-w-[200px]'
+               className='bg-c-white p-4 shadow rounded-lg space-y-2 min-w-[200px] z-50'
                align='end'>
                <div className='flex flex-col'>
                   {user && (
                      <>
                         <span className='text-sm'>{user.email}</span>
                         <span className='text-c-contrast capitalize text-xs'>
-                           {user?.name}
+                           {user?.username}
                         </span>
                      </>
                   )}

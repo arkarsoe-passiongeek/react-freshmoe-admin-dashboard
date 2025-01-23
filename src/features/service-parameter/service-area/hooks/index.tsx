@@ -1,5 +1,8 @@
 import CButton from '@/components/custom/c-button';
 import CLink from '@/components/custom/c-link';
+import { Button } from '@/components/ui/button';
+import useSearchParams from '@/hooks/use-search-params';
+import { Link } from '@/i18n/routing';
 import { API_ROUTES } from '@/lib/constants';
 import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
@@ -60,11 +63,18 @@ export const useServiceArea = (): UseServiceAreaReturn => {
    const routes = useLinkRoutes();
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
    const [currentData, setCurrentData] = useState<ServiceArea | null>(null);
+   const searchParam = useSearchParams();
 
    // Fetch Service Area List
    const { data, isLoading } = useQuery<ServiceArea[]>({
-      queryKey: [API_ROUTES.serviceArea.getAll(), { parentId: null }],
-      queryFn: () => fetchServiceAreaList({ parentId: 'null' }),
+      queryKey: [
+         API_ROUTES.serviceArea.getAll(),
+         { parentId: searchParam.get('parentId') ?? null },
+      ],
+      queryFn: () =>
+         fetchServiceAreaList({
+            parentId: searchParam.get('parentId') ?? null,
+         }),
    });
 
    // Delete Service Area Mutation
@@ -102,7 +112,12 @@ export const useServiceArea = (): UseServiceAreaReturn => {
 
    const getCreateButton = (src: string): JSX.Element => {
       return (
-         <CLink to={routes.serviceAreaCreate()} styleType='create'>
+         <CLink
+            to={{
+               pathname: routes.serviceAreaCreate(),
+               search: `?parentId=${searchParam.get('parentId')}`,
+            }}
+            styleType='create'>
             Create {src}
          </CLink>
       );
@@ -131,6 +146,19 @@ export const useServiceArea = (): UseServiceAreaReturn => {
          {
             accessorKey: 'name',
             header: 'Name',
+            cell: ({ row }) => {
+               return (
+                  <Button variant='link' asChild>
+                     <Link
+                        to={{
+                           pathname: routes.serviceArea(),
+                           search: `?parentId=${row.original.id}`,
+                        }}>
+                        {row.original.name}
+                     </Link>
+                  </Button>
+               );
+            },
          },
          {
             id: 'actions',

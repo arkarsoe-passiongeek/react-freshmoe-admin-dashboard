@@ -53,8 +53,12 @@ export const CHANGE_MAINTENANCE =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL +
    '/api/v1/maintenance/change-status';
 
+// Service Area
 export const GET_SERVICE_AREA_LIST =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
+
+export const GET_ALL_SERVICE_AREA =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas/all';
 
 export const CREATE_SERVICE_AREA =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';

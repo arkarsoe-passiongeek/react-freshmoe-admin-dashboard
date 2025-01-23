@@ -1,10 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
 import CButton from '@/components/custom/c-button';
 import CFormLabel from '@/components/custom/c-form-label';
 import CInput from '@/components/custom/c-input';
+import { CBaseSelect } from '@/components/custom/c-select';
 import {
    Form,
    FormControl,
@@ -14,56 +11,106 @@ import {
 } from '@/components/ui/form';
 import { API_ROUTES } from '@/lib/constants';
 import { useLinkRoutes } from '@/lib/route';
+import { transformObjectWithId } from '@/lib/utils';
 import { queryClient } from '@/main';
-import { updateServiceArea } from '@/services/actions/service-area';
-import { ServiceArea } from '@/types';
-import { useMutation } from '@tanstack/react-query';
+import { updateServiceArea } from '@/services/actions/service-area'; // Updated to service area service
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import { z } from 'zod';
 
+// Schema for form validation using Zod
 const formSchema = z.object({
    name: z.string().min(2, {
       message: 'Name must be at least 2 characters.',
    }),
+   serviceLayerId: z.string().min(1, {
+      message: 'Layer must be at least 1 characters.',
+   }),
+   parentId: z.string().min(1, {
+      message: 'Parent Service Area Id must be at least 1 characters.',
+   }),
 });
 
-export function ServiceAreaEditForm({
-   defaultValues,
-}: Readonly<{ defaultValues: ServiceArea }>) {
-   const routes = useLinkRoutes();
-   const navigate = useNavigate();
-   // 1. Define your form.
-   const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      defaultValues: defaultValues,
-   });
+// Type inference for the form schema
+type ServiceAreaFormSchema = z.infer<typeof formSchema>; // Updated type for Service Area
 
-   const updateMutation = useMutation({
-      mutationFn: (values: z.infer<typeof formSchema>) =>
-         updateServiceArea(values, defaultValues.id),
+// Props type for the component
+interface ServiceAreaEditFormProps {
+   serviceAreaData: ServiceAreaFormSchema; // Added serviceAreaData prop to receive the current data
+   onUpdateSuccess: () => void;
+}
+
+export function ServiceAreaEditForm({
+   serviceAreaData, // Prop for pre-populated service area data
+   layers,
+   serviceAreas,
+   defaultValues,
+}: Readonly<ServiceAreaEditFormProps>) {
+   const navigate = useNavigate();
+   const routes = useLinkRoutes();
+
+   // Mutation for updating a service area
+   const updateMutation: UseMutationResult<
+      unknown,
+      { message: string },
+      ServiceAreaFormSchema
+   > = useMutation({
+      mutationFn: values => updateServiceArea(values, defaultValues.id), // Updated to use updateServiceArea
       onError: error => {
          form.setError('name', { type: 'manual', message: error.message });
       },
       onSuccess: () => {
-         // Invalidate the queries and redirect
          queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.serviceArea.view(Number(defaultValues.id))],
+            queryKey: [API_ROUTES.serviceArea.view(defaultValues.id)],
          });
          queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.serviceArea.getAll()],
+            queryKey: [API_ROUTES.serviceArea.getAll],
          });
-         navigate(routes.serviceArea());
+         navigate(
+            routes.serviceArea({
+               search: `?parentId=${defaultValues.parentId}`,
+            })
+         );
       },
    });
 
-   // 2. Define a submit handler.
-   async function onSubmit(values: z.infer<typeof formSchema>) {
-      updateMutation.mutate(values);
+   // Define the form with validation and default values (using serviceAreaData for default values)
+   const form: UseFormReturn<ServiceAreaFormSchema> =
+      useForm<ServiceAreaFormSchema>({
+         resolver: zodResolver(formSchema),
+         defaultValues: {
+            name: '',
+            serviceLayerId: '',
+            parentId: 'null',
+         }, // Using the passed serviceAreaData for default values
+      });
+
+   // Submit handler
+   async function onSubmit(values: ServiceAreaFormSchema) {
+      updateMutation.mutate({
+         name: values.name,
+         parentId: Number(values.parentId),
+         serviceLayerId: Number(values.serviceLayerId),
+      });
    }
+
+   // UseEffect to reset form when defaultValues change and transform values as needed
+   useEffect(() => {
+      const data = transformObjectWithId(defaultValues);
+
+      // Reset the form with the transformed data
+      form.reset({ ...data });
+   }, [defaultValues, form]); // Add form as dependency to ensure proper reset
 
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <h3 className='text-xl font-semibold'>Service Area Information</h3>
+         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+            <h3 className='text-xl font-semibold'>
+               Edit Service Area Information
+            </h3>
             <FormField
                control={form.control}
                name='name'
@@ -72,6 +119,56 @@ export function ServiceAreaEditForm({
                      <CFormLabel className='!text-black'>Name</CFormLabel>
                      <FormControl>
                         <CInput.Base placeholder='Name' {...field} />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name='serviceLayerId'
+               render={({ field }) => (
+                  <FormItem>
+                     <CFormLabel className='!text-black'>Layer</CFormLabel>
+                     <FormControl>
+                        <CBaseSelect
+                           items={layers}
+                           placeholder='Select Your Layer'
+                           onValueChange={field.onChange}
+                           value={field.value}
+                           defaultValue={field.value}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name='parentId'
+               render={({ field }) => (
+                  <FormItem>
+                     <CFormLabel className='!text-black'>
+                        Service Area
+                     </CFormLabel>
+                     <FormControl>
+                        <CBaseSelect
+                           items={[
+                              ...serviceAreas,
+                              { id: null, name: 'Top level Service Area' },
+                           ]}
+                           placeholder='Select Your Service Area'
+                           onValueChange={field.onChange}
+                           getValue={obj =>
+                              `${obj.name} ${
+                                 obj.serviceLayer
+                                    ? '(' + obj.serviceLayer.name + ')'
+                                    : ''
+                              }`
+                           }
+                           value={field.value}
+                           defaultValue={field.value}
+                        />
                      </FormControl>
                      <FormMessage />
                   </FormItem>
@@ -88,14 +185,9 @@ export function ServiceAreaEditForm({
                <CButton
                   size='md'
                   loading={updateMutation.isPending}
-                  styleType='update'
-                  type='submit'
-                  className={`${
-                     form.formState.isDirty && form.formState.isValid === false
-                        ? 'bg-c-contrast hover:bg-c-contrast'
-                        : ''
-                  }`}>
-                  Update
+                  styleType='create'
+                  type='submit'>
+                  Edit
                </CButton>
             </div>
          </form>

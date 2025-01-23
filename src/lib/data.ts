@@ -153,6 +153,42 @@ const getPageHeaders = () => {
       ],
    };
 
+   pageHeaders[`${routes.serviceArea()}`] = {
+      header: 'Service Area',
+      links: [
+         { value: 'Service Parameter', current: false },
+         {
+            value: 'Service Area',
+            path: () => routes.serviceArea(),
+            current: false,
+         },
+      ],
+   };
+
+   pageHeaders[`${routes.serviceAreaCreate()}`] = {
+      header: 'Service Area Create',
+      links: [
+         { value: 'Service Parameter', current: false },
+         {
+            value: 'Service Area',
+            path: () => routes.serviceArea(),
+            current: false,
+         }, // Links back to the "Layer" page
+      ],
+   };
+
+   pageHeaders[`${routes.serviceAreaEdit('')}`] = {
+      header: 'Service Area Edit',
+      links: [
+         { value: 'Service Parameter', current: false },
+         {
+            value: 'Service Area',
+            path: () => routes.serviceArea(),
+            current: false,
+         },
+      ],
+   };
+
    // Content & Image - Home
    pageHeaders[`${routes.contentHome()}`] = {
       header: 'Home',

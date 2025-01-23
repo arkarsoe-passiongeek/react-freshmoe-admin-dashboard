@@ -2,7 +2,7 @@ import { Role } from './role';
 
 export interface User {
    id: number;
-   name: string;
+   username: string;
    email: string;
    phone: string | null; // Nullable string
    emailVerifiedAt: string | null; // Nullable ISO 8601 timestamp

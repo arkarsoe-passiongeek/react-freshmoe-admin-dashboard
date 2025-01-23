@@ -13,9 +13,25 @@ export async function createServiceArea(payload: CreateServiceArea) {
 }
 
 // Read
+export async function fetchAllServiceArea(): Promise<ServiceArea[]> {
+   return (await MAIN_SERVICE.get(service.GET_ALL_SERVICE_AREA))?.data.data;
+}
+
+// Read
 export async function fetchServiceAreaList(payload): Promise<ServiceArea[]> {
    return (
       await MAIN_SERVICE.get(service.GET_SERVICE_AREA_LIST, { params: payload })
+   )?.data.data;
+}
+
+// Read
+export async function fetchServiceAreaBreadcrumbs(
+   payload
+): Promise<ServiceArea[]> {
+   return (
+      await MAIN_SERVICE.get(
+         service.GET_SERVICE_AREA_LIST + `/${payload.id}/breadcrumbs`
+      )
    )?.data.data;
 }
 
