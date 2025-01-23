@@ -28,11 +28,11 @@ MAIN_SERVICE.interceptors.request.use(
 MAIN_SERVICE.interceptors.response.use(
    response => response,
    async error => {
-      if (error.response && error.response.status === 401) {
-         Cookies.remove('token');
-         localStorage?.removeItem('userdata');
-         window.location.replace('/auth/unauthorized');
-      }
+      // if (error.response && error.response.status === 401) {
+      //    Cookies.remove('token');
+      //    localStorage?.removeItem('userdata');
+      //    window.location.replace('/auth/unauthorized');
+      // }
 
       if (error.response) {
          // Handle HTTP errors with a response from the server

@@ -15,22 +15,20 @@ import {
 import { API_ROUTES } from '@/lib/constants';
 import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
-import { updatePriority } from '@/services/actions/priority';
-import { Priority } from '@/types';
+import { updateServiceArea } from '@/services/actions/service-area';
+import { ServiceArea } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 const formSchema = z.object({
    name: z.string().min(2, {
-      message: 'name must be at least 2 characters.',
+      message: 'Name must be at least 2 characters.',
    }),
 });
 
-export function PriorityEditForm({
+export function ServiceAreaEditForm({
    defaultValues,
-}: Readonly<{
-   defaultValues: Priority;
-}>) {
+}: Readonly<{ defaultValues: ServiceArea }>) {
    const routes = useLinkRoutes();
    const navigate = useNavigate();
    // 1. Define your form.
@@ -41,19 +39,19 @@ export function PriorityEditForm({
 
    const updateMutation = useMutation({
       mutationFn: (values: z.infer<typeof formSchema>) =>
-         updatePriority(values, defaultValues.id),
+         updateServiceArea(values, defaultValues.id),
       onError: error => {
          form.setError('name', { type: 'manual', message: error.message });
       },
       onSuccess: () => {
-         // Boom baby!
+         // Invalidate the queries and redirect
          queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.priority.view(Number(defaultValues.id))],
+            queryKey: [API_ROUTES.serviceArea.view(Number(defaultValues.id))],
          });
          queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.priority.getAll()],
+            queryKey: [API_ROUTES.serviceArea.getAll()],
          });
-         navigate(routes.priority());
+         navigate(routes.serviceArea());
       },
    });
 
@@ -65,7 +63,7 @@ export function PriorityEditForm({
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <h3 className='text-xl font-semibold'>Priority Information</h3>
+            <h3 className='text-xl font-semibold'>Service Area Information</h3>
             <FormField
                control={form.control}
                name='name'
@@ -81,12 +79,14 @@ export function PriorityEditForm({
             />
             <div className='flex gap-4 justify-end'>
                <CButton
+                  size='md'
                   styleType='cancel'
                   type='button'
                   onClick={() => form.reset()}>
                   Cancel
                </CButton>
                <CButton
+                  size='md'
                   loading={updateMutation.isPending}
                   styleType='update'
                   type='submit'

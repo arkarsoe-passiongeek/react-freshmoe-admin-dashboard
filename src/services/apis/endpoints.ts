@@ -8,16 +8,16 @@ export const LOGOUT =
 
 // Layer
 export const GET_LAYER_LIST =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/layers';
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
 export const CREATE_LAYER =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/layers';
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
 export const UPDATE_LAYER =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/layers';
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
 export const DELETE_LAYER =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/layers';
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
 // Priority
 export const GET_PRIORITY_LIST =
@@ -52,3 +52,15 @@ export const GET_MAINTENANCE_LIST =
 export const CHANGE_MAINTENANCE =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL +
    '/api/v1/maintenance/change-status';
+
+export const GET_SERVICE_AREA_LIST =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
+
+export const CREATE_SERVICE_AREA =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
+
+export const UPDATE_SERVICE_AREA =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
+
+export const DELETE_SERVICE_AREA =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';

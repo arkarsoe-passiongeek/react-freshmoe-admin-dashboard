@@ -18,21 +18,15 @@ export const getSidebarData = (routes: Routes) => {
          url: '#1',
          items: [
             {
-               title: 'Layer',
+               title: 'Service Layer',
                icon: LuDot,
                url: routes.layer(),
             },
             {
-               title: 'Priority',
-               icon: LuDot,
-               url: routes.priority(),
-            },
-            {
-               title: 'Layer-Priority',
+               title: 'Service Area',
                icon: LuDot,
                url: {
-                  pathname: routes.layerPriority(),
-                  query: { layer: 'continent', paths: '/continent' },
+                  pathname: routes.serviceArea(),
                },
             },
          ],

@@ -90,9 +90,6 @@ export function LayerCreateForm({
                <CButton
                   size='md'
                   loading={createMutation.isPending}
-                  disabled={
-                     form.formState.isDirty && form.formState.isValid === false
-                  }
                   styleType='create'
                   type='submit'>
                   Create

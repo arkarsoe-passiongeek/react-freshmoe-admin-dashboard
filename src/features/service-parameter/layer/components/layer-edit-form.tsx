@@ -79,13 +79,14 @@ export function LayerEditForm({
             />
             <div className='flex gap-4 justify-end'>
                <CButton
+                  size='md'
                   styleType='cancel'
                   type='button'
                   onClick={() => form.reset()}>
-                  {' '}
                   Cancel
                </CButton>
                <CButton
+                  size='md'
                   loading={updateMutation.isPending}
                   styleType='update'
                   type='submit'

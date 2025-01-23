@@ -1,121 +1,37 @@
 import ListEmpty from '@/assets/images/list-empty.png';
 import CInput from '@/components/custom/c-input';
-import CLink from '@/components/custom/c-link';
 import DeleteConfirmDialog from '@/components/layout/dialogs/delete-confirm-dialog';
 import Loading from '@/components/layout/loading';
+import { DataTable } from '@/components/layout/table/data-table';
 import { DataTablePagination } from '@/components/layout/table/data-table-pagination';
-import { PureDataTable } from '@/components/layout/table/pure-data-table';
 import { Button } from '@/components/ui/button';
-import { API_ROUTES } from '@/lib/constants';
-import { queryClient } from '@/main';
-import { deletePriority } from '@/services/actions/priority';
-import { Priority } from '@/types';
-import { useMutation } from '@tanstack/react-query';
-import {
-   ColumnDef,
-   getCoreRowModel,
-   getFilteredRowModel,
-   getPaginationRowModel,
-   useReactTable,
-} from '@tanstack/react-table';
+import { ServiceArea } from '@/types';
+import { ColumnDef } from '@tanstack/react-table';
 import { X } from 'lucide-react';
-import { MdDelete } from 'react-icons/md';
-import { RiEditFill } from 'react-icons/ri';
-import { usePriority } from '../hooks';
+import { useServiceArea } from '../hooks';
 
-const PriorityTable: React.FC = () => {
+const ServiceAreaTable: React.FC = () => {
    const {
       data,
       isLoading,
       isDeleteModalOpen,
       setIsDeleteModalOpen,
-      handleDeleteButtonClick,
-      handleDelete,
-      currentData,
-      routes,
-   } = usePriority();
-
-   const src = 'priority';
-
-   const deleteMutation = useMutation({
-      mutationFn: deletePriority,
-      onError: () => {
-         console.error('Error deleting priority.');
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.priority.getAll()],
-         });
-      },
-   });
-
-   const getCreateButton = () => {
-      return (
-         <CLink
-            to={routes.priorityCreate()}
-            className='py-3 px-10 bg-c-primary rounded-xl text-base text-c-white hover:bg-c-hover capitalize'>
-            Create {src}
-         </CLink>
-      );
-   };
-
-   const getEditButton = (id: string) => {
-      return (
-         <CLink to={routes.priorityEdit(id)}>
-            <Button tabIndex={-1} variant='ghost'>
-               <RiEditFill className='text-blue-400 !w-[20px] !h-[20px]' />
-            </Button>
-         </CLink>
-      );
-   };
-
-   const getDeleteButton = (data: Priority) => {
-      return (
-         <Button variant='ghost' onClick={() => handleDeleteButtonClick(data)}>
-            <MdDelete className='text-c-secondary !w-[20px] !h-[20px]' />
-         </Button>
-      );
-   };
-
-   const getColumns = (
-      getEditButton: (id: string) => JSX.Element,
-      getDeleteButton: (data: Priority) => JSX.Element
-   ): ColumnDef<Priority>[] => {
-      const columns: ColumnDef<Priority>[] = [
-         {
-            accessorKey: 'name',
-            header: 'Name',
-         },
-         {
-            id: 'actions',
-            header: 'Actions',
-            cell: ({ row }) => {
-               return (
-                  <div className='flex gap-2'>
-                     {getEditButton(String(row.original.id))}
-                     {getDeleteButton(row.original)}
-                  </div>
-               );
-            },
-         },
-      ];
-      return columns;
-   };
-
-   const columns = getColumns(getEditButton, getDeleteButton);
-
-   const table = useReactTable<any>({
-      data: data ?? [],
       columns,
-      enableRowSelection: true,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-   });
+      currentData,
+      getCreateButton,
+      handleDelete,
+      deleteMutation,
+      table,
+   } = useServiceArea();
+
+   const src = 'service area';
 
    const isFiltered =
-      table.getState().columnFilters.filter(each => each.id === 'name').length >
-      0;
+      table
+         .getState()
+         .columnFilters.filter(
+            (each: ColumnDef<ServiceArea>) => each.id === 'name'
+         ).length > 0;
 
    return (
       <div>
@@ -146,7 +62,7 @@ const PriorityTable: React.FC = () => {
                   )}
                </div>
                <div className='flex items-center gap-3 shrink-0'>
-                  {getCreateButton()}
+                  {getCreateButton(src)}
                </div>
             </div>
             <div className='mb-2'>
@@ -158,7 +74,7 @@ const PriorityTable: React.FC = () => {
                {!isLoading && data && (
                   <>
                      <div className={`${data.length <= 0 && 'hidden'}`}>
-                        <PureDataTable columns={columns} table={table} />
+                        <DataTable columns={columns} table={table} />
                      </div>
                      <div
                         className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
@@ -191,4 +107,4 @@ const PriorityTable: React.FC = () => {
    );
 };
 
-export default PriorityTable;
+export default ServiceAreaTable;

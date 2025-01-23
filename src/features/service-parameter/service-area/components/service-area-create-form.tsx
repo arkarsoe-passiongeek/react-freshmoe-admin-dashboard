@@ -9,13 +9,9 @@ import {
    FormItem,
    FormMessage,
 } from '@/components/ui/form';
-import useSearchParams from '@/hooks/use-search-params';
-import { API_ROUTES } from '@/lib/constants';
-import { createLayerPriority } from '@/services/actions/layer-priority';
-import { Layer, Priority } from '@/types';
+import { createServiceArea } from '@/services/actions/service-area'; // Updated to service area service
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -24,80 +20,65 @@ const formSchema = z.object({
    name: z.string().min(2, {
       message: 'Name must be at least 2 characters.',
    }),
-   layer: z.string().min(1, {
+   service_layer_id: z.string().min(1, {
       message: 'Layer must be at least 1 characters.',
    }),
-   priority: z.string().min(1, {
-      message: 'Priority must be at least 1 characters.',
+   parent_id: z.string().min(1, {
+      message: 'Parent Service Area Id must be at least 1 characters.',
    }),
 });
 
 // Type inference for the form schema
-type LayerPriorityFormSchema = z.infer<typeof formSchema>;
+type ServiceAreaFormSchema = z.infer<typeof formSchema>; // Updated type for Service Area
 
 // Props type for the component
-interface LayerPriorityCreateFormProps {
+interface ServiceAreaCreateFormProps {
    onCreateSuccess: () => void;
-   layers: Layer[];
-   priorities: Priority[];
 }
 
-export function LayerPriorityCreateForm({
-   onCreateSuccess,
+export function ServiceAreaCreateForm({
    layers,
-   priorities,
-}: LayerPriorityCreateFormProps) {
-   const [submitting, setSubmitting] = useState(false);
-   const queryClient = useQueryClient();
-   const searchParam = useSearchParams();
-
-   // Define the form with validation and default values
-   const form: UseFormReturn<LayerPriorityFormSchema> =
-      useForm<LayerPriorityFormSchema>({
-         resolver: zodResolver(formSchema),
-         defaultValues: {
-            name: '',
-            layer: '',
-            priority: '',
-         },
-      });
-
-   // Mutation for creating a layer priority
-   const createMutation = useMutation({
-      mutationFn: createLayerPriority,
+   serviceAreas,
+   onCreateSuccess,
+}: Readonly<ServiceAreaCreateFormProps>) {
+   // Mutation for creating a service area
+   const createMutation: UseMutationResult<
+      unknown,
+      { message: string },
+      ServiceAreaFormSchema
+   > = useMutation({
+      mutationFn: createServiceArea, // Updated to use createServiceArea
       onError: error => {
          form.setError('name', { type: 'manual', message: error.message });
-         setSubmitting(false);
       },
       onSuccess: () => {
-         queryClient.invalidateQueries({
-            queryKey: [API_ROUTES.layerPriority.getAll()],
-         });
          form.reset();
          onCreateSuccess();
       },
    });
 
+   // Define the form with validation and default values
+   const form: UseFormReturn<ServiceAreaFormSchema> =
+      useForm<ServiceAreaFormSchema>({
+         resolver: zodResolver(formSchema),
+         defaultValues: {
+            name: '',
+         },
+      });
+
    // Submit handler
-   async function onSubmit(values: LayerPriorityFormSchema) {
-      setSubmitting(true);
-      let newValues = {
+   async function onSubmit(values: ServiceAreaFormSchema) {
+      createMutation.mutate({
          name: values.name,
-         layerId: Number(values.layer),
-         priorityId: Number(values.priority),
-      };
-      if (searchParam.get('parentId')) {
-         newValues['selfParentId'] = Number(searchParam.get('parentId'));
-      }
-      createMutation.mutate(newValues);
+         parentId: Number(values.parent_id),
+         serviceLayerId: Number(values.service_layer_id),
+      });
    }
 
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
-            <h3 className='text-xl font-semibold capitalize'>
-               Create Layer Priority
-            </h3>
+            <h3 className='text-xl font-semibold'>Service Area Information</h3>
             <FormField
                control={form.control}
                name='name'
@@ -113,7 +94,7 @@ export function LayerPriorityCreateForm({
             />
             <FormField
                control={form.control}
-               name='layer'
+               name='service_layer_id'
                render={({ field }) => (
                   <FormItem>
                      <CFormLabel className='!text-black'>Layer</CFormLabel>
@@ -131,14 +112,19 @@ export function LayerPriorityCreateForm({
             />
             <FormField
                control={form.control}
-               name='priority'
+               name='parent_id'
                render={({ field }) => (
                   <FormItem>
-                     <CFormLabel className='!text-black'>Priority</CFormLabel>
+                     <CFormLabel className='!text-black'>
+                        Service Area
+                     </CFormLabel>
                      <FormControl>
                         <CBaseSelect
-                           items={priorities}
-                           placeholder='Select Your Priority'
+                           items={[
+                              ...serviceAreas,
+                              { id: null, name: 'Top level Service Area' },
+                           ]}
+                           placeholder='Select Your Service Area'
                            onValueChange={field.onChange}
                            defaultValue={field.value}
                         />
@@ -149,14 +135,16 @@ export function LayerPriorityCreateForm({
             />
             <div className='flex gap-4 justify-end'>
                <CButton
+                  size='md'
                   styleType='cancel'
                   type='button'
+                  className=' '
                   onClick={() => form.reset()}>
                   Cancel
                </CButton>
                <CButton
-                  loading={submitting}
-                  disabled={form.formState.disabled}
+                  size='md'
+                  loading={createMutation.isPending}
                   styleType='create'
                   type='submit'>
                   Create
