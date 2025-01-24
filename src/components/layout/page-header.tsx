@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { HiSlash } from 'react-icons/hi2';
 import { useIntl } from 'react-intl';
 import { useLocation, useParams } from 'react-router';
+import Loading from './loading';
 
 const PageHeader = () => {
    const routeParams = useParams();
@@ -24,6 +25,7 @@ const PageHeader = () => {
    const location = useLocation();
    const [newRoutes, setNewRoutes] = useState([]);
    const searchParam = useSearchParams();
+   const [loading, setLoading] = useState(false);
 
    pathname = pathname.replace(
       routeParams.id ? `/${routeParams.id ?? ''}` : '',
@@ -48,6 +50,7 @@ const PageHeader = () => {
          if (!searchParam.has('parentId')) {
             setNewRoutes(pageHeaderData.links);
          } else {
+            setLoading(true);
             fetchServiceAreaBreadcrumbs({
                id: routeParams.id ?? searchParam.get('parentId'),
             })
@@ -105,6 +108,9 @@ const PageHeader = () => {
                })
                .catch(err => {
                   setNewRoutes(pageHeaderData.links);
+               })
+               .finally(() => {
+                  setLoading(false);
                });
          }
       } else {
@@ -117,52 +123,55 @@ const PageHeader = () => {
          <h1 className='font-medium text-2xl capitalize'>
             {pageHeaderData.header}
          </h1>
-         <Breadcrumb>
-            <BreadcrumbList className='!gap-1'>
-               {pageHeaderData.links
-                  ? newRoutes.map((link, index) => {
-                       return (
-                          <React.Fragment key={link.value}>
-                             <BreadcrumbItem>
-                                {!link.path ? (
-                                   <span
-                                      className={`text-base  ${
-                                         link.current ? 'text-primary' : ''
-                                      }`}>
-                                      {typeof link.value === 'function'
-                                         ? link.value(routeParams.id)
-                                         : link.value}
-                                   </span>
-                                ) : (
-                                   <BreadcrumbLink asChild>
-                                      <Link
+         {loading && <Loading />}
+         {!loading && (
+            <Breadcrumb>
+               <BreadcrumbList className='!gap-1'>
+                  {pageHeaderData.links
+                     ? newRoutes.map((link, index) => {
+                          return (
+                             <React.Fragment key={link.value}>
+                                <BreadcrumbItem>
+                                   {!link.path ? (
+                                      <span
                                          className={`text-base  ${
-                                            link.current
-                                               ? 'text-primary hover:!text-primary'
-                                               : 'hover:!text-primary hover:underline'
-                                         }`}
-                                         to={
-                                            `/${locale}` +
-                                            link.path(routeParams.id)
-                                         }>
+                                            link.current ? 'text-primary' : ''
+                                         }`}>
                                          {typeof link.value === 'function'
                                             ? link.value(routeParams.id)
                                             : link.value}
-                                      </Link>
-                                   </BreadcrumbLink>
+                                      </span>
+                                   ) : (
+                                      <BreadcrumbLink asChild>
+                                         <Link
+                                            className={`text-base  ${
+                                               link.current
+                                                  ? 'text-primary hover:!text-primary'
+                                                  : 'hover:!text-primary hover:underline'
+                                            }`}
+                                            to={
+                                               `/${locale}` +
+                                               link.path(routeParams.id)
+                                            }>
+                                            {typeof link.value === 'function'
+                                               ? link.value(routeParams.id)
+                                               : link.value}
+                                         </Link>
+                                      </BreadcrumbLink>
+                                   )}
+                                </BreadcrumbItem>
+                                {index !== newRoutes.length - 1 && (
+                                   <BreadcrumbSeparator>
+                                      <HiSlash className='!w-6 !h-6' />
+                                   </BreadcrumbSeparator>
                                 )}
-                             </BreadcrumbItem>
-                             {index !== newRoutes.length - 1 && (
-                                <BreadcrumbSeparator>
-                                   <HiSlash className='!w-6 !h-6' />
-                                </BreadcrumbSeparator>
-                             )}
-                          </React.Fragment>
-                       );
-                    })
-                  : ''}
-            </BreadcrumbList>
-         </Breadcrumb>
+                             </React.Fragment>
+                          );
+                       })
+                     : ''}
+               </BreadcrumbList>
+            </Breadcrumb>
+         )}
       </div>
    );
 };
