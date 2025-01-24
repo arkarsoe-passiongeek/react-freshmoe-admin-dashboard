@@ -154,7 +154,9 @@ export function ServiceAreaEditForm({
                      <FormControl>
                         <CBaseSelect
                            items={[
-                              ...serviceAreas,
+                              ...serviceAreas.filter(
+                                 each => each.id !== defaultValues.id
+                              ),
                               { id: null, name: 'Top level Service Area' },
                            ]}
                            placeholder='Select Your Service Area'

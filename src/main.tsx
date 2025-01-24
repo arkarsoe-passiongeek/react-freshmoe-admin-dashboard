@@ -87,8 +87,8 @@ createRoot(document.getElementById('root')!).render(
               /> */}
                      <Route path='content-image/home' element={<HomePage />} />
                   </Route>
+                  <Route path='*' element={<NotFound />} />
                </Route>
-               <Route path='*' element={<NotFound />} />
             </Routes>
          </QueryClientProvider>
       </BrowserRouter>
