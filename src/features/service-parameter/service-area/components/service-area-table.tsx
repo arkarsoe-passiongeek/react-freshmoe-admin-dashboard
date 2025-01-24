@@ -67,7 +67,7 @@ const ServiceAreaTable: React.FC = () => {
             </div>
             <div className='mb-2'>
                {isLoading && (
-                  <div className='p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md'>
+                  <div className='p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-xl'>
                      <Loading />
                   </div>
                )}
@@ -77,7 +77,7 @@ const ServiceAreaTable: React.FC = () => {
                         <DataTable columns={columns} table={table} />
                      </div>
                      <div
-                        className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
+                        className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-xl ${
                            data && data.length > 0 && 'hidden'
                         }`}>
                         <img
@@ -86,14 +86,14 @@ const ServiceAreaTable: React.FC = () => {
                            height={160}
                            alt='logo'
                         />
-                        <h3 className='font-semibold text-2xl text-c-border-stroke'>
-                           Your {src} List is empty
+                        <h3 className='font-semibold text-2xl text-c-border-stroke capitalize'>
+                           {src} List is empty
                         </h3>
                      </div>
                   </>
                )}
             </div>
-            <DataTablePagination table={table} />
+            {data && data.length > 0 && <DataTablePagination table={table} />}
             <DeleteConfirmDialog
                src={src}
                data={currentData}

@@ -66,7 +66,7 @@ const LayerTable: React.FC = () => {
             </div>
             <div className='mb-2'>
                {isLoading && (
-                  <div className='p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md'>
+                  <div className='p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-xl'>
                      <Loading />
                   </div>
                )}
@@ -76,7 +76,7 @@ const LayerTable: React.FC = () => {
                         <DataTable columns={columns} table={table} />
                      </div>
                      <div
-                        className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-md ${
+                        className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-xl ${
                            data && data.length > 0 && 'hidden'
                         }`}>
                         <img
@@ -92,7 +92,7 @@ const LayerTable: React.FC = () => {
                   </>
                )}
             </div>
-            <DataTablePagination table={table} />
+            {data && data.length > 0 && <DataTablePagination table={table} />}
             <DeleteConfirmDialog
                src={src}
                data={currentData}

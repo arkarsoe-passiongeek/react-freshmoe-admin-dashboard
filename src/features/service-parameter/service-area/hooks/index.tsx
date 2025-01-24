@@ -118,7 +118,7 @@ export const useServiceArea = (): UseServiceAreaReturn => {
                search: `?parentId=${searchParam.get('parentId')}`,
             }}
             styleType='create'>
-            Create {src}
+            Create
          </CLink>
       );
    };

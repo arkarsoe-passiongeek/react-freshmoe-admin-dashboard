@@ -27,7 +27,7 @@ const AdminController = ({ user }: { user: User | null }) => {
       try {
          const res = await logout();
          console.log(res);
-         if (res?.status === 201)
+         if (res === 'success')
             window.location.href = `${import.meta.env.VITE_PUBLIC_MAIN_LOGIN}`;
       } catch (e) {
          console.log(e);

@@ -9,12 +9,12 @@ import { Button, ButtonProps } from '../ui/button';
 const buttonVariants = cva('shadow-none disabled:bg-c-disable text-c-white', {
    variants: {
       styleType: {
-         default: 'bg-primary hover:bg-c-primary',
+         default: 'bg-primary hover:bg-c-hover',
          cancel: 'bg-c-white text-c-black hover:bg-c-border-stroke',
          create: 'bg-primary hover:bg-c-hover',
          update: 'bg-primary hover:bg-c-hover',
          success: 'bg-primary hover:bg-c-hover',
-         delete: 'bg-secondary hover:bg-c-secondary-hover',
+         delete: 'bg-secondary hover:bg-c-secondary-hover border-0',
       },
       loading: {
          true: 'pointer-events-none',

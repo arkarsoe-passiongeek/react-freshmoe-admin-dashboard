@@ -100,7 +100,7 @@ export const useLayer = (): UseLayerReturn => {
    const getCreateButton = (src: string): JSX.Element => {
       return (
          <CLink to={routes.layerCreate()} styleType='create'>
-            Create {src}
+            Create
          </CLink>
       );
    };

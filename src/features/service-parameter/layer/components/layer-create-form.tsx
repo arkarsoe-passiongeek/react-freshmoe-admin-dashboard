@@ -64,7 +64,7 @@ export function LayerCreateForm({
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
-            <h3 className='text-xl font-semibold'>Layer Information</h3>
+            <h3 className='text-xl font-semibold'>Service Layer Information</h3>
             <FormField
                control={form.control}
                name='name'

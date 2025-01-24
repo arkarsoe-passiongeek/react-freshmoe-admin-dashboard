@@ -6,6 +6,7 @@ import AuthLayout from './components/layout/auth-layout.tsx';
 import DashboardLayout from './components/layout/dashboard-layout.tsx';
 import LanguageHandler from './components/layout/language-handler.tsx';
 import NotFound from './components/layout/not-found.tsx';
+import RedirectPage from './components/layout/redirect-page.tsx';
 import Unauthorized from './features/auth/unauthorized.tsx';
 import HomePage from './features/content-and-image/home.tsx';
 import Dashboard from './features/dashboard/dashboard.tsx';
@@ -89,6 +90,7 @@ createRoot(document.getElementById('root')!).render(
                   </Route>
                   <Route path='*' element={<NotFound />} />
                </Route>
+               <Route path='*' element={<RedirectPage />} />
             </Routes>
          </QueryClientProvider>
       </BrowserRouter>

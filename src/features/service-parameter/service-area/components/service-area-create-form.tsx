@@ -54,7 +54,11 @@ export function ServiceAreaCreateForm({
          form.setError('name', { type: 'manual', message: error.message });
       },
       onSuccess: () => {
-         form.reset();
+         form.reset({
+            name: '',
+            serviceLayerId: '',
+            parentId: searchParam.get('parentId') ?? 'null',
+         });
          onCreateSuccess();
       },
    });
@@ -107,6 +111,7 @@ export function ServiceAreaCreateForm({
                            items={layers}
                            placeholder='Select Your Layer'
                            onValueChange={field.onChange}
+                           value={field.value}
                            defaultValue={field.value}
                         />
                      </FormControl>

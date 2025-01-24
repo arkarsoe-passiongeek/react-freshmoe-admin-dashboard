@@ -13,8 +13,10 @@ export async function createServiceArea(payload: CreateServiceArea) {
 }
 
 // Read
-export async function fetchAllServiceArea(): Promise<ServiceArea[]> {
-   return (await MAIN_SERVICE.get(service.GET_ALL_SERVICE_AREA))?.data.data;
+export async function fetchAllServiceAreaExcept(id): Promise<ServiceArea[]> {
+   return (
+      await MAIN_SERVICE.get(service.GET_SERVICE_AREA_LIST + '/except/' + id)
+   )?.data.data;
 }
 
 // Read

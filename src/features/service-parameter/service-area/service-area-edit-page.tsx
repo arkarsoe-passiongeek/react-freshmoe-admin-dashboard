@@ -2,6 +2,7 @@ import Loading from '@/components/layout/loading';
 import { API_ROUTES } from '@/lib/constants';
 import {
    fetchAllServiceArea,
+   fetchAllServiceAreaExcept,
    fetchServiceAreaDetail,
 } from '@/services/actions/service-area';
 import { ServiceArea } from '@/types';
@@ -24,7 +25,7 @@ const ServiceAreaEditPage = () => {
       ServiceArea[]
    >({
       queryKey: [API_ROUTES.serviceArea.getAll()],
-      queryFn: () => fetchAllServiceArea(),
+      queryFn: () => fetchAllServiceAreaExcept(id),
    });
 
    return (

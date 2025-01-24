@@ -1,5 +1,6 @@
 import {
    Breadcrumb,
+   BreadcrumbEllipsis,
    BreadcrumbItem,
    BreadcrumbLink,
    BreadcrumbList,
@@ -15,6 +16,12 @@ import React, { useEffect, useState } from 'react';
 import { HiSlash } from 'react-icons/hi2';
 import { useIntl } from 'react-intl';
 import { useLocation, useParams } from 'react-router';
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 import Loading from './loading';
 
 const PageHeader = () => {
@@ -41,12 +48,16 @@ const PageHeader = () => {
       arr.push(obj); // Push the current object after processing its parent
    };
 
-   useEffect(() => {
-      if (
+   const isServiceArea = () => {
+      return (
          pathname === routes.serviceArea().replace(`/${locale}`, '') ||
          pathname === routes.serviceAreaCreate().replace(`/${locale}`, '') ||
          pathname === routes.serviceAreaEdit().replace(`/${locale}`, '')
-      ) {
+      );
+   };
+
+   useEffect(() => {
+      if (isServiceArea()) {
          if (!searchParam.has('parentId')) {
             setNewRoutes(pageHeaderData.links);
          } else {
@@ -128,13 +139,13 @@ const PageHeader = () => {
             <Breadcrumb>
                <BreadcrumbList className='!gap-1'>
                   {pageHeaderData.links
-                     ? newRoutes.map((link, index) => {
+                     ? newRoutes.slice(0, 3).map((link, index) => {
                           return (
                              <React.Fragment key={link.value}>
                                 <BreadcrumbItem>
                                    {!link.path ? (
                                       <span
-                                         className={`text-base  ${
+                                         className={`text-base text-c-contrast  ${
                                             link.current ? 'text-primary' : ''
                                          }`}>
                                          {typeof link.value === 'function'
@@ -144,7 +155,7 @@ const PageHeader = () => {
                                    ) : (
                                       <BreadcrumbLink asChild>
                                          <Link
-                                            className={`text-base  ${
+                                            className={`text-base !text-c-contrast ${
                                                link.current
                                                   ? 'text-primary hover:!text-primary'
                                                   : 'hover:!text-primary hover:underline'
@@ -160,6 +171,7 @@ const PageHeader = () => {
                                       </BreadcrumbLink>
                                    )}
                                 </BreadcrumbItem>
+
                                 {index !== newRoutes.length - 1 && (
                                    <BreadcrumbSeparator>
                                       <HiSlash className='!w-6 !h-6' />
@@ -169,6 +181,38 @@ const PageHeader = () => {
                           );
                        })
                      : ''}
+                  {pageHeaderData.links && newRoutes.length > 3 && (
+                     <BreadcrumbItem>
+                        <DropdownMenu>
+                           <DropdownMenuTrigger className='flex items-center gap-1'>
+                              <BreadcrumbEllipsis className='h-4 w-4' />
+                              <span className='sr-only'>Toggle menu</span>
+                           </DropdownMenuTrigger>
+                           <DropdownMenuContent align='start'>
+                              {newRoutes.slice(3).map(link => {
+                                 return (
+                                    <DropdownMenuItem key={link.value}>
+                                       <Link
+                                          className={`text-base !text-c-contrast w-full ${
+                                             link.current
+                                                ? 'text-primary hover:!text-primary'
+                                                : 'hover:!text-primary hover:underline'
+                                          }`}
+                                          to={
+                                             `/${locale}` +
+                                             link.path(routeParams.id)
+                                          }>
+                                          {typeof link.value === 'function'
+                                             ? link.value(routeParams.id)
+                                             : link.value}
+                                       </Link>
+                                    </DropdownMenuItem>
+                                 );
+                              })}
+                           </DropdownMenuContent>
+                        </DropdownMenu>
+                     </BreadcrumbItem>
+                  )}
                </BreadcrumbList>
             </Breadcrumb>
          )}

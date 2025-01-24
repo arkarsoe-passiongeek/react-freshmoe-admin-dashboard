@@ -15,7 +15,7 @@ const LayerCreatePage = () => {
       <div className='bg-c-white border p-10 rounded-md max-w-3xl'>
          <LayerCreateForm onCreateSuccess={onCreateSuccess} />
          <CreateSuccessDialog
-            src='Layer'
+            src='Service Layer'
             createSuccessModalOpen={createSuccessModalOpen}
             setCreateSuccessModalOpen={setCreateSuccessModalOpen}
             redirectRoute={routes.layer()}

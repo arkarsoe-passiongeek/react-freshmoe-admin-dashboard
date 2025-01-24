@@ -65,10 +65,10 @@ const getPageHeaders = () => {
 
    // Service Parameter - Layer
    pageHeaders[`${routes.layer()}`] = {
-      header: 'Layer',
+      header: 'Service Layer',
       links: [
          { value: 'Service Parameter', current: false },
-         { value: 'Layer', current: true },
+         { value: 'Service Layer', current: true },
       ],
    };
 
@@ -76,7 +76,7 @@ const getPageHeaders = () => {
       header: 'Create',
       links: [
          { value: 'Service Parameter', current: false },
-         { value: 'Layer', path: () => routes.layer(), current: true },
+         { value: 'Service Layer', path: () => routes.layer(), current: true },
          { value: 'Create', current: true }, // The current page
       ],
    };
@@ -85,7 +85,7 @@ const getPageHeaders = () => {
       header: 'Edit',
       links: [
          { value: 'Service Parameter', current: false },
-         { value: 'Layer', path: () => routes.layer(), current: false }, // Previous "Layer" page
+         { value: 'Service Layer', path: () => routes.layer(), current: false }, // Previous "Layer" page
          { value: 'Edit', current: true },
       ],
    };
@@ -116,7 +116,7 @@ const getPageHeaders = () => {
    };
 
    pageHeaders[`${routes.serviceAreaEdit('')}`] = {
-      header: 'Service Area Edit',
+      header: 'Edit',
       links: [
          { value: 'Service Parameter', current: false },
          {
