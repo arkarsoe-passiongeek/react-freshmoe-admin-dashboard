@@ -124,7 +124,13 @@ export const useServiceArea = (): UseServiceAreaReturn => {
    };
 
    const getEditButton = (id: string) => (
-      <CLink size='xs' styleType='create' to={routes.serviceAreaEdit(id)}>
+      <CLink
+         size='xs'
+         styleType='create'
+         to={{
+            pathname: routes.serviceAreaEdit(id),
+            search: `?parentId=${searchParam.get('parentId')}`,
+         }}>
          Edit
       </CLink>
    );

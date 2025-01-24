@@ -22,7 +22,7 @@ const PageHeader = () => {
    let pathname = usePathname();
    const routes = useLinkRoutes();
    const location = useLocation();
-   const [extraRoutes, setExtraRoutes] = useState([]);
+   const [newRoutes, setNewRoutes] = useState([]);
    const searchParam = useSearchParams();
 
    pathname = pathname.replace(
@@ -40,48 +40,75 @@ const PageHeader = () => {
    };
 
    useEffect(() => {
-      console.log(
-         'changing',
-         pathname === routes.serviceArea().replace(`/${locale}`, '')
-      );
-      if (pathname === routes.serviceArea().replace(`/${locale}`, '')) {
+      if (
+         pathname === routes.serviceArea().replace(`/${locale}`, '') ||
+         pathname === routes.serviceAreaCreate().replace(`/${locale}`, '') ||
+         pathname === routes.serviceAreaEdit().replace(`/${locale}`, '')
+      ) {
          if (!searchParam.has('parentId')) {
-            setExtraRoutes([]);
+            setNewRoutes(pageHeaderData.links);
          } else {
             fetchServiceAreaBreadcrumbs({
-               id: searchParam.get('parentId'),
-            }).then(res => {
-               console.log(res);
-               if (res) {
-                  const newRes = [];
-                  takeSrc(res, newRes);
-                  console.log(newRes, 'this is ');
-                  const newData = newRes.map(each => {
-                     const newObj = {};
-                     newObj.value = each.name;
-                     newObj.current = false;
-                     if (each.parentId) {
-                        newObj.path = () =>
-                           routes
-                              .serviceArea({
-                                 search: `?parentId=${each.parent?.id}`,
-                              })
-                              .replace(`${locale}/`, '');
-                     } else {
-                        newObj.path = () =>
-                           routes.serviceArea().replace(`${locale}/`, '');
-                     }
+               id: routeParams.id ?? searchParam.get('parentId'),
+            })
+               .then(res => {
+                  console.log(res);
+                  if (res) {
+                     const newRes = [];
+                     takeSrc(res, newRes);
+                     console.log(newRes, 'this is ');
+                     const newData = newRes.map(each => {
+                        const newObj = {};
+                        newObj.value = each.name;
+                        newObj.current = false;
+                        if (each.parentId || each.parentId === null) {
+                           newObj.path = () =>
+                              routes
+                                 .serviceArea({
+                                    search: `?parentId=${each.id}`,
+                                 })
+                                 .replace(`${locale}/`, '');
+                        } else {
+                           newObj.path = () =>
+                              routes.serviceArea().replace(`${locale}/`, '');
+                        }
 
-                     return newObj;
-                  });
-                  console.log(newData);
-                  setExtraRoutes(newData);
-                  console.log(extraRoutes);
-               }
-            });
+                        return newObj;
+                     });
+                     console.log(pathname);
+                     if (
+                        pathname ===
+                           routes
+                              .serviceAreaCreate()
+                              .replace(`/${locale}`, '') ||
+                        pathname ===
+                           routes.serviceAreaEdit().replace(`/${locale}`, '')
+                     ) {
+                        console.log('here');
+                        newData.push({
+                           ...pageHeaderData.links[
+                              pageHeaderData.links.length - 1
+                           ],
+                        });
+                        setNewRoutes([
+                           ...pageHeaderData.links.slice(
+                              0,
+                              pageHeaderData.links.length - 1
+                           ),
+                           ...newData,
+                        ]);
+                     } else {
+                        setNewRoutes([...pageHeaderData.links, ...newData]);
+                     }
+                     console.log(newRoutes);
+                  }
+               })
+               .catch(err => {
+                  setNewRoutes(pageHeaderData.links);
+               });
          }
-      } else if (extraRoutes.length > 0) {
-         setExtraRoutes([]);
+      } else {
+         setNewRoutes(pageHeaderData.links);
       }
    }, [location]);
 
@@ -93,51 +120,46 @@ const PageHeader = () => {
          <Breadcrumb>
             <BreadcrumbList className='!gap-1'>
                {pageHeaderData.links
-                  ? [...pageHeaderData.links, ...extraRoutes].map(
-                       (link, index) => {
-                          return (
-                             <React.Fragment key={link.value}>
-                                <BreadcrumbItem>
-                                   {!link.path ? (
-                                      <span
+                  ? newRoutes.map((link, index) => {
+                       return (
+                          <React.Fragment key={link.value}>
+                             <BreadcrumbItem>
+                                {!link.path ? (
+                                   <span
+                                      className={`text-base  ${
+                                         link.current ? 'text-primary' : ''
+                                      }`}>
+                                      {typeof link.value === 'function'
+                                         ? link.value(routeParams.id)
+                                         : link.value}
+                                   </span>
+                                ) : (
+                                   <BreadcrumbLink asChild>
+                                      <Link
                                          className={`text-base  ${
-                                            link.current ? 'text-primary' : ''
-                                         }`}>
+                                            link.current
+                                               ? 'text-primary hover:!text-primary'
+                                               : 'hover:!text-primary hover:underline'
+                                         }`}
+                                         to={
+                                            `/${locale}` +
+                                            link.path(routeParams.id)
+                                         }>
                                          {typeof link.value === 'function'
                                             ? link.value(routeParams.id)
                                             : link.value}
-                                      </span>
-                                   ) : (
-                                      <BreadcrumbLink asChild>
-                                         <Link
-                                            className={`text-base  ${
-                                               link.current
-                                                  ? 'text-primary hover:!text-primary'
-                                                  : 'hover:!text-primary hover:underline'
-                                            }`}
-                                            to={
-                                               `/${locale}` +
-                                               link.path(routeParams.id)
-                                            }>
-                                            {typeof link.value === 'function'
-                                               ? link.value(routeParams.id)
-                                               : link.value}
-                                         </Link>
-                                      </BreadcrumbLink>
-                                   )}
-                                </BreadcrumbItem>
-                                {index !==
-                                   [...pageHeaderData.links, ...extraRoutes]
-                                      .length -
-                                      1 && (
-                                   <BreadcrumbSeparator>
-                                      <HiSlash className='!w-6 !h-6' />
-                                   </BreadcrumbSeparator>
+                                      </Link>
+                                   </BreadcrumbLink>
                                 )}
-                             </React.Fragment>
-                          );
-                       }
-                    )
+                             </BreadcrumbItem>
+                             {index !== newRoutes.length - 1 && (
+                                <BreadcrumbSeparator>
+                                   <HiSlash className='!w-6 !h-6' />
+                                </BreadcrumbSeparator>
+                             )}
+                          </React.Fragment>
+                       );
+                    })
                   : ''}
             </BreadcrumbList>
          </Breadcrumb>

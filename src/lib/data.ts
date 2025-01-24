@@ -68,7 +68,7 @@ const getPageHeaders = () => {
       header: 'Layer',
       links: [
          { value: 'Service Parameter', current: false },
-         { value: 'Layer', path: () => routes.layer(), current: true },
+         { value: 'Layer', current: true },
       ],
    };
 
@@ -76,6 +76,7 @@ const getPageHeaders = () => {
       header: 'Create',
       links: [
          { value: 'Service Parameter', current: false },
+         { value: 'Layer', path: () => routes.layer(), current: true },
          { value: 'Create', current: true }, // The current page
       ],
    };
@@ -86,70 +87,6 @@ const getPageHeaders = () => {
          { value: 'Service Parameter', current: false },
          { value: 'Layer', path: () => routes.layer(), current: false }, // Previous "Layer" page
          { value: 'Edit', current: true },
-      ],
-   };
-
-   // Service Parameter - Priority
-   pageHeaders[`${routes.priority()}`] = {
-      header: 'Priority',
-      links: [
-         { value: 'Service Parameter', current: false },
-         { value: 'Priority', path: () => routes.priority(), current: true },
-      ],
-   };
-
-   pageHeaders[`${routes.priorityCreate()}`] = {
-      header: 'Priority Create',
-      links: [
-         { value: 'Service Parameter', current: false },
-         { value: 'Priority', path: () => routes.priority(), current: false }, // Links back to the "Priority" page
-         { value: 'Priority Create', current: true }, // The current page
-      ],
-   };
-
-   pageHeaders[`${routes.priorityEdit('')}`] = {
-      header: 'Priority Edit',
-      links: [
-         { value: 'Service Parameter', current: false },
-         { value: 'Priority', path: () => routes.priority(), current: false }, // Previous "Priority" page
-         { value: (value: any) => value, current: false }, // Dynamic Priority URL (if applicable)
-         { value: 'Priority Edit', current: true }, // The current page
-      ],
-   };
-
-   pageHeaders[`${routes.layerPriority()}`] = {
-      header: 'Layer-Priority',
-      links: [
-         { value: 'Service Parameter', current: false },
-         {
-            value: 'Layer-Priority',
-            path: () => routes.layerPriority(),
-            current: false,
-         },
-      ],
-   };
-
-   pageHeaders[`${routes.layerPriorityCreate()}`] = {
-      header: 'Layer-Priority Create',
-      links: [
-         { value: 'Service Parameter', current: false },
-         {
-            value: 'Layer-Priority',
-            path: () => routes.layerPriority(),
-            current: false,
-         }, // Links back to the "Layer" page
-      ],
-   };
-
-   pageHeaders[`${routes.layerPriorityEdit('')}`] = {
-      header: 'Layer-Priority Edit',
-      links: [
-         { value: 'Service Parameter', current: false },
-         {
-            value: 'Layer-Priority',
-            path: () => routes.layerPriority(),
-            current: false,
-         },
       ],
    };
 
@@ -174,6 +111,7 @@ const getPageHeaders = () => {
             path: () => routes.serviceArea(),
             current: false,
          }, // Links back to the "Layer" page
+         { value: 'Create', current: true },
       ],
    };
 
@@ -186,6 +124,7 @@ const getPageHeaders = () => {
             path: () => routes.serviceArea(),
             current: false,
          },
+         { value: 'Edit', current: true },
       ],
    };
 
