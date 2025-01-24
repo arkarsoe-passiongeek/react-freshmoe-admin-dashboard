@@ -5,6 +5,9 @@ export const CONSTANTS = {
    TOKEN: 'token',
 };
 export const API_ROUTES = {
+   auth: {
+      profile: () => '/profile',
+   },
    dashboard: {
       get: () => `/dashboard`,
    },

@@ -52,7 +52,7 @@ const AdminController = ({ user }: { user: User | null }) => {
                      <>
                         <span className='text-sm'>{user.email}</span>
                         <span className='text-c-contrast capitalize text-xs'>
-                           {user?.username}
+                           {user?.name}
                         </span>
                      </>
                   )}

@@ -1,5 +1,12 @@
+import { http } from '@/lib/http';
+import { User } from '@/types';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
+export const profile = async (): Promise<User> => {
+   const res = await http.get(`/profile`);
+   return res.data.data;
+};
 
 export const logout = async () => {
    // this is commented assuming that backend doesn't do anything

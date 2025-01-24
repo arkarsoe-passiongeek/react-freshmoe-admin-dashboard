@@ -1,7 +1,10 @@
+import useAuth from '@/core/state/use-auth';
+import { API_ROUTES } from '@/lib/constants';
 import { useLinkRoutes } from '@/lib/route';
-import { getUser } from '@/services/apis/user';
+import { profile } from '@/services/apis/auth';
+import { useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 import { SidebarProvider, SidebarTrigger } from '../ui/sidebar';
 import AdminController from './account-controller';
@@ -17,7 +20,6 @@ export interface User {
 }
 
 const DashboardLayout: React.FC = () => {
-   const [user, setUser] = useState<User | null>(null);
    const { language, setLanguage } = useContext(
       LanguageContext
    ) as LanguageContextType;
@@ -25,23 +27,20 @@ const DashboardLayout: React.FC = () => {
    const { pathname, search } = useLocation();
    const { lang } = useParams<{ lang?: string }>();
    const routes = useLinkRoutes();
+   const { user: authUser } = useAuth();
 
-   const getUserData = async () => {
-      try {
-         const res = await getUser();
-         setUser(res.data.data);
-         localStorage.setItem('userdata', JSON.stringify(res.data.data));
-      } catch (error) {
-         console.error('Failed to fetch user data', error);
-      }
-   };
+   const { data: user, isLoading } = useQuery({
+      queryKey: [API_ROUTES.auth.profile],
+      queryFn: () => profile(),
+      enabled: Object.keys(authUser).length <= 0,
+      initialData: authUser,
+   });
 
    useEffect(() => {
       if (!Cookies.get('token')) {
          navigate(routes.unauthorized());
       }
-      getUserData();
-   }, []);
+   }, [routes, navigate]);
 
    return (
       <div>
@@ -73,7 +72,7 @@ const DashboardLayout: React.FC = () => {
                         <option value='fr'>fr</option>
                      </select>
                      <SidebarTrigger className='[&_svg]:size-8' />
-                     <AdminController user={user} />
+                     {!isLoading && user && <AdminController user={user} />}
                   </div>
                   <div className='p-6'>
                      <PageHeader />
