@@ -71,10 +71,10 @@ const PageHeader = () => {
                      const newRes = [];
                      takeSrc(res, newRes);
                      console.log(newRes, 'this is ');
-                     const newData = newRes.map(each => {
+                     const newData = newRes.map((each, index) => {
                         const newObj = {};
                         newObj.value = each.name;
-                        newObj.current = false;
+                        newObj.current = index === newRes.length - 1;
                         if (each.parentId || each.parentId === null) {
                            newObj.path = () =>
                               routes
@@ -155,9 +155,9 @@ const PageHeader = () => {
                                    ) : (
                                       <BreadcrumbLink asChild>
                                          <Link
-                                            className={`text-base !text-c-contrast ${
+                                            className={`text-base text-c-contrast ${
                                                link.current
-                                                  ? 'text-primary hover:!text-primary'
+                                                  ? '!text-primary hover:!text-primary'
                                                   : 'hover:!text-primary hover:underline'
                                             }`}
                                             to={
@@ -188,24 +188,38 @@ const PageHeader = () => {
                               <BreadcrumbEllipsis className='h-4 w-4' />
                               <span className='sr-only'>Toggle menu</span>
                            </DropdownMenuTrigger>
-                           <DropdownMenuContent align='start'>
+                           <DropdownMenuContent align='end'>
                               {newRoutes.slice(3).map(link => {
                                  return (
                                     <DropdownMenuItem key={link.value}>
-                                       <Link
-                                          className={`text-base !text-c-contrast w-full ${
-                                             link.current
-                                                ? 'text-primary hover:!text-primary'
-                                                : 'hover:!text-primary hover:underline'
-                                          }`}
-                                          to={
-                                             `/${locale}` +
-                                             link.path(routeParams.id)
-                                          }>
-                                          {typeof link.value === 'function'
-                                             ? link.value(routeParams.id)
-                                             : link.value}
-                                       </Link>
+                                       {!link.path && (
+                                          <span
+                                             className={`text-base text-c-contrast  ${
+                                                link.current
+                                                   ? 'text-primary'
+                                                   : ''
+                                             }`}>
+                                             {typeof link.value === 'function'
+                                                ? link.value(routeParams.id)
+                                                : link.value}
+                                          </span>
+                                       )}
+                                       {link.path && (
+                                          <Link
+                                             className={`text-base text-c-contrast w-full ${
+                                                link.current
+                                                   ? '!text-primary hover:!text-primary'
+                                                   : 'hover:!text-primary hover:underline'
+                                             }`}
+                                             to={
+                                                `/${locale}` +
+                                                link.path(routeParams.id)
+                                             }>
+                                             {typeof link.value === 'function'
+                                                ? link.value(routeParams.id)
+                                                : link.value}
+                                          </Link>
+                                       )}
                                     </DropdownMenuItem>
                                  );
                               })}

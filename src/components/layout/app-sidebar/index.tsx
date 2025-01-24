@@ -15,8 +15,10 @@ import {
 } from '@/components/ui/sidebar';
 import { getSidebarData } from '@/lib/data';
 import { useLinkRoutes } from '@/lib/route';
+import { cn } from '@/lib/utils';
 import { ChevronRight } from 'lucide-react';
 import * as React from 'react';
+import { useLocation } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import CMenuButton from './c-menu-button';
 
@@ -24,6 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
    const [navLinks, setNavLinks] = React.useState([]);
    const routes = useLinkRoutes();
    const data = getSidebarData(routes);
+   const { pathname } = useLocation();
 
    React.useEffect(() => {
       setNavLinks(data as any);
@@ -52,7 +55,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                            <CollapsibleTrigger asChild>
                               <SidebarMenuItem>
                                  <SidebarMenuButton
-                                    className='p-3 h-auto'
+                                    className={cn(
+                                       'p-3 h-auto hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary mb-1',
+                                       pathname.includes(item.src) &&
+                                          'bg-c-active-bg text-primary'
+                                    )}
                                     asChild>
                                     <div className=''>
                                        {item.icon && (

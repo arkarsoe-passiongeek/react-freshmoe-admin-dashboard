@@ -15,6 +15,7 @@ export const getSidebarData = (routes: Routes) => {
       {
          title: 'Service Parameter',
          icon: IconService,
+         src: 'service-parameter',
          url: '#1',
          items: [
             {
@@ -34,6 +35,7 @@ export const getSidebarData = (routes: Routes) => {
       {
          title: 'Content & Image',
          icon: IconHamburger,
+         src: 'content-image',
          url: '#2',
          items: [
             {

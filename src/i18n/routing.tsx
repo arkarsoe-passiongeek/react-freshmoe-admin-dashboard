@@ -5,7 +5,10 @@ const createNavigation = () => {
    const Link = ({ children, className, ...rest }: any) => {
       return (
          <RouterLink
-            className={cn(className, '!border-0 px-0 py-0 text-c-black hover:text-c-primary')}
+            className={cn(
+               '!border-0 px-0 py-0 text-c-black hover:text-c-primary',
+               className
+            )}
             {...rest}>
             {children}
          </RouterLink>
