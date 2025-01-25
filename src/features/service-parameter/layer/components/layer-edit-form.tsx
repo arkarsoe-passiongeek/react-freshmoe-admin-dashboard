@@ -118,13 +118,8 @@ export function LayerEditForm({
                <CButton
                   size='md'
                   loading={updateMutation.isPending}
-                  styleType='update'
-                  type='submit'
-                  className={`${
-                     form.formState.isDirty && form.formState.isValid === false
-                        ? 'bg-c-contrast hover:bg-c-contrast'
-                        : ''
-                  }`}>
+                  styleType='create'
+                  type='submit'>
                   Update
                </CButton>
             </div>
