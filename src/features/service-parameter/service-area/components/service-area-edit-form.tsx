@@ -2,6 +2,7 @@ import CButton from '@/components/custom/c-button';
 import CFormLabel from '@/components/custom/c-form-label';
 import CInput from '@/components/custom/c-input';
 import { CBaseSelect } from '@/components/custom/c-select';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
    Form,
    FormControl,
@@ -32,6 +33,9 @@ const formSchema = z.object({
    parentId: z.string().min(1, {
       message: 'Parent Service Area Id must be at least 1 characters.',
    }),
+   check: z.boolean().refine((val) => val === true, {
+      message: "Check must be true.",
+    }),
 });
 
 // Type inference for the form schema
@@ -173,6 +177,31 @@ export function ServiceAreaEditForm({
                         />
                      </FormControl>
                      <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name='check'
+               render={({ field }) => (
+                  <FormItem className='flex flex-col items-start space-x-3 space-y-3'>
+                     <div className='flex gap-3 w-full'>
+                        <FormControl>
+                           <Checkbox
+                              className='border-primary'
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                           />
+                        </FormControl>
+
+                        <div className='space-y-1 leading-none'>
+                           <CFormLabel className='text-sm text-c-contrast font-light'>
+                              Are you sure you want to{' '}
+                              <span className='text-primary'>Edit</span> it?
+                           </CFormLabel>
+                        </div>
+                     </div>
+                     <FormMessage className='!ml-0' />
                   </FormItem>
                )}
             />

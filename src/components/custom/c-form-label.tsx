@@ -2,6 +2,7 @@ import { FormLabel } from '../ui/form';
 
 interface CFormLabelProps {
    children: React.ReactNode;
+   htmlFor?: string;
    className?: string;
 }
 
@@ -11,7 +12,7 @@ const CFormLabel: React.FC<CFormLabelProps> = ({
    ...rest
 }) => {
    return (
-      <FormLabel className={`text-lg font-normal ${className}`} {...rest}>
+      <FormLabel className={`text-base font-normal ${className}`} {...rest}>
          {children}
       </FormLabel>
    );
