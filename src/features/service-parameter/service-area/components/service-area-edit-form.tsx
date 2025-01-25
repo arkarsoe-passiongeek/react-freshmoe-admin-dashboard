@@ -33,9 +33,9 @@ const formSchema = z.object({
    parentId: z.string().min(1, {
       message: 'Parent Service Area Id must be at least 1 characters.',
    }),
-   check: z.boolean().refine((val) => val === true, {
-      message: "Check must be true.",
-    }),
+   check: z.boolean().refine(val => val === true, {
+      message: 'Check must be true.',
+   }),
 });
 
 // Type inference for the form schema

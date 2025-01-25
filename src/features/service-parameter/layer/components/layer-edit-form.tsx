@@ -60,7 +60,9 @@ export function LayerEditForm({
 
    // 2. Define a submit handler.
    async function onSubmit(values: z.infer<typeof formSchema>) {
-      updateMutation.mutate(values);
+      const newValues = { ...values };
+      delete newValues.check;
+      updateMutation.mutate(newValues);
    }
 
    return (
