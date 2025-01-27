@@ -132,7 +132,9 @@ const PageHeader = () => {
    return (
       <div className='flex justify-between items-center mb-5'>
          <h1 className='font-medium text-2xl capitalize'>
-            {pageHeaderData.header}
+            {!isServiceArea()
+               ? pageHeaderData.header
+               : newRoutes[newRoutes.length - 1]?.value}
          </h1>
          {loading && <Loading />}
          {!loading && (
@@ -181,7 +183,7 @@ const PageHeader = () => {
                           );
                        })
                      : ''}
-                  {pageHeaderData.links && newRoutes.length > 3 && (
+                  {pageHeaderData.links && newRoutes.length > 4 && (
                      <BreadcrumbItem>
                         <DropdownMenu>
                            <DropdownMenuTrigger className='flex items-center gap-1'>
@@ -189,43 +191,72 @@ const PageHeader = () => {
                               <span className='sr-only'>Toggle menu</span>
                            </DropdownMenuTrigger>
                            <DropdownMenuContent align='end'>
-                              {newRoutes.slice(3).map(link => {
-                                 return (
-                                    <DropdownMenuItem key={link.value}>
-                                       {!link.path && (
-                                          <span
-                                             className={`text-base text-c-contrast  ${
-                                                link.current
-                                                   ? 'text-primary'
-                                                   : ''
-                                             }`}>
-                                             {typeof link.value === 'function'
-                                                ? link.value(routeParams.id)
-                                                : link.value}
-                                          </span>
-                                       )}
-                                       {link.path && (
-                                          <Link
-                                             className={`text-base text-c-contrast w-full ${
-                                                link.current
-                                                   ? '!text-primary hover:!text-primary'
-                                                   : 'hover:!text-primary hover:underline'
-                                             }`}
-                                             to={
-                                                `/${locale}` +
-                                                link.path(routeParams.id)
-                                             }>
-                                             {typeof link.value === 'function'
-                                                ? link.value(routeParams.id)
-                                                : link.value}
-                                          </Link>
-                                       )}
-                                    </DropdownMenuItem>
-                                 );
+                              {newRoutes.slice(3).map((link, index) => {
+                                 console.log(newRoutes);
+                                 if (index !== newRoutes.slice(3).length - 1) {
+                                    return (
+                                       <DropdownMenuItem key={link.value}>
+                                          {!link.path && (
+                                             <span
+                                                className={`text-base text-c-contrast  ${
+                                                   link.current
+                                                      ? 'text-primary'
+                                                      : ''
+                                                }`}>
+                                                {typeof link.value ===
+                                                'function'
+                                                   ? link.value(routeParams.id)
+                                                   : link.value}
+                                             </span>
+                                          )}
+                                          {link.path && (
+                                             <Link
+                                                className={`text-base text-c-contrast w-full ${
+                                                   link.current
+                                                      ? '!text-primary hover:!text-primary'
+                                                      : 'hover:!text-primary hover:underline'
+                                                }`}
+                                                to={
+                                                   `/${locale}` +
+                                                   link.path(routeParams.id)
+                                                }>
+                                                {typeof link.value ===
+                                                'function'
+                                                   ? link.value(routeParams.id)
+                                                   : link.value}
+                                             </Link>
+                                          )}
+                                       </DropdownMenuItem>
+                                    );
+                                 }
                               })}
                            </DropdownMenuContent>
                         </DropdownMenu>
                      </BreadcrumbItem>
+                  )}
+                  {pageHeaderData.links && newRoutes.length > 3 && (
+                     <>
+                        {newRoutes.length !== 4 && (
+                           <BreadcrumbSeparator>
+                              <HiSlash className='!w-6 !h-6' />
+                           </BreadcrumbSeparator>
+                        )}
+                        <BreadcrumbItem>
+                           <span
+                              className={`text-base text-c-contrast  ${
+                                 newRoutes[newRoutes.length - 1].current
+                                    ? 'text-primary'
+                                    : ''
+                              }`}>
+                              {typeof newRoutes[newRoutes.length - 1].value ===
+                              'function'
+                                 ? newRoutes[newRoutes.length - 1].value(
+                                      routeParams.id
+                                   )
+                                 : newRoutes[newRoutes.length - 1].value}
+                           </span>
+                        </BreadcrumbItem>
+                     </>
                   )}
                </BreadcrumbList>
             </Breadcrumb>
