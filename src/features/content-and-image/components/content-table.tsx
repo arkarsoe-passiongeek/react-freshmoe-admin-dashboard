@@ -124,11 +124,15 @@ const ContentTable: React.FC = () => {
          </CreateDrawer>
          {currentData && (
             <ViewDrawer
-            title='Detail'
-            open={viewDrawerOpen}
-            setOpen={setViewDrawerOpen}>
-            <ContentView contentId={String(currentData.id)} />
-         </ViewDrawer>
+               title='Detail'
+               open={viewDrawerOpen}
+               setOpen={setViewDrawerOpen}>
+               <ContentView
+                  contentId={String(currentData.id)}
+                  page={searchParams.get('page') ?? ''}
+                  section={searchParams.get('section') ?? ''}
+               />
+            </ViewDrawer>
          )}
       </div>
    );
