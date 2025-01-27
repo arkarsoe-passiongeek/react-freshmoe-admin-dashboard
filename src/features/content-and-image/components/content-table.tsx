@@ -1,6 +1,7 @@
 import ListEmpty from '@/assets/images/list-empty.png';
 import CInput from '@/components/custom/c-input';
 import DeleteConfirmDialog from '@/components/layout/dialogs/delete-confirm-dialog';
+import CreateDrawer from '@/components/layout/drawers/create-drawer';
 import Loading from '@/components/layout/loading';
 import { DataTable } from '@/components/layout/table/data-table';
 import { DataTablePagination } from '@/components/layout/table/data-table-pagination';
@@ -10,6 +11,7 @@ import { Layer } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { X } from 'lucide-react';
 import { useContent } from '../hooks';
+import ContentCreateForm from './content-create-form';
 
 const ContentTable: React.FC = () => {
    const src = 'content';
@@ -25,6 +27,8 @@ const ContentTable: React.FC = () => {
       handleDelete,
       table,
       contentsQuery,
+      createDrawerOpen,
+      setCreateDrawerOpen,
    } = useContent({ searchParams });
 
    if (contentsQuery.isLoading) {
@@ -44,7 +48,7 @@ const ContentTable: React.FC = () => {
    const isFiltered =
       table
          .getState()
-         .columnFilters.filter((each: ColumnDef<Layer>) => each.id === 'name')
+         .columnFilters.filter((each: ColumnDef<Layer>) => each.id === 'title')
          .length > 0;
 
    return (
@@ -55,12 +59,13 @@ const ContentTable: React.FC = () => {
                   <CInput.SearchInput
                      placeholder='Search...'
                      value={
-                        (table.getColumn('name')?.getFilterValue() as string) ??
-                        ''
+                        (table
+                           .getColumn('title')
+                           ?.getFilterValue() as string) ?? ''
                      }
                      onChange={event =>
                         table
-                           .getColumn('name')
+                           .getColumn('title')
                            ?.setFilterValue(event.target.value)
                      }
                      className='h-[50px] w-[150px] lg:w-[250px] xl:w-[380px]'
@@ -80,7 +85,9 @@ const ContentTable: React.FC = () => {
                </div>
             </div>
             {contents.length > 0 && (
-               <DataTable columns={columns} table={table} />
+               <div className='mb-4'>
+                  <DataTable columns={columns} table={table} />
+               </div>
             )}
             {contents.length <= 0 && (
                <div
@@ -101,6 +108,16 @@ const ContentTable: React.FC = () => {
             setIsDeleteModalOpen={setIsDeleteModalOpen}
             handleDelete={handleDelete}
          />
+         <CreateDrawer
+            title='Create'
+            open={createDrawerOpen}
+            setOpen={setCreateDrawerOpen}>
+            <ContentCreateForm
+               onCreateSuccess={() => {
+                  setCreateDrawerOpen(false);
+               }}
+            />
+         </CreateDrawer>
       </div>
    );
 };

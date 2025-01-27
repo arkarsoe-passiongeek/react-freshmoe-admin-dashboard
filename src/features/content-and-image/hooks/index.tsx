@@ -20,6 +20,8 @@ import { deleteContent } from '../api/delete-content';
 interface UseContentReturn {
    isDeleteModalOpen: boolean;
    setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   createDrawerOpen: boolean;
+   setCreateDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
    currentData: Content | null;
    setCurrentData: React.Dispatch<React.SetStateAction<Content | null>>;
    handleDeleteButtonClick: (data: Content) => void;
@@ -55,6 +57,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 export const useContent = ({ searchParams }): UseContentReturn => {
    const routes = useLinkRoutes();
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+   const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
    const [currentData, setCurrentData] = useState<Content | null>(null);
 
    const contentsQuery = useContents({
@@ -96,9 +99,12 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    };
 
    const getCreateButton = (src: string): JSX.Element => (
-      <CLink to={routes.layerCreate()} styleType='create'>
+      <CButton
+         size='md'
+         onClick={() => setCreateDrawerOpen(true)}
+         styleType='create'>
          Create
-      </CLink>
+      </CButton>
    );
 
    const getEditButton = (id: string) => (
@@ -155,6 +161,8 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    });
 
    return {
+      createDrawerOpen,
+      setCreateDrawerOpen,
       isDeleteModalOpen,
       setIsDeleteModalOpen,
       currentData,

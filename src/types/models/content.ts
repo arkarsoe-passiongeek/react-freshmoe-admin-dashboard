@@ -12,3 +12,11 @@ export interface Content {
 export interface DeleteContent {
    id: number | null;
 }
+
+export interface CreateContent {
+   title: string; // Title of the content
+   description: string; // Description of the content
+   page: string; // Page where the content belongs
+   section: string; // Section of the page
+   image: File; // Binary image file
+}
