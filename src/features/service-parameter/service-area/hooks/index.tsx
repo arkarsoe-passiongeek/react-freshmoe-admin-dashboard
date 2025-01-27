@@ -154,9 +154,9 @@ export const useServiceArea = (): UseServiceAreaReturn => {
             header: 'Name',
             cell: ({ row }) => {
                return (
-                  <Button variant='link' asChild>
+                  <Button variant='link' className='px-0' asChild>
                      <Link
-                        className="text-c-black"
+                        className='text-c-black'
                         to={{
                            pathname: routes.serviceArea(),
                            search: `?parentId=${row.original.id}`,
@@ -165,6 +165,13 @@ export const useServiceArea = (): UseServiceAreaReturn => {
                      </Link>
                   </Button>
                );
+            },
+         },
+         {
+            accessorKey: 'service-layer',
+            header: 'Layer',
+            cell: ({ row }) => {
+               return <span>{row.original?.serviceLayer?.name}</span>;
             },
          },
          {
