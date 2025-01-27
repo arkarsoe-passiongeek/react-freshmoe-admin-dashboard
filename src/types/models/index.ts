@@ -1,3 +1,4 @@
+export * from './content';
 export * from './layer';
 export * from './layer-priority';
 export * from './permission';

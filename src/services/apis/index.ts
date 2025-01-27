@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 // axios instance
 export const MAIN_SERVICE: AxiosInstance = axios.create({
-   baseURL: `${import.meta.env.VITE_PUBLIC_APP_BASE_URL}`,
+   baseURL: `${import.meta.env.VITE_PUBLIC_APP_BASE_URL}/api/v1`,
    withCredentials: true,
    headers: {
       'Content-Type': 'application/json',

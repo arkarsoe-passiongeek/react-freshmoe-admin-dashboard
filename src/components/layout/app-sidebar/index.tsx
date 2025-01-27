@@ -77,11 +77,62 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                            </CollapsibleTrigger>
                            <CollapsibleContent>
                               <SidebarMenu>
-                                 {item.items.map((each: any) => (
-                                    <SidebarMenuItem key={uuidv4()}>
-                                       <CMenuButton item={each} />
-                                    </SidebarMenuItem>
-                                 ))}
+                                 {item.items.map((each: any) => {
+                                    if (each.items) {
+                                       return (
+                                          <Collapsible
+                                             key={uuidv4()}
+                                             title={each.title}
+                                             className='group/collapsible-2 list-none'>
+                                             <CollapsibleTrigger asChild>
+                                                <SidebarMenuItem>
+                                                   <SidebarMenuButton
+                                                      className={cn(
+                                                         'p-3 h-auto hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary mb-1',
+                                                         pathname.includes(
+                                                            each.src
+                                                         ) &&
+                                                            'bg-c-active-bg text-primary'
+                                                      )}
+                                                      asChild>
+                                                      <div className=''>
+                                                         {each.icon && (
+                                                            <div className='shrink-0'>
+                                                               <each.icon />
+                                                            </div>
+                                                         )}
+                                                         <span className='text-base'>
+                                                            {each.title}
+                                                         </span>
+                                                         <ChevronRight className='ml-auto transition-transform group-data-[state=open]/collapsible-2:rotate-90' />
+                                                      </div>
+                                                   </SidebarMenuButton>
+                                                </SidebarMenuItem>
+                                             </CollapsibleTrigger>
+                                             <CollapsibleContent>
+                                                <SidebarMenu>
+                                                   {each.items.map(
+                                                      (nestedEach: any) => (
+                                                         <SidebarMenuItem
+                                                            key={uuidv4()}>
+                                                            <CMenuButton
+                                                               item={nestedEach}
+                                                            />
+                                                         </SidebarMenuItem>
+                                                      )
+                                                   )}
+                                                </SidebarMenu>
+                                             </CollapsibleContent>
+                                          </Collapsible>
+                                       );
+                                    } else {
+                                       return (
+                                          <SidebarMenuItem key={uuidv4()}>
+                                             <CMenuButton item={each} />
+                                          </SidebarMenuItem>
+                                       );
+                                    }
+                                 })}
                               </SidebarMenu>
                            </CollapsibleContent>
                         </Collapsible>

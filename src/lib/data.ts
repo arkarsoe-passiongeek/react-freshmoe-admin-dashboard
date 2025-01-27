@@ -41,7 +41,14 @@ export const getSidebarData = (routes: Routes) => {
             {
                title: 'Home',
                icon: LuDot,
-               url: routes.contentHome(),
+               src: 'home',
+               items: [
+                  {
+                     title: 'Section 1',
+                     icon: LuDot,
+                     url: routes.content({ search: '?page=home&section=1' }),
+                  },
+               ],
             },
          ],
       },
@@ -131,11 +138,11 @@ const getPageHeaders = () => {
    };
 
    // Content & Image - Home
-   pageHeaders[`${routes.contentHome()}`] = {
+   pageHeaders[`${routes.content()}`] = {
       header: 'Home',
       links: [
          { value: 'Content & Image', current: false },
-         { value: 'Home', path: () => routes.contentHome(), current: true },
+         { value: 'Home', path: () => routes.content(), current: true },
       ],
    };
 

@@ -7,8 +7,8 @@ type DeleteConfirmDialogProps = {
    setIsDeleteModalOpen: (isOpen: boolean) => void;
    handleDelete: () => void;
    isDeleting?: boolean;
-   data?: {
-      name?: string;
+   data: {
+      name: string;
    } | null;
    src?: string;
 };

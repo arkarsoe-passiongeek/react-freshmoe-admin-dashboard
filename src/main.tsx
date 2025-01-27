@@ -8,7 +8,10 @@ import LanguageHandler from './components/layout/language-handler.tsx';
 import NotFound from './components/layout/not-found.tsx';
 import RedirectPage from './components/layout/redirect-page.tsx';
 import Unauthorized from './features/auth/unauthorized.tsx';
-import HomePage from './features/content-and-image/home.tsx';
+import {
+   default as ContentPage,
+   default as HomePage,
+} from './features/content-and-image/content-page.tsx';
 import Dashboard from './features/dashboard/dashboard.tsx';
 import MaintenancePage from './features/maintenance/maintenance-page.tsx';
 import LayerCreatePage from './features/service-parameter/layer/layer-create-page.tsx';
@@ -57,6 +60,7 @@ createRoot(document.getElementById('root')!).render(
                         path='service-parameter/service-area/:id/edit-service-area'
                         element={<ServiceAreaEditPage />}
                      />
+                     <Route path='content-image' element={<ContentPage />} />
                      {/*
               <Route
                 path="service-parameter/layer-priority"

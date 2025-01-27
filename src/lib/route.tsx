@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 // Define the Routes interface
 export interface Routes {
-   contentHome: () => string;
+   content: (payload?: { search?: string }) => string;
    dashboard: () => string;
    maintenance: () => string;
    layer: () => string;
@@ -24,6 +24,7 @@ export interface Routes {
    changePassword: () => string;
 }
 
+// Interface for the GetRoutes function props
 interface GetRoutesProps {
    locale?: string;
 }
@@ -34,44 +35,54 @@ export const getRoutes = (props: GetRoutesProps): Routes => {
    if (props && props.locale) currentLocale = `/${props.locale}`;
 
    return {
-      contentHome: () => `${currentLocale}/content-image/home`,
-      dashboard: () => `${currentLocale}/`,
-      maintenance: () => `${currentLocale}/maintenance`,
-      layer: () => `${currentLocale}/service-parameter/layer`,
-      layerCreate: () =>
+      // content: (): string => `${currentLocale}/content-image`,
+      content: (payload?: { search?: string }): string => {
+         const pathname = `${currentLocale}/content-image`;
+         return payload && payload.search
+            ? `${pathname}${payload.search}`
+            : pathname;
+      },
+      dashboard: (): string => `${currentLocale}/`,
+      maintenance: (): string => `${currentLocale}/maintenance`,
+      layer: (): string => `${currentLocale}/service-parameter/layer`,
+      layerCreate: (): string =>
          `${currentLocale}/service-parameter/layer/create-layer`,
-      layerEdit: (id: string) =>
+      layerEdit: (id: string): string =>
          `${currentLocale}/service-parameter/layer${
             id ? '/' + id : ''
          }/edit-layer`,
-      priority: () => `${currentLocale}/service-parameter/priority`,
-      priorityCreate: () =>
+      priority: (): string => `${currentLocale}/service-parameter/priority`,
+      priorityCreate: (): string =>
          `${currentLocale}/service-parameter/priority/create-priority`,
-      priorityEdit: (id: string) =>
+      priorityEdit: (id: string): string =>
          `${currentLocale}/service-parameter/priority${
             id ? '/' + id : ''
          }/edit-priority`,
-      layerPriority: () => `${currentLocale}/service-parameter/layer-priority`,
-      layerPriorityCreate: () =>
+      layerPriority: (): string =>
+         `${currentLocale}/service-parameter/layer-priority`,
+      layerPriorityCreate: (): string =>
          `${currentLocale}/service-parameter/layer-priority/create-layer-priority`,
-      layerPriorityEdit: (id: string) =>
+      layerPriorityEdit: (id: string): string =>
          `${currentLocale}/service-parameter/layer-priority${
             id ? '/' + id : ''
          }/edit-layer-priority`,
-      serviceArea: payload => {
+      serviceArea: (payload?: { search?: string }): string => {
          const pathname = `${currentLocale}/service-parameter/service-area`;
-         return payload ? `${pathname}${payload.search}` : pathname;
+         return payload && payload.search
+            ? `${pathname}${payload.search}`
+            : pathname;
       },
-      serviceAreaCreate: () =>
+      serviceAreaCreate: (): string =>
          `${currentLocale}/service-parameter/service-area/create-service-area`,
-      serviceAreaEdit: (id: string) =>
+      serviceAreaEdit: (id: string): string =>
          `${currentLocale}/service-parameter/service-area${
             id ? '/' + id : ''
          }/edit-service-area`,
-      paths: () => `${currentLocale}/service-parameter/layer-priority/paths`,
-      unauthorized: () => `${currentLocale}/auth/unauthorized`,
-      profile: () => `${currentLocale}/profile-management/profile`,
-      changePassword: () =>
+      paths: (): string =>
+         `${currentLocale}/service-parameter/layer-priority/paths`,
+      unauthorized: (): string => `${currentLocale}/auth/unauthorized`,
+      profile: (): string => `${currentLocale}/profile-management/profile`,
+      changePassword: (): string =>
          `${currentLocale}/profile-management/change-password`,
    };
 };
