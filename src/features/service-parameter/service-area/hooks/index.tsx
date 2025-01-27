@@ -156,7 +156,7 @@ export const useServiceArea = (): UseServiceAreaReturn => {
                return (
                   <Button variant='link' className='px-0' asChild>
                      <Link
-                        className='text-c-black'
+                        className=''
                         to={{
                            pathname: routes.serviceArea(),
                            search: `?parentId=${row.original.id}`,
