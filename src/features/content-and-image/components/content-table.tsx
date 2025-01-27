@@ -2,6 +2,7 @@ import ListEmpty from '@/assets/images/list-empty.png';
 import CInput from '@/components/custom/c-input';
 import DeleteConfirmDialog from '@/components/layout/dialogs/delete-confirm-dialog';
 import CreateDrawer from '@/components/layout/drawers/create-drawer';
+import ViewDrawer from '@/components/layout/drawers/view-drawer';
 import Loading from '@/components/layout/loading';
 import { DataTable } from '@/components/layout/table/data-table';
 import { DataTablePagination } from '@/components/layout/table/data-table-pagination';
@@ -12,6 +13,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { X } from 'lucide-react';
 import { useContent } from '../hooks';
 import ContentCreateForm from './content-create-form';
+import { ContentView } from './content-view';
 
 const ContentTable: React.FC = () => {
    const src = 'content';
@@ -29,6 +31,8 @@ const ContentTable: React.FC = () => {
       contentsQuery,
       createDrawerOpen,
       setCreateDrawerOpen,
+      viewDrawerOpen,
+      setViewDrawerOpen,
    } = useContent({ searchParams });
 
    if (contentsQuery.isLoading) {
@@ -118,6 +122,14 @@ const ContentTable: React.FC = () => {
                }}
             />
          </CreateDrawer>
+         {currentData && (
+            <ViewDrawer
+            title='Detail'
+            open={viewDrawerOpen}
+            setOpen={setViewDrawerOpen}>
+            <ContentView contentId={String(currentData.id)} />
+         </ViewDrawer>
+         )}
       </div>
    );
 };

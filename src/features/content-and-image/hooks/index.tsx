@@ -1,5 +1,4 @@
 import CButton from '@/components/custom/c-button';
-import CLink from '@/components/custom/c-link';
 import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
 import { Content, DeleteContent } from '@/types';
@@ -22,6 +21,8 @@ interface UseContentReturn {
    setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
    createDrawerOpen: boolean;
    setCreateDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   viewDrawerOpen: boolean;
+   setViewDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
    currentData: Content | null;
    setCurrentData: React.Dispatch<React.SetStateAction<Content | null>>;
    handleDeleteButtonClick: (data: Content) => void;
@@ -39,7 +40,7 @@ interface UseContentReturn {
 // Action buttons component with types
 interface ActionButtonsProps {
    row: Row<Content>;
-   getEditButton: (id: string) => JSX.Element;
+   getEditButton: (data: Content) => JSX.Element;
    getDeleteButton: (data: Content) => JSX.Element;
 }
 
@@ -49,7 +50,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
    getDeleteButton,
 }) => (
    <div className='flex gap-2'>
-      {getEditButton(String(row.original.id))}
+      {getEditButton(row.original)}
       {getDeleteButton(row.original)}
    </div>
 );
@@ -58,6 +59,7 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    const routes = useLinkRoutes();
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
    const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
+   const [viewDrawerOpen, setViewDrawerOpen] = useState(false);
    const [currentData, setCurrentData] = useState<Content | null>(null);
 
    const contentsQuery = useContents({
@@ -107,10 +109,16 @@ export const useContent = ({ searchParams }): UseContentReturn => {
       </CButton>
    );
 
-   const getEditButton = (id: string) => (
-      <CLink size='xs' styleType='create' to={routes.layerEdit(id)}>
-         Edit
-      </CLink>
+   const getEditButton = (data: Content) => (
+      <CButton
+         size='xs'
+         onClick={() => {
+            setCurrentData(data);
+            setViewDrawerOpen(true);
+         }}
+         styleType='create'>
+         Detail
+      </CButton>
    );
 
    const getDeleteButton = (data: Content) => (
@@ -165,6 +173,8 @@ export const useContent = ({ searchParams }): UseContentReturn => {
       setCreateDrawerOpen,
       isDeleteModalOpen,
       setIsDeleteModalOpen,
+      viewDrawerOpen,
+      setViewDrawerOpen,
       currentData,
       columns,
       setCurrentData,
