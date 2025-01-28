@@ -1,6 +1,7 @@
 import CButton from '@/components/custom/c-button';
 import CLink from '@/components/custom/c-link';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import useSearchParams from '@/hooks/use-search-params';
 import { Link } from '@/i18n/routing';
 import { API_ROUTES } from '@/lib/constants';
@@ -46,16 +47,19 @@ interface ActionButtonsProps {
    row: Row<ServiceArea>;
    getEditButton: (id: string) => JSX.Element;
    getDeleteButton: (data: ServiceArea) => JSX.Element;
+   getSwitch: (data: ServiceArea) => JSX.Element;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
    row,
    getEditButton,
    getDeleteButton,
+   getSwitch,
 }) => (
-   <div className='flex gap-2'>
+   <div className='flex gap-2 items-center'>
       {getEditButton(String(row.original.id))}
       {getDeleteButton(row.original)}
+      {getSwitch(row.original)}
    </div>
 );
 
@@ -144,9 +148,22 @@ export const useServiceArea = (): UseServiceAreaReturn => {
       </CButton>
    );
 
+   const getSwitch = (data: ServiceArea) => {
+      return (
+         <Switch
+            // title='Switch to set as final child'
+            defaultChecked={false}
+            id={'switch'}
+            onCheckedChange={value => console.log(value)}
+            className='h-5 w-8 [&_span]:size-4 [&_span]:data-[state=checked]:translate-x-3 rtl:[&_span]:data-[state=checked]:-translate-x-3'
+         />
+      );
+   };
+
    const getColumns = (
       getEditButton: (id: string) => JSX.Element,
-      getDeleteButton: (data: ServiceArea) => JSX.Element
+      getDeleteButton: (data: ServiceArea) => JSX.Element,
+      getSwitch: (data: ServiceArea) => JSX.Element
    ): ColumnDef<ServiceArea>[] => {
       return [
          {
@@ -180,6 +197,7 @@ export const useServiceArea = (): UseServiceAreaReturn => {
             cell: ({ row }) => (
                <ActionButtons
                   row={row}
+                  getSwitch={getSwitch}
                   getEditButton={getEditButton}
                   getDeleteButton={getDeleteButton}
                />
@@ -188,7 +206,7 @@ export const useServiceArea = (): UseServiceAreaReturn => {
       ];
    };
 
-   const columns = getColumns(getEditButton, getDeleteButton);
+   const columns = getColumns(getEditButton, getDeleteButton, getSwitch);
 
    const table = useReactTable<any>({
       data: data ?? [],
