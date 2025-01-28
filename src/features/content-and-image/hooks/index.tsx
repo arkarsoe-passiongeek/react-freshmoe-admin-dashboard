@@ -21,6 +21,8 @@ interface UseContentReturn {
    setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
    createDrawerOpen: boolean;
    setCreateDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   updateDrawerOpen: boolean;
+   setUpdateDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
    viewDrawerOpen: boolean;
    setViewDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
    currentData: Content | null;
@@ -40,16 +42,19 @@ interface UseContentReturn {
 // Action buttons component with types
 interface ActionButtonsProps {
    row: Row<Content>;
+   getDetailButton: (data: Content) => JSX.Element;
    getEditButton: (data: Content) => JSX.Element;
    getDeleteButton: (data: Content) => JSX.Element;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
    row,
+   getDetailButton,
    getEditButton,
    getDeleteButton,
 }) => (
    <div className='flex gap-2'>
+      {getDetailButton(row.original)}
       {getEditButton(row.original)}
       {getDeleteButton(row.original)}
    </div>
@@ -59,6 +64,7 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    const routes = useLinkRoutes();
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
    const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
+   const [updateDrawerOpen, setUpdateDrawerOpen] = useState(false);
    const [viewDrawerOpen, setViewDrawerOpen] = useState(false);
    const [currentData, setCurrentData] = useState<Content | null>(null);
 
@@ -114,6 +120,18 @@ export const useContent = ({ searchParams }): UseContentReturn => {
          size='xs'
          onClick={() => {
             setCurrentData(data);
+            setUpdateDrawerOpen(true);
+         }}
+         styleType='create'>
+         Edit
+      </CButton>
+   );
+
+   const getDetailButton = (data: Content) => (
+      <CButton
+         size='xs'
+         onClick={() => {
+            setCurrentData(data);
             setViewDrawerOpen(true);
          }}
          styleType='create'>
@@ -131,7 +149,8 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    );
 
    const getColumns = (
-      getEditButton: (id: string) => JSX.Element,
+      getDetailButton: (data: Content) => JSX.Element,
+      getEditButton: (data: Content) => JSX.Element,
       getDeleteButton: (data: Content) => JSX.Element
    ): ColumnDef<Content>[] => {
       return [
@@ -149,6 +168,7 @@ export const useContent = ({ searchParams }): UseContentReturn => {
             cell: ({ row }) => (
                <ActionButtons
                   row={row}
+                  getDetailButton={getDetailButton}
                   getEditButton={getEditButton}
                   getDeleteButton={getDeleteButton}
                />
@@ -157,7 +177,7 @@ export const useContent = ({ searchParams }): UseContentReturn => {
       ];
    };
 
-   const columns = getColumns(getEditButton, getDeleteButton);
+   const columns = getColumns(getDetailButton, getEditButton, getDeleteButton);
 
    const table = useReactTable<any>({
       data: contentsQuery.data?.data ?? [],
@@ -169,6 +189,8 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    });
 
    return {
+      updateDrawerOpen,
+      setUpdateDrawerOpen,
       createDrawerOpen,
       setCreateDrawerOpen,
       isDeleteModalOpen,

@@ -2,6 +2,7 @@ import CButton from '@/components/custom/c-button';
 import CFormLabel from '@/components/custom/c-form-label';
 import CImageDropZone from '@/components/custom/c-image-dropzone';
 import CInput from '@/components/custom/c-input';
+import Loading from '@/components/layout/loading';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
    Form,
@@ -13,31 +14,46 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import useSearchParams from '@/hooks/use-search-params';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
+import { useContent } from '../api/get-content';
 import {
    updateContentInputSchema,
    useUpdateContent,
 } from '../api/update-content';
-import { useContent } from '../hooks';
 
 // Type inference for the form schema
 type ContentFormSchema = z.infer<typeof updateContentInputSchema>;
 
 // Props type for the component
-interface ContentCreateFormProps {
+interface ContentUpdateFormProps {
    onCreateSuccess: () => void;
 }
 
-export default function ContentCreateForm({
-   onCreateSuccess,
-}: Readonly<ContentCreateFormProps>) {
+export default function ContentUpdateForm({
+   contentId,
+   page,
+   section,
+   onUpdateSuccess,
+}: {
+   contentId: string;
+   page: string;
+   section: string;
+   onUpdateSuccess: () => void;
+}) {
    const searchParams = useSearchParams();
-   const contentQuery = useContent({ id: searchParams.get('contentId') });
+
+   const contentQuery = useContent({
+      contentId: contentId ?? '',
+      page: page ?? '',
+      section: section ?? '',
+   });
+
    const updateContentMutation = useUpdateContent({
       mutationConfig: {
          onSuccess: () => {
-            console.log('update success');
+            onUpdateSuccess();
          },
       },
    });
@@ -48,15 +64,15 @@ export default function ContentCreateForm({
    const form: UseFormReturn<ContentFormSchema> = useForm<ContentFormSchema>({
       resolver: zodResolver(updateContentInputSchema),
       defaultValues: {
-         title: '', // Default empty title
-         description: '', // Default empty description
+         title: content?.title ?? '', // Default empty title
+         description: content?.description ?? '', // Default empty description
          image: null as unknown as File, // Placeholder for a file (requires actual file input during usage)
       },
    });
 
    // Submit handler
    async function onSubmit({ check, ...values }: Partial<ContentFormSchema>) {
-      updatecontent.mutate({
+      updateContentMutation.mutate({
          data: {
             ...values,
             page: searchParams.get('page'),
@@ -64,6 +80,19 @@ export default function ContentCreateForm({
          },
       });
    }
+
+   useEffect(() => {
+      form.reset({
+         title: content?.title ?? '', // Default empty title
+         description: content?.description ?? '', // Default empty description
+      });
+   }, [contentQuery.isSuccess]);
+
+   if (contentQuery.isLoading) {
+      return <Loading />;
+   }
+
+   if (!content) return null;
 
    return (
       <Form {...form}>
@@ -98,7 +127,11 @@ export default function ContentCreateForm({
                         <FormItem>
                            <CFormLabel className='!text-black'>Name</CFormLabel>
                            <FormControl>
-                              <CInput.Base placeholder='Name' {...field} />
+                              <CInput.Base
+                                 placeholder='Name'
+                                 {...field}
+                                 value={field.value}
+                              />
                            </FormControl>
                            <FormMessage />
                         </FormItem>
@@ -117,6 +150,7 @@ export default function ContentCreateForm({
                                  placeholder='Tell us a little bit about yourself'
                                  className='resize-none'
                                  {...field}
+                                 value={field.value}
                               />
                            </FormControl>
                            <FormMessage />
@@ -142,7 +176,7 @@ export default function ContentCreateForm({
                               <div className='space-y-1 leading-none'>
                                  <CFormLabel className='text-sm text-c-contrast font-light'>
                                     Are you sure you want to{' '}
-                                    <span className='text-primary'>Create</span>{' '}
+                                    <span className='text-primary'>Edit</span>{' '}
                                     it?
                                  </CFormLabel>
                               </div>
@@ -162,10 +196,10 @@ export default function ContentCreateForm({
                      </CButton>
                      <CButton
                         size='md'
-                        loading={createContentMutation.isPending}
+                        loading={updateContentMutation.isPending}
                         styleType='create'
                         type='submit'>
-                        Create
+                        Update
                      </CButton>
                   </div>
                </div>

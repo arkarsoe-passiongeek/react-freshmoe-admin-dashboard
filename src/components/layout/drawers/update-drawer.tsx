@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/drawer';
 import React, { ReactNode } from 'react';
 
-// Props interface for the CreateDrawer component
-interface CreateDrawerProps {
+// Props interface for the UpdateDrawer component
+interface UpdateDrawerProps {
    children: ReactNode; // The content inside the drawer
    open: boolean; // Whether the drawer is open or not
    setOpen: (open: boolean) => void; // Function to toggle the drawer state
@@ -18,7 +18,7 @@ interface CreateDrawerProps {
    description: string;
 }
 
-const CreateDrawer: React.FC<CreateDrawerProps> = ({
+const UpdateDrawer: React.FC<UpdateDrawerProps> = ({
    children,
    open,
    setOpen,
@@ -28,7 +28,9 @@ const CreateDrawer: React.FC<CreateDrawerProps> = ({
 }) => {
    return (
       <Drawer open={open} onOpenChange={setOpen}>
-         <DrawerContent className='min-w-[450px] p-5'>
+         <DrawerContent
+            aria-describedby={title ?? 'update'}
+            className='min-w-[450px] p-5'>
             <DrawerHeader className='text-left p-0 pb-7'>
                <DrawerTitle>{title}</DrawerTitle>
                <DrawerDescription className='hidden'>
@@ -42,4 +44,4 @@ const CreateDrawer: React.FC<CreateDrawerProps> = ({
    );
 };
 
-export default CreateDrawer;
+export default UpdateDrawer;

@@ -1,6 +1,7 @@
 import {
    Drawer,
    DrawerContent,
+   DrawerDescription,
    DrawerFooter,
    DrawerHeader,
    DrawerTitle,
@@ -14,6 +15,7 @@ interface ViewDrawerProps {
    setOpen: (open: boolean) => void; // Function to toggle the drawer state
    footer?: ReactNode;
    title: string; // Title displayed in the drawer
+   description: string;
 }
 
 const ViewDrawer: React.FC<ViewDrawerProps> = ({
@@ -22,12 +24,18 @@ const ViewDrawer: React.FC<ViewDrawerProps> = ({
    setOpen,
    footer,
    title,
+   description,
 }) => {
    return (
       <Drawer open={open} onOpenChange={setOpen}>
-         <DrawerContent className='min-w-[450px] p-5'>
+         <DrawerContent
+            aria-describedby={title ?? 'view'}
+            className='min-w-[450px] p-5'>
             <DrawerHeader className='text-left p-0 pb-7'>
                <DrawerTitle>{title}</DrawerTitle>
+               <DrawerDescription className='hidden'>
+                  {description}
+               </DrawerDescription>
             </DrawerHeader>
             {children}
             {footer && <DrawerFooter className='pt-2'>{footer}</DrawerFooter>}

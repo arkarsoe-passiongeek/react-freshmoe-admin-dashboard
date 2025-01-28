@@ -2,6 +2,7 @@ import ListEmpty from '@/assets/images/list-empty.png';
 import CInput from '@/components/custom/c-input';
 import DeleteConfirmDialog from '@/components/layout/dialogs/delete-confirm-dialog';
 import CreateDrawer from '@/components/layout/drawers/create-drawer';
+import UpdateDrawer from '@/components/layout/drawers/update-drawer';
 import ViewDrawer from '@/components/layout/drawers/view-drawer';
 import Loading from '@/components/layout/loading';
 import { DataTable } from '@/components/layout/table/data-table';
@@ -13,6 +14,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { X } from 'lucide-react';
 import { useContent } from '../hooks';
 import ContentCreateForm from './content-create-form';
+import ContentUpdateForm from './content-edit-form';
 import { ContentView } from './content-view';
 
 const ContentTable: React.FC = () => {
@@ -31,6 +33,8 @@ const ContentTable: React.FC = () => {
       contentsQuery,
       createDrawerOpen,
       setCreateDrawerOpen,
+      updateDrawerOpen,
+      setUpdateDrawerOpen,
       viewDrawerOpen,
       setViewDrawerOpen,
    } = useContent({ searchParams });
@@ -122,18 +126,29 @@ const ContentTable: React.FC = () => {
                }}
             />
          </CreateDrawer>
-         {currentData && (
-            <ViewDrawer
-               title='Detail'
-               open={viewDrawerOpen}
-               setOpen={setViewDrawerOpen}>
-               <ContentView
-                  contentId={String(currentData.id)}
-                  page={searchParams.get('page') ?? ''}
-                  section={searchParams.get('section') ?? ''}
-               />
-            </ViewDrawer>
-         )}
+         <UpdateDrawer
+            title='Update'
+            open={updateDrawerOpen}
+            setOpen={setUpdateDrawerOpen}>
+            <ContentUpdateForm
+               contentId={String(currentData?.id ?? contents[0].id)}
+               page={searchParams.get('page') ?? ''}
+               section={searchParams.get('section') ?? ''}
+               onUpdateSuccess={() => {
+                  setUpdateDrawerOpen(false);
+               }}
+            />
+         </UpdateDrawer>
+         <ViewDrawer
+            title='Detail'
+            open={viewDrawerOpen}
+            setOpen={setViewDrawerOpen}>
+            <ContentView
+               contentId={String(currentData?.id ?? contents[0].id)}
+               page={searchParams.get('page') ?? ''}
+               section={searchParams.get('section') ?? ''}
+            />
+         </ViewDrawer>
       </div>
    );
 };
