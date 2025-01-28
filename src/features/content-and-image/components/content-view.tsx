@@ -25,10 +25,14 @@ export const ContentView = ({
    if (!content) return null;
 
    return (
-      <div>
+      <div className='space-y-7 max-w-[500px]'>
          <div>
-            <h3>Title</h3>
-            <p>{content.title}</p>
+            <h3 className='text-base text-c-black font-medium'>Title</h3>
+            <p className='text-base text-c-contrast'>{content.title}</p>
+         </div>
+         <div>
+            <h3 className='text-base text-c-black font-medium'>Description</h3>
+            <p className='text-base text-c-contrast'>{content.description}</p>
          </div>
       </div>
    );
