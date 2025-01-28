@@ -24,7 +24,10 @@ export const updateContent = ({
    data: UpdateContentInput;
    id: string;
 }): Promise<Content> => {
-   return MAIN_SERVICE.post(`/contents/${id}`, data);
+   return MAIN_SERVICE.post(
+      `/contents/${id}?page=${data.page}&section=${data.section}`,
+      data
+   );
 };
 
 type UseUpdateContentOptions = {

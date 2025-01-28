@@ -1,14 +1,21 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
+
+function authRequestInterceptor(config: InternalAxiosRequestConfig) {
+   if (config.headers) {
+      config.headers.Accept = 'application/json';
+   }
+
+   config.withCredentials = true;
+   return config;
+}
 
 // axios instance
 export const MAIN_SERVICE: AxiosInstance = axios.create({
    baseURL: `${import.meta.env.VITE_PUBLIC_APP_BASE_URL}/api/v1`,
-   withCredentials: true,
-   headers: {
-      'Content-Type': 'application/json',
-   },
 });
+
+MAIN_SERVICE.interceptors.request.use(authRequestInterceptor);
 
 // axios interceptor - request
 MAIN_SERVICE.interceptors.request.use(

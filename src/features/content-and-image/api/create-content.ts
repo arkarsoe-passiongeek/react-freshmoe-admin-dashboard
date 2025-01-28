@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { MutationConfig } from '@/lib/react-query';
+import { generateFormdata } from '@/lib/utils';
 import { MAIN_SERVICE } from '@/services/apis';
 import { Content } from '@/types';
 import { getContentsQueryOptions } from '.';
@@ -22,7 +23,13 @@ export const createContent = ({
 }: {
    data: CreateContentInput;
 }): Promise<Content> => {
-   return MAIN_SERVICE.post(`/contents`, data);
+   return MAIN_SERVICE.post(
+      `/contents?page=${data.page}&section=${data.section}`,
+      generateFormdata(data),
+      {
+         headers: { Accept: 'application/form-data' },
+      }
+   );
 };
 
 type UseCreateContentOptions = {
