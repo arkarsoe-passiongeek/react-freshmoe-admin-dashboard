@@ -26,7 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
    const [navLinks, setNavLinks] = React.useState([]);
    const routes = useLinkRoutes();
    const data = getSidebarData(routes);
-   const { pathname } = useLocation();
+   const { pathname, search } = useLocation();
 
    React.useEffect(() => {
       setNavLinks(data as any);
@@ -57,7 +57,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                  <SidebarMenuButton
                                     className={cn(
                                        'p-3 h-auto hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary mb-1',
-                                       pathname.includes(item.src) &&
+                                       (pathname.includes(item.src) ||
+                                          search.includes(item.src)) &&
                                           'bg-c-active-bg text-primary'
                                     )}
                                     asChild>
@@ -89,9 +90,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                    <SidebarMenuButton
                                                       className={cn(
                                                          'p-3 h-auto hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary mb-1',
-                                                         pathname.includes(
+                                                         (pathname.includes(
                                                             each.src
-                                                         ) &&
+                                                         ) ||
+                                                            search.includes(
+                                                               each.src
+                                                            )) &&
                                                             'bg-c-active-bg text-primary'
                                                       )}
                                                       asChild>

@@ -17,7 +17,7 @@ type CMenuButtonProps = {
 };
 
 const CMenuButton: React.FC<CMenuButtonProps> = ({ item }) => {
-   const { pathname } = useLocation();
+   const { pathname, search } = useLocation();
    const url =
       typeof item.url === 'string' ? item.url : item.url.pathname ?? '';
 
@@ -26,7 +26,11 @@ const CMenuButton: React.FC<CMenuButtonProps> = ({ item }) => {
          asChild
          isActive={pathname === url}
          className={`h-auto p-0 ${
-            pathname === url ? '!bg-c-button-bg !text-primary' : ''
+            pathname === url ||
+            pathname.includes(item.src) ||
+            search.includes(item.src)
+               ? '!bg-c-button-bg !text-primary'
+               : ''
          } hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary`}>
          <div>
             <Link

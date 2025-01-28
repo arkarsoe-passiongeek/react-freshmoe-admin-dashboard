@@ -1,12 +1,5 @@
-import {
-   Drawer,
-   DrawerContent,
-   DrawerDescription,
-   DrawerFooter,
-   DrawerHeader,
-   DrawerTitle,
-} from '@/components/ui/drawer';
 import React, { ReactNode } from 'react';
+import BaseDrawer from './base-drawer';
 
 // Props interface for the CreateDrawer component
 interface CreateDrawerProps {
@@ -18,28 +11,8 @@ interface CreateDrawerProps {
    description: string;
 }
 
-const CreateDrawer: React.FC<CreateDrawerProps> = ({
-   children,
-   open,
-   setOpen,
-   footer,
-   title,
-   description,
-}) => {
-   return (
-      <Drawer open={open} onOpenChange={setOpen}>
-         <DrawerContent className='min-w-[450px] p-5'>
-            <DrawerHeader className='text-left p-0 pb-7'>
-               <DrawerTitle>{title}</DrawerTitle>
-               <DrawerDescription className='hidden'>
-                  {description}
-               </DrawerDescription>
-            </DrawerHeader>
-            {children}
-            {footer && <DrawerFooter className='pt-2'>{footer}</DrawerFooter>}
-         </DrawerContent>
-      </Drawer>
-   );
+const CreateDrawer: React.FC<CreateDrawerProps> = props => {
+   return <BaseDrawer {...props} />;
 };
 
 export default CreateDrawer;

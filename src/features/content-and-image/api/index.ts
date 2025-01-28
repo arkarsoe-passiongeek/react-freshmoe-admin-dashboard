@@ -9,15 +9,17 @@ export const getContents = async (
 ): Promise<{
    data: Content[];
 }> => {
-   return (await MAIN_SERVICE.get(`/contents?page=home&section=1`)).data;
+   return (await MAIN_SERVICE.get(`/contents?page=${page}&section=${section}`))
+      .data;
 };
 
 export const getContentsQueryOptions = ({
    page,
    section,
 }: { page?: string; section?: string } = {}) => {
+   console.log(page, section, 'testing');
    return queryOptions({
-      queryKey: page ? ['contents', { page }] : ['contents'],
+      queryKey: page ? ['contents', page, section] : ['contents'],
       queryFn: () => getContents(page, section),
    });
 };

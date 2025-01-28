@@ -118,6 +118,7 @@ const ContentTable: React.FC = () => {
          />
          <CreateDrawer
             title='Create'
+            description='Create Content'
             open={createDrawerOpen}
             setOpen={setCreateDrawerOpen}>
             <ContentCreateForm
@@ -128,6 +129,7 @@ const ContentTable: React.FC = () => {
          </CreateDrawer>
          <UpdateDrawer
             title='Update'
+            description='Update Content'
             open={updateDrawerOpen}
             setOpen={setUpdateDrawerOpen}>
             <ContentUpdateForm
@@ -141,6 +143,7 @@ const ContentTable: React.FC = () => {
          </UpdateDrawer>
          <ViewDrawer
             title='Detail'
+            description='Content Detail'
             open={viewDrawerOpen}
             setOpen={setViewDrawerOpen}>
             <ContentView

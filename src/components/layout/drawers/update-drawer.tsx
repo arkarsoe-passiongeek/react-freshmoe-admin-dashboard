@@ -1,12 +1,5 @@
-import {
-   Drawer,
-   DrawerContent,
-   DrawerDescription,
-   DrawerFooter,
-   DrawerHeader,
-   DrawerTitle,
-} from '@/components/ui/drawer';
 import React, { ReactNode } from 'react';
+import BaseDrawer from './base-drawer';
 
 // Props interface for the UpdateDrawer component
 interface UpdateDrawerProps {
@@ -18,30 +11,8 @@ interface UpdateDrawerProps {
    description: string;
 }
 
-const UpdateDrawer: React.FC<UpdateDrawerProps> = ({
-   children,
-   open,
-   setOpen,
-   footer,
-   title,
-   description,
-}) => {
-   return (
-      <Drawer open={open} onOpenChange={setOpen}>
-         <DrawerContent
-            aria-describedby={title ?? 'update'}
-            className='min-w-[450px] p-5'>
-            <DrawerHeader className='text-left p-0 pb-7'>
-               <DrawerTitle>{title}</DrawerTitle>
-               <DrawerDescription className='hidden'>
-                  {description}
-               </DrawerDescription>
-            </DrawerHeader>
-            {children}
-            {footer && <DrawerFooter className='pt-2'>{footer}</DrawerFooter>}
-         </DrawerContent>
-      </Drawer>
-   );
+const UpdateDrawer: React.FC<UpdateDrawerProps> = props => {
+   return <BaseDrawer {...props} />;
 };
 
 export default UpdateDrawer;

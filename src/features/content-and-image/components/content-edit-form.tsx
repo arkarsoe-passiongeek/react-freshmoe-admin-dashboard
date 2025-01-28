@@ -78,6 +78,7 @@ export default function ContentUpdateForm({
             page: searchParams.get('page'),
             section: searchParams.get('section'),
          },
+         id: contentId,
       });
    }
 

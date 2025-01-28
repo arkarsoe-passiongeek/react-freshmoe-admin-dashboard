@@ -24,7 +24,7 @@ export const updateContent = ({
    data: UpdateContentInput;
    id: string;
 }): Promise<Content> => {
-   return MAIN_SERVICE.patch(`/contents/${id}`, data);
+   return MAIN_SERVICE.post(`/contents/${id}`, data);
 };
 
 type UseUpdateContentOptions = {

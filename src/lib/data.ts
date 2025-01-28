@@ -36,7 +36,7 @@ export const getSidebarData = (routes: Routes) => {
          title: 'Content & Image',
          icon: IconHamburger,
          src: 'content-image',
-         url: '#2',
+         url: 'contents',
          items: [
             {
                title: 'Home',
@@ -46,7 +46,20 @@ export const getSidebarData = (routes: Routes) => {
                   {
                      title: 'Section 1',
                      icon: LuDot,
+                     src: 'section=1',
                      url: routes.content({ search: '?page=home&section=1' }),
+                  },
+                  {
+                     title: 'Section 2',
+                     icon: LuDot,
+                     src: 'section=2',
+                     url: routes.content({ search: '?page=home&section=2' }),
+                  },
+                  {
+                     title: 'Section 3',
+                     icon: LuDot,
+                     src: 'section=3',
+                     url: routes.content({ search: '?page=home&section=3' }),
                   },
                ],
             },
