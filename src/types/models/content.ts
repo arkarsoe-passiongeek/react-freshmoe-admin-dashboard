@@ -2,7 +2,7 @@ export interface Content {
    id: number;
    title: string;
    description: string;
-   img_url: string;
+   imgUrl: string;
    page: string;
    section: number;
    createdAt: string; // ISO date string

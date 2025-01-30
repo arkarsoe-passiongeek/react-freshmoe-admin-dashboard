@@ -66,20 +66,22 @@ export default function ContentUpdateForm({
       defaultValues: {
          title: content?.title ?? '', // Default empty title
          description: content?.description ?? '', // Default empty description
+         imgUrl: content?.imgUrl,
          image: null as unknown as File, // Placeholder for a file (requires actual file input during usage)
       },
    });
 
    // Submit handler
    async function onSubmit({ check, ...values }: Partial<ContentFormSchema>) {
-      updateContentMutation.mutate({
-         data: {
-            ...values,
-            page: searchParams.get('page'),
-            section: searchParams.get('section'),
-         },
-         id: contentId,
-      });
+      console.log(values);
+      // updateContentMutation.mutate({
+      //    data: {
+      //       ...values,
+      //       page: searchParams.get('page'),
+      //       section: searchParams.get('section'),
+      //    },
+      //    id: contentId,
+      // });
    }
 
    useEffect(() => {
@@ -111,6 +113,7 @@ export default function ContentUpdateForm({
                            <FormControl>
                               <div className='border rounded-xl p-4'>
                                  <CImageDropZone
+                                    onImageDelete={() => field.onChange(null)}
                                     imgUrl={content.imgUrl}
                                     onValueChange={value =>
                                        field.onChange(value)
@@ -139,6 +142,27 @@ export default function ContentUpdateForm({
                         </FormItem>
                      )}
                   />
+                  <div className='hidden'>
+                     <FormField
+                        control={form.control}
+                        name='imgUrl'
+                        render={({ field }) => (
+                           <FormItem>
+                              <CFormLabel className='!text-black'>
+                                 Name
+                              </CFormLabel>
+                              <FormControl>
+                                 <CInput.Base
+                                    placeholder='Name'
+                                    {...field}
+                                    value={field.value}
+                                 />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                  </div>
                   <FormField
                      control={form.control}
                      name='description'

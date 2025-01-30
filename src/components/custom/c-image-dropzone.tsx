@@ -7,11 +7,13 @@ import { Button } from '../ui/button';
 interface CImageDropZoneProps {
    onValueChange: (file: File) => void;
    imgUrl?: string;
+   onImageDelete?: () => void;
 }
 
 export default function CImageDropZone({
    onValueChange,
    imgUrl,
+   onImageDelete,
 }: CImageDropZoneProps) {
    const [prevImage, setPrevImage] = useState(imgUrl);
    const [selectedImage, setSelectedImage] = useState(imgUrl);
@@ -56,6 +58,7 @@ export default function CImageDropZone({
       setDroppable(false);
       setSelectedImage('');
       setPrevImage('');
+      onImageDelete?.();
    };
 
    const handleDragOver = () => {

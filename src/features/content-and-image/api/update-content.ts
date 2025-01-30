@@ -10,13 +10,8 @@ import { getContentsQueryOptions } from '.';
 export const updateContentInputSchema = z.object({
    title: z.string().min(1, 'Title is required'),
    description: z.string().min(1, 'Description is required'),
-   image: z
-      .instanceof(File)
-      .optional()
-      .refine(
-         file => file === undefined || file.size > 0,
-         'Image is required if provided'
-      ),
+   imgUrl: z.any(),
+   image: z.any().optional(),
    check: z.boolean().refine(val => val === true, {
       message: 'check must be true.',
    }),
@@ -31,7 +26,7 @@ export const updateContent = ({
    data: UpdateContentInput;
    id: string;
 }): Promise<Content> => {
-   data.image = null;
+   // data.image = null;
    return MAIN_SERVICE.post(
       `/contents/${id}?page=${data.page}&section=${data.section}`,
       generateFormdata(data)
