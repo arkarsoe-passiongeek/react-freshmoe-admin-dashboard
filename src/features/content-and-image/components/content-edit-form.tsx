@@ -111,6 +111,7 @@ export default function ContentUpdateForm({
                            <FormControl>
                               <div className='border rounded-xl p-4'>
                                  <CImageDropZone
+                                    imgUrl={content.imgUrl}
                                     onValueChange={value =>
                                        field.onChange(value)
                                     }

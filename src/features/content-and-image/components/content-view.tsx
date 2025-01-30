@@ -1,4 +1,5 @@
 import Loading from '@/components/layout/loading';
+import { getImageUrl } from '@/lib/utils';
 import { useContent } from '../api/get-content';
 
 export const ContentView = ({
@@ -26,6 +27,10 @@ export const ContentView = ({
 
    return (
       <div className='space-y-7 max-w-[500px]'>
+         <div>
+            <h3 className='text-base text-c-black font-medium mb-2'>Upload Image</h3>
+            <img className='max-h-[200px] object-cover w-full' src={getImageUrl(content.imgUrl)} alt={content.title} />
+         </div>
          <div>
             <h3 className='text-base text-c-black font-medium'>Title</h3>
             <p className='text-base text-c-contrast'>{content.title}</p>

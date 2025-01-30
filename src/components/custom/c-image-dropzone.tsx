@@ -1,3 +1,4 @@
+import { getImageUrl } from '@/lib/utils';
 import { Cloud, Image } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -5,10 +6,15 @@ import { Button } from '../ui/button';
 
 interface CImageDropZoneProps {
    onValueChange: (file: File) => void;
+   imgUrl?: string;
 }
 
-export default function CImageDropZone({ onValueChange }: CImageDropZoneProps) {
-   const [selectedImage, setSelectedImage] = useState('');
+export default function CImageDropZone({
+   onValueChange,
+   imgUrl,
+}: CImageDropZoneProps) {
+   const [prevImage, setPrevImage] = useState(imgUrl);
+   const [selectedImage, setSelectedImage] = useState(imgUrl);
    const [droppable, setDroppable] = useState(false);
 
    const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer): string => {
@@ -49,6 +55,7 @@ export default function CImageDropZone({ onValueChange }: CImageDropZoneProps) {
       // e.preventDefault()
       setDroppable(false);
       setSelectedImage('');
+      setPrevImage('');
    };
 
    const handleDragOver = () => {
@@ -88,14 +95,24 @@ export default function CImageDropZone({ onValueChange }: CImageDropZoneProps) {
                      <Image />
                   </div>
                )}
+
                {selectedImage && !droppable && (
                   <div className='flex flex-col justify-center items-center h-full'>
                      <div className='space-y-[10px] flex flex-col justify-center items-center'>
-                        <img
-                           className='w-[107px]'
-                           src={`data:image/png;base64,${selectedImage}`}
-                           alt=''
-                        />
+                        {!prevImage && (
+                           <img
+                              className='w-[107px]'
+                              src={`data:image/png;base64,${selectedImage}`}
+                              alt=''
+                           />
+                        )}
+                        {prevImage && (
+                           <img
+                              className='max-h-[200px] object-cover w-full'
+                              src={getImageUrl(prevImage)}
+                              alt='original'
+                           />
+                        )}
                         <div className='flex gap-[10px]'>
                            {/* <Button className='rounded w-[130px] hover:bg-c-hover'>Upload Photo</Button> */}
                            <Button
