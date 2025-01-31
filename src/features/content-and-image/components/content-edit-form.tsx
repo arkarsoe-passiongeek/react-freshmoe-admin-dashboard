@@ -23,6 +23,7 @@ import {
    updateContentInputSchema,
    useUpdateContent,
 } from '../api/update-content';
+import { isDescriptionExist, isImage2Exist, isImageExist, isTitleExist } from '../utils';
 
 // Type inference for the form schema
 type ContentFormSchema = z.infer<typeof updateContentInputSchema>;
@@ -73,26 +74,28 @@ export default function ContentUpdateForm({
          description: content?.description ?? '', // Default empty description
          imgUrl: content?.imgUrl,
          image: undefined as unknown as File, // Placeholder for a file (requires actual file input during usage)
+         image2: undefined as unknown as File,
       },
    });
 
    // Submit handler
    async function onSubmit({ check, ...values }: Partial<ContentFormSchema>) {
-      console.log(values);
-      // updateContentMutation.mutate({
-      //    data: {
-      //       ...values,
-      //       page: searchParams.get('page'),
-      //       section: searchParams.get('section'),
-      //    },
-      //    id: contentId,
-      // });
+      // console.log(values);
+      updateContentMutation.mutate({
+         data: {
+            ...values,
+            page: searchParams.get('page'),
+            section: searchParams.get('section'),
+         },
+         id: contentId,
+      });
    }
 
    useEffect(() => {
       form.reset({
          title: content?.title ?? '', // Default empty title
          description: content?.description ?? '', // Default empty description
+         imgUrl: content?.imgUrl ?? '',
       });
    }, [contentQuery.isSuccess]);
 
@@ -109,72 +112,78 @@ export default function ContentUpdateForm({
             className='space-y-5 h-full'>
             <div className='h-full flex flex-col justify-between'>
                <div className='space-y-5'>
-                  <FormField
-                     control={form.control}
-                     name='image'
-                     render={({ field }) => (
-                        <FormItem>
-                           <CFormLabel className='!text-black'>Name</CFormLabel>
-                           <FormControl>
-                              <div className='border rounded-xl p-4'>
-                                 <CImageDropZone
-                                    onImageDelete={() => field.onChange(null)}
-                                    imgUrl={content.imgUrl.split(',')[0]}
-                                    onValueChange={value =>
-                                       field.onChange(value)
-                                    }
-                                 />
-                              </div>
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  {searchParams.get('page') === 'about_us' &&
-                     searchParams.get('section') === '2' && (
+                  {isImageExist(page, section) && (
+                     <FormField
+                        control={form.control}
+                        name='image'
+                        render={({ field }) => (
+                           <FormItem>
+                              <CFormLabel className='!text-black'>Name</CFormLabel>
+                              <FormControl>
+                                 <div className='border rounded-xl p-4'>
+                                    <CImageDropZone
+                                       onImageDelete={() => field.onChange(null)}
+                                       imgUrl={isImage2Exist(page, section) ? content.imgUrl?.split(',')[0] : content.imgUrl}
+                                       onValueChange={value =>
+                                          field.onChange(value)
+                                       }
+                                    />
+                                 </div>
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                  )}
+                  {isImage2Exist(page, section) && (
+                     <FormField
+                        control={form.control}
+                        name='image2'
+                        render={({ field }) => (
+                           <FormItem>
+                              <CFormLabel className='!text-black'>
+                                 Name
+                              </CFormLabel>
+                              <FormControl>
+                                 <div className='border rounded-xl p-4'>
+                                    <CImageDropZone
+                                       onImageDelete={() =>
+                                          field.onChange(null)
+                                       }
+                                       imgUrl={content.imgUrl?.split(',')[1]}
+                                       onValueChange={value =>
+                                          field.onChange(value)
+                                       }
+                                    />
+                                 </div>
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+                  )}
+                  {
+                     isTitleExist(page, section) && (
                         <FormField
                            control={form.control}
-                           name='image2'
+                           name='title'
                            render={({ field }) => (
                               <FormItem>
-                                 <CFormLabel className='!text-black'>
-                                    Name
-                                 </CFormLabel>
+                                 <CFormLabel className='!text-black'>Name</CFormLabel>
                                  <FormControl>
-                                    <div className='border rounded-xl p-4'>
-                                       <CImageDropZone
-                                          onImageDelete={() =>
-                                             field.onChange(null)
-                                          }
-                                          imgUrl={content.imgUrl.split(',')[1]}
-                                          onValueChange={value =>
-                                             field.onChange(value)
-                                          }
-                                       />
-                                    </div>
+                                    <CInput.Base
+                                       placeholder='Name'
+                                       {...field}
+                                       value={field.value}
+                                    />
                                  </FormControl>
                                  <FormMessage />
                               </FormItem>
                            )}
                         />
-                     )}
-                  <FormField
-                     control={form.control}
-                     name='title'
-                     render={({ field }) => (
-                        <FormItem>
-                           <CFormLabel className='!text-black'>Name</CFormLabel>
-                           <FormControl>
-                              <CInput.Base
-                                 placeholder='Name'
-                                 {...field}
-                                 value={field.value}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
+                     )
+                  }
+
                   <div className='hidden'>
                      <FormField
                         control={form.control}
@@ -196,26 +205,31 @@ export default function ContentUpdateForm({
                         )}
                      />
                   </div>
-                  <FormField
-                     control={form.control}
-                     name='description'
-                     render={({ field }) => (
-                        <FormItem>
-                           <CFormLabel className='!text-black'>
-                              Description
-                           </CFormLabel>
-                           <FormControl>
-                              <Textarea
-                                 placeholder='Tell us a little bit about yourself'
-                                 className='resize-none'
-                                 {...field}
-                                 value={field.value}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
+
+                  {
+                     isDescriptionExist(page, section) && (
+                        <FormField
+                           control={form.control}
+                           name='description'
+                           render={({ field }) => (
+                              <FormItem>
+                                 <CFormLabel className='!text-black'>
+                                    Description
+                                 </CFormLabel>
+                                 <FormControl>
+                                    <Textarea
+                                       placeholder='Tell us a little bit about yourself'
+                                       className='resize-none'
+                                       {...field}
+                                       value={field.value}
+                                    />
+                                 </FormControl>
+                                 <FormMessage />
+                              </FormItem>
+                           )}
+                        />
+                     )
+                  }
                </div>
                <div className='space-y-4'>
                   <FormField

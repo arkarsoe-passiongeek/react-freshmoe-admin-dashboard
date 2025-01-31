@@ -7,11 +7,12 @@ import { MAIN_SERVICE } from '@/services/apis';
 import { ApiResponse, Content } from '@/types';
 import { AxiosResponse } from 'axios';
 import { getContentsQueryOptions } from '.';
+import { isDescriptionExist, isImage2Exist, isImageExist, isTitleExist } from '../utils';
 
 export const createContentInputSchema = z.object({
-   title: z.string().min(1, 'Title is required'),
-   description: z.string().min(1, 'Description is required'),
-   image: z.instanceof(File).refine(file => file.size > 0, 'Image is required'),
+   title: z.string().optional(),
+   description: z.string().optional(),
+   image: z.any().optional(),
    image2: z.any().optional(),
    check: z.boolean().refine(val => val === true, {
       message: 'check must be true.',
@@ -25,6 +26,19 @@ export const createContent = ({
 }: {
    data: CreateContentInput;
 }): Promise<AxiosResponse<ApiResponse<Content>>> => {
+   if (!isTitleExist(data.page, data.section)) {
+      delete data.title;
+   }
+   if (!isDescriptionExist(data.page, data.section)) {
+      delete data.description;
+   }
+   if (!isImageExist(data.page, data.section)) {
+      delete data.image;
+   }
+   if (!isImage2Exist(data.page, data.section)) {
+      delete data.image2;
+   }
+   console.log(data)
    const contentForm = generateFormdata(data);
    if (data.page === 'about_us' && data.section === '2') {
       console.log(contentForm.get('image'));
@@ -35,13 +49,13 @@ export const createContent = ({
    }
    console.log('here', data);
    console.log(contentForm);
-   return MAIN_SERVICE.post(
-      `/contents?page=${data.page}&section=${data.section}`,
-      contentForm,
-      {
-         headers: { Accept: 'application/form-data' },
-      }
-   );
+   // return MAIN_SERVICE.post(
+   //    `/contents?page=${data.page}&section=${data.section}`,
+   //    contentForm,
+   //    {
+   //       headers: { Accept: 'application/form-data' },
+   //    }
+   // );
 };
 
 type UseCreateContentOptions = {

@@ -86,6 +86,76 @@ export const getSidebarData = (routes: Routes) => {
                   },
                ],
             },
+            {
+               title: 'Our Service',
+               icon: LuDot,
+               src: 'our_service',
+               items: [
+                  {
+                     title: 'Section 1',
+                     icon: LuDot,
+                     src: 'section=1',
+                     url: routes.content({
+                        search: '?page=our_service&section=1',
+                     }),
+                  },
+                  {
+                     title: 'Section 2',
+                     icon: LuDot,
+                     src: 'section=2',
+                     url: routes.content({
+                        search: '?page=our_service&section=2',
+                     }),
+                  },
+                  {
+                     title: 'Section 3',
+                     icon: LuDot,
+                     src: 'section=3',
+                     url: routes.content({
+                        search: '?page=our_service&section=3',
+                     }),
+                  },
+               ],
+            },
+            {
+               title: 'Profile',
+               icon: LuDot,
+               src: 'profile',
+               items: [
+                  {
+                     title: 'Section 1',
+                     icon: LuDot,
+                     src: 'section=1',
+                     url: routes.content({
+                        search: '?page=profile&section=1',
+                     }),
+                  },
+                  {
+                     title: 'Section 2',
+                     icon: LuDot,
+                     src: 'section=2',
+                     url: routes.content({
+                        search: '?page=profile&section=2',
+                     }),
+                  },
+                  {
+                     title: 'Section 3',
+                     icon: LuDot,
+                     src: 'section=3',
+                     url: routes.content({
+                        search: '?page=profile&section=3',
+                     }),
+                  },
+                  {
+                     title: 'Section 4',
+                     icon: LuDot,
+                     src: 'section=4',
+                     url: routes.content({
+                        search: '?page=profile&section=4',
+                     }),
+                  },
+               ],
+            },
          ],
       },
       {
