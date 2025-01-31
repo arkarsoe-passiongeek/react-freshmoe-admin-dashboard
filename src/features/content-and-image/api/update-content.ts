@@ -12,6 +12,7 @@ export const updateContentInputSchema = z.object({
    description: z.string().min(1, 'Description is required'),
    imgUrl: z.any(),
    image: z.any().optional(),
+   image2: z.any().optional(),
    check: z.boolean().refine(val => val === true, {
       message: 'check must be true.',
    }),
@@ -26,10 +27,19 @@ export const updateContent = ({
    data: UpdateContentInput;
    id: string;
 }): Promise<Content> => {
-   // data.image = null;
+   let imgUpdate = 'original';
+   if (data.image === null) {
+      imgUpdate = 'delete';
+   } else if (data.image) {
+      imgUpdate = 'update';
+   }
+
    return MAIN_SERVICE.post(
       `/contents/${id}?page=${data.page}&section=${data.section}`,
-      generateFormdata(data)
+      generateFormdata({
+         ...data,
+         imgUpdate: imgUpdate,
+      })
    );
 };
 
@@ -46,6 +56,7 @@ export const useUpdateContent = ({
 
    return useMutation({
       onSuccess: (data, ...args) => {
+         console.log(data, 'this is data');
          queryClient.refetchQueries({
             queryKey: getContentsQueryOptions(data.id).queryKey,
          });

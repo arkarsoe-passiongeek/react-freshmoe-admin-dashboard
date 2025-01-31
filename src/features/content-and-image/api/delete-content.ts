@@ -3,8 +3,18 @@ import { MAIN_SERVICE } from '@/services/apis';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getContentsQueryOptions } from '.';
 
-export const deleteContent = ({ id }: { id: number }) => {
-   return MAIN_SERVICE.delete(`/contents/${id}`);
+export const deleteContent = ({
+   id,
+   page,
+   section,
+}: {
+   id: number;
+   page: string;
+   section: string;
+}) => {
+   return MAIN_SERVICE.delete(
+      `/contents/${id}?page=${page}&section=${section}`
+   );
 };
 
 type UseDeleteContentOptions = {

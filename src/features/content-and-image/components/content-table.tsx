@@ -133,7 +133,7 @@ const ContentTable: React.FC = () => {
             open={updateDrawerOpen}
             setOpen={setUpdateDrawerOpen}>
             <ContentUpdateForm
-               contentId={String(currentData?.id ?? contents[0].id)}
+               contentId={String(currentData?.id)}
                page={searchParams.get('page') ?? ''}
                section={searchParams.get('section') ?? ''}
                onUpdateSuccess={() => {
@@ -147,7 +147,7 @@ const ContentTable: React.FC = () => {
             open={viewDrawerOpen}
             setOpen={setViewDrawerOpen}>
             <ContentView
-               contentId={String(currentData?.id ?? contents[0].id)}
+               contentId={String(currentData?.id)}
                page={searchParams.get('page') ?? ''}
                section={searchParams.get('section') ?? ''}
             />

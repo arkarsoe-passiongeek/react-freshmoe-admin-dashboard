@@ -2,6 +2,7 @@ import CButton from '@/components/custom/c-button';
 import CFormLabel from '@/components/custom/c-form-label';
 import CImageDropZone from '@/components/custom/c-image-dropzone';
 import CInput from '@/components/custom/c-input';
+import EmptyData from '@/components/layout/empty-data';
 import Loading from '@/components/layout/loading';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -37,12 +38,16 @@ export default function ContentUpdateForm({
    section,
    onUpdateSuccess,
 }: {
-   contentId: string;
+   contentId: string | undefined;
    page: string;
    section: string;
    onUpdateSuccess: () => void;
 }) {
    const searchParams = useSearchParams();
+
+   if (!contentId) {
+      return <EmptyData />;
+   }
 
    const contentQuery = useContent({
       contentId: contentId ?? '',
@@ -67,7 +72,7 @@ export default function ContentUpdateForm({
          title: content?.title ?? '', // Default empty title
          description: content?.description ?? '', // Default empty description
          imgUrl: content?.imgUrl,
-         image: null as unknown as File, // Placeholder for a file (requires actual file input during usage)
+         image: undefined as unknown as File, // Placeholder for a file (requires actual file input during usage)
       },
    });
 
@@ -114,7 +119,7 @@ export default function ContentUpdateForm({
                               <div className='border rounded-xl p-4'>
                                  <CImageDropZone
                                     onImageDelete={() => field.onChange(null)}
-                                    imgUrl={content.imgUrl}
+                                    imgUrl={content.imgUrl.split(',')[0]}
                                     onValueChange={value =>
                                        field.onChange(value)
                                     }
@@ -125,6 +130,34 @@ export default function ContentUpdateForm({
                         </FormItem>
                      )}
                   />
+                  {searchParams.get('page') === 'about_us' &&
+                     searchParams.get('section') === '2' && (
+                        <FormField
+                           control={form.control}
+                           name='image2'
+                           render={({ field }) => (
+                              <FormItem>
+                                 <CFormLabel className='!text-black'>
+                                    Name
+                                 </CFormLabel>
+                                 <FormControl>
+                                    <div className='border rounded-xl p-4'>
+                                       <CImageDropZone
+                                          onImageDelete={() =>
+                                             field.onChange(null)
+                                          }
+                                          imgUrl={content.imgUrl.split(',')[1]}
+                                          onValueChange={value =>
+                                             field.onChange(value)
+                                          }
+                                       />
+                                    </div>
+                                 </FormControl>
+                                 <FormMessage />
+                              </FormItem>
+                           )}
+                        />
+                     )}
                   <FormField
                      control={form.control}
                      name='title'

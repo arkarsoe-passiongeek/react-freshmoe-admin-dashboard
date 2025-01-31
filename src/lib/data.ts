@@ -63,6 +63,29 @@ export const getSidebarData = (routes: Routes) => {
                   },
                ],
             },
+            {
+               title: 'About',
+               icon: LuDot,
+               src: 'about_us',
+               items: [
+                  {
+                     title: 'Section 1',
+                     icon: LuDot,
+                     src: 'section=1',
+                     url: routes.content({
+                        search: '?page=about_us&section=1',
+                     }),
+                  },
+                  {
+                     title: 'Section 2',
+                     icon: LuDot,
+                     src: 'section=2',
+                     url: routes.content({
+                        search: '?page=about_us&section=2',
+                     }),
+                  },
+               ],
+            },
          ],
       },
       {

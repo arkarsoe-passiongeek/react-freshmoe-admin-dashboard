@@ -88,6 +88,31 @@ export default function ContentCreateForm({
                         </FormItem>
                      )}
                   />
+                  {searchParams.get('page') === 'about_us' &&
+                     searchParams.get('section') ===
+                        '2' && (
+                           <FormField
+                              control={form.control}
+                              name='image2'
+                              render={({ field }) => (
+                                 <FormItem>
+                                    <CFormLabel className='!text-black'>
+                                       Name
+                                    </CFormLabel>
+                                    <FormControl>
+                                       <div className='border rounded-xl p-4'>
+                                          <CImageDropZone
+                                             onValueChange={value =>
+                                                field.onChange(value)
+                                             }
+                                          />
+                                       </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                 </FormItem>
+                              )}
+                           />
+                        )}
                   <FormField
                      control={form.control}
                      name='title'

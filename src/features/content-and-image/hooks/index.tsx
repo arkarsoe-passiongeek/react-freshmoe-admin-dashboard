@@ -99,7 +99,11 @@ export const useContent = ({ searchParams }): UseContentReturn => {
    const handleDelete = async () => {
       try {
          if (currentData) {
-            await deleteMutation.mutateAsync({ id: currentData.id });
+            await deleteMutation.mutateAsync({
+               id: currentData.id,
+               page: currentData.page,
+               section: currentData.section,
+            });
          }
       } finally {
          setIsDeleteModalOpen(false);

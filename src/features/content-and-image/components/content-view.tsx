@@ -1,3 +1,4 @@
+import EmptyData from '@/components/layout/empty-data';
 import Loading from '@/components/layout/loading';
 import { getImageUrl } from '@/lib/utils';
 import { useContent } from '../api/get-content';
@@ -7,10 +8,14 @@ export const ContentView = ({
    page,
    section,
 }: {
-   contentId: string;
+   contentId: string | undefined;
    page: string;
    section: string;
 }) => {
+   if (!contentId) {
+      return <EmptyData />;
+   }
+
    const contentQuery = useContent({
       contentId,
       page,
@@ -28,8 +33,14 @@ export const ContentView = ({
    return (
       <div className='space-y-7 max-w-[500px]'>
          <div>
-            <h3 className='text-base text-c-black font-medium mb-2'>Upload Image</h3>
-            <img className='max-h-[200px] object-cover w-full' src={getImageUrl(content.imgUrl)} alt={content.title} />
+            <h3 className='text-base text-c-black font-medium mb-2'>
+               Upload Image
+            </h3>
+            <img
+               className='max-h-[200px] object-cover w-full'
+               src={getImageUrl(content.imgUrl)}
+               alt={content.title}
+            />
          </div>
          <div>
             <h3 className='text-base text-c-black font-medium'>Title</h3>

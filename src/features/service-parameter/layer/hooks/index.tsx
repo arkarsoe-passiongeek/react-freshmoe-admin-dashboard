@@ -5,6 +5,7 @@ import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
 import { deleteLayer, fetchLayerList } from '@/services/actions/layer';
 import { DeleteLayer, Layer } from '@/types';
+import { useSortable } from '@dnd-kit/sortable';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
    ColumnDef,
@@ -120,11 +121,29 @@ export const useLayer = (): UseLayerReturn => {
       </CButton>
    );
 
+   const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
+      const { attributes, listeners } = useSortable({
+         id: rowId,
+      });
+      return (
+         // Alternatively, you could set these attributes on the rows themselves
+         <CButton {...attributes} {...listeners}>
+            🟰
+         </CButton>
+      );
+   };
+
    const getColumns = (
       getEditButton: (id: string) => JSX.Element,
       getDeleteButton: (data: Layer) => JSX.Element
    ): ColumnDef<Layer>[] => {
       return [
+         {
+            id: 'drag-handle',
+            header: 'Move',
+            cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
+            size: 60,
+         },
          {
             accessorKey: 'name',
             header: 'Name',
