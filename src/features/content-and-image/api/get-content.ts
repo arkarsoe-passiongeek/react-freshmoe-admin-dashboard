@@ -15,11 +15,13 @@ export const getContent = async ({
 }): Promise<{ data: Content }> => {
    console.log(contentId, page, section);
    return (
-      // await MAIN_SERVICE.get(`/contents/${contentId}`, {
-      //    params: { page, section },
-      // })
-      await Promise.resolve({ data: { data: { id: '1', title: 'title', description: 'testing', imgUrl: 'image-1,iamgew-2' } as Content } })
-   ).data;
+      // await Promise.resolve({ data: { data: { id: '1', title: 'title', description: 'testing', imgUrl: 'image-1,iamgew-2' } as Content } })
+      (
+         await MAIN_SERVICE.get(`/contents/${contentId}`, {
+            params: { page, section },
+         })
+      ).data
+   );
 };
 
 export const getContentQueryOptions = (

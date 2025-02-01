@@ -9,9 +9,9 @@ export const getContents = async (
 ): Promise<{
    data: Content[];
 }> => {
-   // return (await MAIN_SERVICE.get(`/contents?page=${page}&section=${section}`))
-   //    .data;
-   return (await Promise.resolve({ data: [{ id: '1', title: 'title', description: 'testing', imgUrl: 'iamge-1,image-2' }] }));
+   return (await MAIN_SERVICE.get(`/contents?page=${page}&section=${section}`))
+      .data;
+   // return (await Promise.resolve({ data: [{ id: '1', title: 'title', description: 'testing', imgUrl: 'iamge-1,image-2' }] }));
 };
 
 export const getContentsQueryOptions = ({

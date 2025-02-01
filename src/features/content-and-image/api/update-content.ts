@@ -31,13 +31,13 @@ export const updateContent = ({
    const formData = generateFormdata(data);
 
    if (!isImage2Exist(data.page, data.section)) {
-      let imgUpdate = 'original';
+      let imgUpdate = 'origin';
       if (data.image === null) {
          imgUpdate = 'delete';
       } else if (data.image) {
          imgUpdate = 'update';
       }
-      // formData.append('imgUpdate', imgUpdate);
+      formData.append('imgUpdate', imgUpdate);
       data.imgUpdate = imgUpdate;
    }
 
@@ -45,29 +45,24 @@ export const updateContent = ({
       let oldImages = [];
       data.imgUrl.split(',').forEach((img, index) => {
          if (data.image !== null && index === 0) {
-            oldImages.push(img)
+            oldImages.push(img);
          }
          if (data.image2 !== null && index === 1) {
-            oldImages.push(img)
+            oldImages.push(img);
          }
       });
 
       oldImages = oldImages.join(',');
 
-      // formData.append('oldImages', oldImages);
+      formData.append('oldImages', oldImages);
       data.oldImages = oldImages;
    }
 
-
-
    console.log({ ...data }, 'this is update data');
-   // return MAIN_SERVICE.post(
-   //    `/contents/${id}?page=${data.page}&section=${data.section}`,
-   //    generateFormdata({
-   //       ...data,
-   //       imgUpdate: imgUpdate,
-   //    })
-   // );
+   return MAIN_SERVICE.post(
+      `/contents/${id}?page=${data.page}&section=${data.section}`,
+      formData
+   );
 };
 
 type UseUpdateContentOptions = {
