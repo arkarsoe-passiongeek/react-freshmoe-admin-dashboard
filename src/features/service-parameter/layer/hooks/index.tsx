@@ -15,11 +15,12 @@ import {
    Row,
    useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Define the return type for the useLayer hook
 interface UseLayerReturn {
    data: Layer[] | undefined;
+   setData: (value: React.SetStateAction<Layer[]>) => void;
    isLoading: boolean;
    isDeleteModalOpen: boolean;
    setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,10 +61,18 @@ export const useLayer = (): UseLayerReturn => {
    const [currentData, setCurrentData] = useState<Layer | null>(null);
 
    // Fetch Layer List
-   const { data, isLoading } = useQuery<Layer[]>({
+   const { data: layers, isLoading } = useQuery<Layer[]>({
       queryKey: [API_ROUTES.layer.getAll()],
       queryFn: fetchLayerList,
    });
+
+   const [data, setData] = useState<Layer[]>(layers ?? []);
+
+   useEffect(() => {
+      if (layers) {
+         setData(layers);
+      }
+   }, [layers]);
 
    // Delete Layer Mutation
    const deleteMutation = useMutation<
@@ -138,12 +147,12 @@ export const useLayer = (): UseLayerReturn => {
       getDeleteButton: (data: Layer) => JSX.Element
    ): ColumnDef<Layer>[] => {
       return [
-         // {
-         //    id: 'drag-handle',
-         //    header: 'Move',
-         //    cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
-         //    size: 60,
-         // },
+         {
+            id: 'drag-handle',
+            header: 'Move',
+            cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
+            size: 60,
+         },
          {
             accessorKey: 'name',
             header: 'Name',
@@ -165,9 +174,10 @@ export const useLayer = (): UseLayerReturn => {
    const columns = getColumns(getEditButton, getDeleteButton);
 
    const table = useReactTable<any>({
-      data: data ?? [],
+      data: data,
       columns,
       enableRowSelection: true,
+      getRowId: row => row.id,
       getCoreRowModel: getCoreRowModel(),
       getPaginationRowModel: getPaginationRowModel(),
       getFilteredRowModel: getFilteredRowModel(),
@@ -175,6 +185,7 @@ export const useLayer = (): UseLayerReturn => {
 
    return {
       data,
+      setData,
       isLoading,
       isDeleteModalOpen,
       setIsDeleteModalOpen,

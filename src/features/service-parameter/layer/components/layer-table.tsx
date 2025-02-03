@@ -2,8 +2,8 @@ import ListEmpty from '@/assets/images/list-empty.png';
 import CInput from '@/components/custom/c-input';
 import DeleteConfirmDialog from '@/components/layout/dialogs/delete-confirm-dialog';
 import Loading from '@/components/layout/loading';
-import { DataTable } from '@/components/layout/table/data-table';
 import { DataTablePagination } from '@/components/layout/table/data-table-pagination';
+import { DndDataTable } from '@/components/layout/table/dnd-data-table';
 import { Button } from '@/components/ui/button';
 import { Layer } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -13,6 +13,7 @@ import { useLayer } from '../hooks';
 const LayerTable: React.FC = () => {
    const {
       data,
+      setData,
       isLoading,
       isDeleteModalOpen,
       setIsDeleteModalOpen,
@@ -73,7 +74,11 @@ const LayerTable: React.FC = () => {
                {!isLoading && data && (
                   <>
                      <div className={`${data.length <= 0 && 'hidden'}`}>
-                        <DataTable columns={columns} table={table} />
+                        <DndDataTable
+                           config={{ data, setData }}
+                           columns={columns}
+                           table={table}
+                        />
                      </div>
                      <div
                         className={`p-3 flex items-center justify-center bg-c-white flex-col h-[500px] rounded-xl ${
