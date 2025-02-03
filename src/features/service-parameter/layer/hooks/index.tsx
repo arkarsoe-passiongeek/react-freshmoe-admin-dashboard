@@ -138,12 +138,12 @@ export const useLayer = (): UseLayerReturn => {
       getDeleteButton: (data: Layer) => JSX.Element
    ): ColumnDef<Layer>[] => {
       return [
-         {
-            id: 'drag-handle',
-            header: 'Move',
-            cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
-            size: 60,
-         },
+         // {
+         //    id: 'drag-handle',
+         //    header: 'Move',
+         //    cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
+         //    size: 60,
+         // },
          {
             accessorKey: 'name',
             header: 'Name',

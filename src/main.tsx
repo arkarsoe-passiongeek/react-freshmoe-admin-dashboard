@@ -8,12 +8,7 @@ import LanguageHandler from './components/layout/language-handler.tsx';
 import NotFound from './components/layout/not-found.tsx';
 import RedirectPage from './components/layout/redirect-page.tsx';
 import Unauthorized from './features/auth/unauthorized.tsx';
-import {
-   default as ContentPage,
-   default as HomePage,
-} from './features/content-and-image/content-page.tsx';
 import Dashboard from './features/dashboard/dashboard.tsx';
-import MaintenancePage from './features/maintenance/maintenance-page.tsx';
 import LayerCreatePage from './features/service-parameter/layer/layer-create-page.tsx';
 import LayerEditPage from './features/service-parameter/layer/layer-edit-page.tsx';
 import LayerPage from './features/service-parameter/layer/layer-page.tsx';
@@ -35,7 +30,6 @@ createRoot(document.getElementById('root')!).render(
                   </Route>
                   <Route path='' element={<DashboardLayout />}>
                      <Route index element={<Dashboard />} />
-                     <Route path='maintenance' element={<MaintenancePage />} />
                      <Route
                         path='service-parameter/layer'
                         element={<LayerPage />}
@@ -60,37 +54,6 @@ createRoot(document.getElementById('root')!).render(
                         path='service-parameter/service-area/:id/edit-service-area'
                         element={<ServiceAreaEditPage />}
                      />
-                     <Route path='content-image' element={<ContentPage />} />
-                     {/*
-              <Route
-                path="service-parameter/layer-priority"
-                element={<LayerPriorityPage />}
-              />
-              <Route
-                path="service-parameter/layer-priority/create-layer-priority"
-                element={<LayerPriorityCreatePage />}
-              />
-              <Route
-                path="service-parameter/layer-priority/:id/edit-layer-priority"
-                element={<LayerPriorityEditPage />}
-              />
-              <Route
-                path="service-parameter/layer-priority"
-                element={<LayerPriorityPage />}
-              />
-              <Route
-                path="service-parameter/priority"
-                element={<PriorityPage />}
-              />
-              <Route
-                path="service-parameter/priority/create-priority"
-                element={<PriorityCreatePage />}
-              />
-              <Route
-                path="service-parameter/priority/:id/edit-priority"
-                element={<PriorityEditPage />}
-              /> */}
-                     <Route path='content-image/home' element={<HomePage />} />
                   </Route>
                   <Route path='*' element={<NotFound />} />
                </Route>
