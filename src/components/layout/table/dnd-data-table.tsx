@@ -139,7 +139,6 @@ export function DndDataTable<TData, TValue>({
                   ))}
                </TableHeader>
                <TableBody>
-                  {JSON.stringify(dataIds)}
                   <SortableContext
                      items={dataIds}
                      strategy={verticalListSortingStrategy}>
@@ -172,7 +171,6 @@ export function DndDataTable<TData, TValue>({
                </TableBody>
             </Table>
          </DndContext>
-         <pre>{JSON.stringify(config.data, null, 2)}</pre>
       </div>
    );
 }
