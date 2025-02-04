@@ -19,18 +19,8 @@ export const UPDATE_LAYER =
 export const DELETE_LAYER =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
-// Priority
-export const GET_PRIORITY_LIST =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/priorities';
-
-export const CREATE_PRIORITY =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/priorities';
-
-export const UPDATE_PRIORITY =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/priorities';
-
-export const DELETE_PRIORITY =
-   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/priorities';
+export const REORDER_LAYER =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-layers';
 
 // Layer Priority
 export const GET_LAYER_PRIORITY_LIST =
@@ -67,4 +57,7 @@ export const UPDATE_SERVICE_AREA =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
 
 export const DELETE_SERVICE_AREA =
+   import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';
+
+export const ENDPOINT_SERVICE_AREA =
    import.meta.env.VITE_PUBLIC_APP_BASE_URL + '/api/v1/service-areas';

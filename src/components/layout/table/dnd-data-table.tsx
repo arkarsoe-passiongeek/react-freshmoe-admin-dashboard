@@ -36,7 +36,15 @@ import React, { CSSProperties } from 'react';
 interface DndDataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
    table: TTable<TData>;
-   config: { data: TData[]; setData: (data: TData[]) => void };
+   config: {
+      data: TData[];
+      setData: (data: TData[]) => void;
+      onDragEnd: (
+         event: DragEndEvent,
+         oldIndex: number,
+         newIndex: number
+      ) => void;
+   };
 }
 
 export function DndDataTable<TData, TValue>({
@@ -57,6 +65,7 @@ export function DndDataTable<TData, TValue>({
             const oldIndex = dataIds.indexOf(active.id);
             const newIndex = dataIds.indexOf(over.id);
             console.log(oldIndex, newIndex, data);
+            config.onDragEnd(event, Number(oldIndex), Number(newIndex));
             return arrayMove(data, Number(oldIndex), Number(newIndex)); //this is just a splice util
          });
       }

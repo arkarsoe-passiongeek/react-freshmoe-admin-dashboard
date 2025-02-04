@@ -6,6 +6,7 @@ import { DataTablePagination } from '@/components/layout/table/data-table-pagina
 import { DndDataTable } from '@/components/layout/table/dnd-data-table';
 import { Button } from '@/components/ui/button';
 import { Layer } from '@/types';
+import { DragEndEvent } from '@dnd-kit/core';
 import { ColumnDef } from '@tanstack/react-table';
 import { X } from 'lucide-react';
 import { useLayer } from '../hooks';
@@ -22,6 +23,7 @@ const LayerTable: React.FC = () => {
       getCreateButton,
       handleDelete,
       deleteMutation,
+      reorderMutation,
       table,
    } = useLayer();
 
@@ -32,6 +34,19 @@ const LayerTable: React.FC = () => {
          .getState()
          .columnFilters.filter((each: ColumnDef<Layer>) => each.id === 'name')
          .length > 0;
+
+   const onDragEnd = (
+      event: DragEndEvent,
+      oldIndex: number,
+      newIndex: number
+   ) => {
+      console.log(data[oldIndex], data[newIndex]);
+      reorderMutation.mutate({
+         orderIndex: data[newIndex].orderIndex,
+         id: data[oldIndex].id,
+      });
+      // console.log(data[event.active.id], data[event.over.id]);
+   };
 
    return (
       <div>
@@ -75,7 +90,7 @@ const LayerTable: React.FC = () => {
                   <>
                      <div className={`${data.length <= 0 && 'hidden'}`}>
                         <DndDataTable
-                           config={{ data, setData }}
+                           config={{ data, setData, onDragEnd }}
                            columns={columns}
                            table={table}
                         />

@@ -1,6 +1,12 @@
 import { MAIN_SERVICE } from '@/services/apis';
 import * as service from '@/services/apis/endpoints';
-import { CreateLayer, DeleteLayer, Layer, UpdateLayer } from '@/types';
+import {
+   CreateLayer,
+   DeleteLayer,
+   Layer,
+   ReorderLayer,
+   UpdateLayer,
+} from '@/types';
 
 // Create
 export async function createLayer(payload: CreateLayer) {
@@ -21,6 +27,13 @@ export async function fetchLayerDetail(id: number) {
 export async function updateLayer(payload: UpdateLayer, id: number) {
    return (await MAIN_SERVICE.post(service.UPDATE_LAYER + '/' + id, payload))
       ?.data;
+}
+
+// Reorder
+export async function reorderLayer(payload: ReorderLayer, id: number) {
+   return (
+      await MAIN_SERVICE.post(service.REORDER_LAYER + '/reorder/' + id, payload)
+   )?.data;
 }
 
 // Delete

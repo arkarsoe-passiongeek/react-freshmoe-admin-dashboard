@@ -3,6 +3,7 @@ import * as service from '@/services/apis/endpoints';
 import {
    CreateServiceArea,
    DeleteServiceArea,
+   EndpointServiceArea,
    ServiceArea,
    UpdateServiceArea,
 } from '@/types';
@@ -56,5 +57,18 @@ export async function updateServiceArea(
 export async function deleteServiceArea(payload: DeleteServiceArea) {
    return (
       await MAIN_SERVICE.delete(service.DELETE_SERVICE_AREA + '/' + payload.id)
+   )?.data.data;
+}
+
+// Endpoint
+export async function endpointServiceArea(
+   payload: EndpointServiceArea,
+   id: number
+) {
+   return (
+      await MAIN_SERVICE.post(
+         service.ENDPOINT_SERVICE_AREA + '/' + id + '/make-endpoint',
+         payload
+      )
    )?.data.data;
 }

@@ -58,7 +58,10 @@ const PageHeader = () => {
 
    useEffect(() => {
       if (isServiceArea()) {
-         if (!searchParam.has('parentId')) {
+         if (
+            !searchParam.has('parentId') ||
+            searchParam.get('parentId') == 'null'
+         ) {
             setNewRoutes(pageHeaderData.links);
          } else {
             setLoading(true);

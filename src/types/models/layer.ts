@@ -15,6 +15,11 @@ export interface UpdateLayer {
    name: string;
 }
 
+// Type for Reorder Layer
+export interface ReorderLayer {
+   orderIndex: string;
+}
+
 export interface DeleteLayer {
    id: number | null;
 }

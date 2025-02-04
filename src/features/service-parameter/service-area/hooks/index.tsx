@@ -9,9 +9,10 @@ import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
 import {
    deleteServiceArea,
+   endpointServiceArea,
    fetchServiceAreaList,
 } from '@/services/actions/service-area';
-import { DeleteServiceArea, ServiceArea } from '@/types';
+import { DeleteServiceArea, EndpointServiceArea, ServiceArea } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
    ColumnDef,
@@ -47,19 +48,16 @@ interface ActionButtonsProps {
    row: Row<ServiceArea>;
    getEditButton: (id: string) => JSX.Element;
    getDeleteButton: (data: ServiceArea) => JSX.Element;
-   getSwitch: (data: ServiceArea) => JSX.Element;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
    row,
    getEditButton,
    getDeleteButton,
-   getSwitch,
 }) => (
    <div className='flex gap-2 items-center'>
       {getEditButton(String(row.original.id))}
       {getDeleteButton(row.original)}
-      {getSwitch(row.original)}
    </div>
 );
 
@@ -79,6 +77,24 @@ export const useServiceArea = (): UseServiceAreaReturn => {
          fetchServiceAreaList({
             parentId: searchParam.get('parentId') ?? null,
          }),
+   });
+
+   // Delete Service Area Mutation
+   const endpointMutation = useMutation<
+      unknown,
+      { message: string },
+      EndpointServiceArea
+   >({
+      mutationFn: values => endpointServiceArea(values, values.id),
+      onError: () => {
+         // Handle error if needed
+      },
+      onSuccess: () => {
+         // Invalidate queries and refetch the data
+         queryClient.invalidateQueries({
+            queryKey: [API_ROUTES.serviceArea.getAll()],
+         });
+      },
    });
 
    // Delete Service Area Mutation
@@ -102,6 +118,10 @@ export const useServiceArea = (): UseServiceAreaReturn => {
    const handleDeleteButtonClick = (data: ServiceArea) => {
       setCurrentData(data);
       setIsDeleteModalOpen(true);
+   };
+
+   const handleMakeEndpoint = (data: ServiceArea, value: boolean) => {
+      endpointMutation.mutate({ status: value, id: data.id });
    };
 
    const handleDelete = async () => {
@@ -152,9 +172,9 @@ export const useServiceArea = (): UseServiceAreaReturn => {
       return (
          <Switch
             // title='Switch to set as final child'
-            defaultChecked={false}
+            defaultChecked={data.endPoint}
             id={'switch'}
-            onCheckedChange={value => console.log(value)}
+            onCheckedChange={value => handleMakeEndpoint(data, value)}
             className='h-5 w-8 [&_span]:size-4 [&_span]:data-[state=checked]:translate-x-3 rtl:[&_span]:data-[state=checked]:-translate-x-3'
          />
       );
@@ -185,6 +205,13 @@ export const useServiceArea = (): UseServiceAreaReturn => {
             },
          },
          {
+            accessorKey: 'status',
+            header: 'Status',
+            cell: ({ row }) => {
+               return <>{getSwitch(row.original)}</>;
+            },
+         },
+         {
             accessorKey: 'service-layer',
             header: 'Layer',
             cell: ({ row }) => {
@@ -197,7 +224,6 @@ export const useServiceArea = (): UseServiceAreaReturn => {
             cell: ({ row }) => (
                <ActionButtons
                   row={row}
-                  getSwitch={getSwitch}
                   getEditButton={getEditButton}
                   getDeleteButton={getDeleteButton}
                />

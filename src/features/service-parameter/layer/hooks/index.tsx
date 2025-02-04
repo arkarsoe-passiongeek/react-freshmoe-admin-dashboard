@@ -3,8 +3,12 @@ import CLink from '@/components/custom/c-link';
 import { API_ROUTES } from '@/lib/constants';
 import { useLinkRoutes } from '@/lib/route';
 import { queryClient } from '@/main';
-import { deleteLayer, fetchLayerList } from '@/services/actions/layer';
-import { DeleteLayer, Layer } from '@/types';
+import {
+   deleteLayer,
+   fetchLayerList,
+   reorderLayer,
+} from '@/services/actions/layer';
+import { DeleteLayer, Layer, ReorderLayer } from '@/types';
 import { useSortable } from '@dnd-kit/sortable';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
@@ -74,11 +78,28 @@ export const useLayer = (): UseLayerReturn => {
       }
    }, [layers]);
 
+   const reorderMutation = useMutation<
+      unknown,
+      { message: string },
+      ReorderLayer
+   >({
+      mutationFn: ({ id, ...rest }) => reorderLayer(rest, id),
+      onError: () => {
+         // Handle error if needed
+      },
+      onSuccess: () => {
+         // Invalidate queries and refetch the data
+         queryClient.invalidateQueries({
+            queryKey: [API_ROUTES.layer.getAll()],
+         });
+      },
+   });
+
    // Delete Layer Mutation
    const deleteMutation = useMutation<
       unknown,
       { message: string },
-      DeleteLayer
+      ReorderLayer
    >({
       mutationFn: deleteLayer,
       onError: () => {
@@ -195,6 +216,7 @@ export const useLayer = (): UseLayerReturn => {
       handleDeleteButtonClick,
       handleDelete,
       deleteMutation,
+      reorderMutation,
       getCreateButton,
       routes,
       table,

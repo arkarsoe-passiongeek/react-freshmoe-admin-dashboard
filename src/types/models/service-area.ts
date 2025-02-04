@@ -18,3 +18,7 @@ export interface UpdateServiceArea {
 export interface DeleteServiceArea {
    id: number | null;
 }
+
+export interface EndpointServiceArea {
+   status: boolean;
+}
