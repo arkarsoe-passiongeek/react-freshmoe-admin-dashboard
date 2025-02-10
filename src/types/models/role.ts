@@ -1,13 +1,11 @@
-import { Permission } from './permission';
+import { Entity } from "./base";
+import { Permission } from "./permission";
 
-export interface Role {
-   id: number;
-   name: string;
-   createdAt: string;
-   updatedAt: string;
-   permissions: RolePermission[];
-}
+export type Role = Entity<{
+    name: string;
+    permissions: RolePermission[];
+}>;
 
 export interface RolePermission {
-   permission: Permission;
+    permission: Permission
 }

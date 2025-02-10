@@ -1,0 +1,23 @@
+{
+   "editor.tabSize": 2,
+   "editor.insertSpaces": true,
+   "editor.defaultFormatter": "esbenp.prettier-vscode",
+   "editor.formatOnSave": true,
+   "editor.minimap.enabled": false,
+   "editor.wordWrap": "on",
+   "editor.codeActionsOnSave": {
+      "source.organizeImports": "always",
+      "source.fixAll.eslint": "always"
+   },
+   // terminal configurations
+   "terminal.integrated.defaultProfile.windows": "Git Bash",
+   "terminal.integrated.profiles.windows": {
+      "Git Bash": {
+         "path": "C:\\Program Files\\Git\\bin\\bash.exe"
+      }
+   },
+   "tailwindCSS.experimental.classRegex": [
+      ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+      ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+   ]
+}

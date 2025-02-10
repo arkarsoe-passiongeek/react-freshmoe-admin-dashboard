@@ -1,9 +1,13 @@
-type SuccessResponse = {
+export type ApiResponse<T> = {
+   data: T;
    status: boolean;
    message: string;
    statusCode: number;
 };
 
-export type ApiResponse<T> = {
-   data: T;
-} & SuccessResponse;
+export type ListApiResponse<T> = {
+   data: T[];
+   status: boolean;
+   message: string;
+   statusCode: number;
+};

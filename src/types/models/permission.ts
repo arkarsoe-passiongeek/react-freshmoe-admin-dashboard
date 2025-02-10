@@ -1,6 +1,5 @@
-export interface Permission {
-   id: number;
-   name: string;
-   createdAt: string;
-   updatedAt: string;
-}
+import { Entity } from "./base";
+
+export type Permission = Entity<{
+    name: string;
+}>;

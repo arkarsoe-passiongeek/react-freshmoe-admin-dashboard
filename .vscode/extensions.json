@@ -1,0 +1,13 @@
+{
+   "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-typescript-next",
+      "streetsidesoftware.code-spell-checker",
+      "eamodio.gitlens",
+      "formulahendry.auto-rename-tag",
+      "rodrigovallades.es7-react-js-snippets",
+      "sonarsource.sonarlint-vscode",
+      "gruntfuggly.todo-tree"
+   ]
+}
