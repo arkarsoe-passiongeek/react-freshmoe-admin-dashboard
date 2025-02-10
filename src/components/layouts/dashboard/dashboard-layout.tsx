@@ -1,23 +1,13 @@
 import ErrorBoundary from '@/app/error-boundary';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { paths } from '@/config/paths';
-import { isAuth } from '@/lib/authentication';
 import useAuth from '@/state/use-auth-store';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import React from 'react';
 import AccountController from './account-controller';
 import { DashboardSidebar } from './dashboard-sidebar';
 import PageHeader from './page-header';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-   const navigate = useNavigate();
    const { user: authUser } = useAuth();
-
-   useEffect(() => {
-      if (!isAuth()) {
-         navigate(paths.notAuthorized.path);
-      }
-   }, []);
 
    return (
       <div className='bg-c-bg min-h-[800px]'>
