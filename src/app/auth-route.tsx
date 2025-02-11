@@ -21,7 +21,11 @@ const AuthRoute = () => {
    }, [profileQuery.data]);
 
    if (profileQuery.isLoading || checkingUser) {
-      return <Loading />;
+      return (
+         <div className='w-full h-[100vh] flex items-center justify-center'>
+            <Loading className='w-10 h-10' />
+         </div>
+      );
    }
 
    return (
