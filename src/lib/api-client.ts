@@ -3,6 +3,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
+import Cookies from 'js-cookie';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
    if (config.headers) {
@@ -20,11 +21,12 @@ export const api = Axios.create({
 // axios interceptor - request
 api.interceptors.request.use(
    config => {
-      const token = localStorage.getItem('auth-storage')
-         ? (JSON.parse(localStorage.getItem('auth-storage') ?? '')['state'][
-              'token'
-           ] ?? undefined)
-         : false;
+      // const token = localStorage.getItem('auth-storage')
+      //    ? (JSON.parse(localStorage.getItem('auth-storage') ?? '')['state'][
+      //         'token'
+      //      ] ?? undefined)
+      //    : false;
+      const token = Cookies.get('token') ?? false;
       if (token) {
          config.headers.Authorization = `Bearer ${token}`;
       }
