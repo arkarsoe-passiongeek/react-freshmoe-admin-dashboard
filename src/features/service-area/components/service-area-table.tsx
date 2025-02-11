@@ -8,14 +8,19 @@ import CInput from '@/components/ui-custom/c-input/c-input';
 import { Button } from '@/components/ui/button';
 import { paths } from '@/config/paths';
 import { X } from 'lucide-react';
+import { useState } from 'react';
 import { useServiceAreaTable } from '../hooks/use-service-area-table';
+import ServiceActionDialog from './service-action-dialog';
 
 const ServiceAreaTable = ({ parentId }: { parentId: string | null }) => {
    const src = 'serviceArea';
+   const [serviceActionOpen, setServiceActionOpen] = useState(false);
 
-   const { table, serviceAreasQuery, columns } = useServiceAreaTable({
-      parentId: parentId ?? 'null',
-   });
+   const { table, serviceAreasQuery, columns, currentData } =
+      useServiceAreaTable({
+         parentId: parentId ?? 'null',
+         onServiceClick: () => setServiceActionOpen(true),
+      });
 
    const getCreateButton = (): JSX.Element => (
       <CButton asChild size='md'>
@@ -105,6 +110,11 @@ const ServiceAreaTable = ({ parentId }: { parentId: string | null }) => {
          {serviceAreas && serviceAreas.length > 0 && (
             <DataTablePagination table={table} />
          )}
+         <ServiceActionDialog
+            data={currentData}
+            isOpen={serviceActionOpen}
+            onClose={() => setServiceActionOpen(false)}
+         />
       </div>
    );
 };

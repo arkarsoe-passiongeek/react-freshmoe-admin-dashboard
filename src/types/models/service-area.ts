@@ -6,5 +6,7 @@ export type ServiceArea = Entity<{
    serviceLayerId: number;
    parentId: number | null;
    serviceLayer: Layer;
-   endPoint: boolean
+   endPoint: boolean;
+   b2bEndPoint: boolean;
+   b2bServiceStatus: boolean;
 }>;

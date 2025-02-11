@@ -48,7 +48,7 @@ export const useUpdateLayer = ({
    return useMutation({
       onSuccess: (data, ...args) => {
          queryClient.refetchQueries({
-            queryKey: getLayerQueryOptions(data.data.id).queryKey,
+            queryKey: getLayerQueryOptions(String(data.data.id)).queryKey,
          });
          queryClient.refetchQueries({
             queryKey: getLayersQueryOptions().queryKey,
