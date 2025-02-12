@@ -80,8 +80,8 @@ export default function LayerUpdateForm({
 
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
-            <h3 className='text-xl font-semibold'>Root User Information</h3>
+         <form aria-label='Layer Update Form' onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+            <h3 className='text-xl font-semibold'>Layer Information</h3>
 
             <FormField
                control={form.control}
@@ -105,6 +105,7 @@ export default function LayerUpdateForm({
                      <div className='flex gap-3 w-full'>
                         <FormControl>
                            <Checkbox
+                              aria-label='consent'
                               className='border-primary'
                               checked={field.value}
                               onCheckedChange={field.onChange}
@@ -135,7 +136,7 @@ export default function LayerUpdateForm({
                   size='md'
                   loading={updateLayerMutation.isPending}
                   type='submit'>
-                  Update
+                  Edit
                </CButton>
             </div>
          </form>

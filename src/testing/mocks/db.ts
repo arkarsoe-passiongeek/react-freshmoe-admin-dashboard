@@ -88,14 +88,14 @@ export const initializeDb = async () => {
    });
 
    db.user.create({
-      name: 'Root User',
-      email: 'root@freshmoe.com',
-      phone: null,
-      emailVerifiedAt: null,
-      rememberToken: null,
+      name: 'Admin User',
+      email: 'admin@freshmoe.com',
+      phone: "null",
+      emailVerifiedAt: "null",
+      rememberToken: "null",
       createdAt: '2025-01-25T03:09:30.422Z',
       updatedAt: '2025-01-27T06:58:21.086Z',
-      password: hash('root'),
+      password: hash('admin'),
    });
 };
 

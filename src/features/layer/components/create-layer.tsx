@@ -60,22 +60,22 @@ export default function LayerCreateForm({
 
    return (
       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+         <form aria-label='layer-create-form' onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
             <h3 className='text-xl font-semibold'>Layer Information</h3>
 
-               <FormField
-                  control={form.control}
-                  name='name'
-                  render={({ field }) => (
-                     <FormItem>
-                        <CFormLabel className='!text-black'>Name</CFormLabel>
-                        <FormControl>
-                           <CInput.Base placeholder='Name' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
+            <FormField
+               control={form.control}
+               name='name'
+               render={({ field }) => (
+                  <FormItem>
+                     <CFormLabel className='!text-black'>Name</CFormLabel>
+                     <FormControl>
+                        <CInput.Base placeholder='Name' {...field} />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
             <div className='flex gap-4 justify-end'>
                <CButton
                   size='md'

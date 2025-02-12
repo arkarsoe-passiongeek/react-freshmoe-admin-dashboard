@@ -1,5 +1,6 @@
 import pluginJs from '@eslint/js';
 import checkFile from 'eslint-plugin-check-file';
+import pluginJest from 'eslint-plugin-jest';
 import pluginReact from 'eslint-plugin-react';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -17,6 +18,10 @@ export default [
    {
       plugins: {
          'check-file': checkFile,
+         jest: pluginJest,
+      },
+      env: {
+         jest: true,
       },
       rules: {
          "no-unused-vars": "off",
@@ -60,6 +65,9 @@ export default [
    {
       plugins: {
          'check-file': checkFile,
+      },
+      env: {
+         jest: true,
       },
       files: ['src/**/!(__tests__)/*'],
       rules: {

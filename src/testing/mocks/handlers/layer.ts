@@ -3,24 +3,16 @@ import { HttpResponse, http } from 'msw';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { networkDelay, requireAdmin } from '../utils';
+import { networkDelay } from '../utils';
 
 type LayerBody = {
-   title: string;
+   name: string;
 };
 
 export const layersHandlers = [
-   http.get(`${env.API_URL}/layers`, async ({ cookies, request }) => {
-      console.log('here');
+   http.get(`${env.API_URL}/service-layers`, async ({ request }) => {
       await networkDelay();
       try {
-         // const { user, error } = requireAuth(cookies);
-         // if (error) {
-         //   return HttpResponse.json({ message: error }, { status: 401 });
-         // }
-
-         console.log(db);
-
          const url = new URL(request.url);
 
          const page = Number(url.searchParams.get('page') || 1);
@@ -49,14 +41,10 @@ export const layersHandlers = [
       }
    }),
 
-   http.get(`${env.API_URL}/layers/:layerId`, async ({ params, cookies }) => {
+   http.get(`${env.API_URL}/service-layers/:layerId`, async ({ params }) => {
       await networkDelay();
 
       try {
-         // const { error } = requireAuth(cookies);
-         // if (error) {
-         //   return HttpResponse.json({ message: error }, { status: 401 });
-         // }
          const layerId = params.layerId as string;
          const layer = db.layer.findFirst({
             where: {
@@ -86,14 +74,10 @@ export const layersHandlers = [
       }
    }),
 
-   http.post(`${env.API_URL}/layers`, async ({ request, cookies }) => {
+   http.post(`${env.API_URL}/service-layers`, async ({ request }) => {
       await networkDelay();
 
       try {
-         // const { error } = requireAuth(cookies);
-         // if (error) {
-         //   return HttpResponse.json({ message: error }, { status: 401 });
-         // }
          const data = (await request.json()) as LayerBody;
 
          const result = db.layer.create(data);
@@ -108,18 +92,13 @@ export const layersHandlers = [
    }),
 
    http.post(
-      `${env.API_URL}/layers/:layerId`,
-      async ({ request, params, cookies }) => {
+      `${env.API_URL}/service-layers/:layerId`,
+      async ({ request, params }) => {
          await networkDelay();
 
          try {
-            // const { user, error } = requireAuth(cookies);
-            // if (error) {
-            //   return HttpResponse.json({ message: error }, { status: 401 });
-            // }
             const data = (await request.json()) as LayerBody;
             const layerId = params.layerId as string;
-            requireAdmin(user);
             const result = db.layer.update({
                where: {
                   id: {
@@ -129,7 +108,9 @@ export const layersHandlers = [
                data,
             });
             await persistDb('layer');
-            return HttpResponse.json(result);
+            return HttpResponse.json({
+               data: result
+            });
          } catch (error: any) {
             return HttpResponse.json(
                { message: error?.message || 'Server Error' },
@@ -140,17 +121,12 @@ export const layersHandlers = [
    ),
 
    http.delete(
-      `${env.API_URL}/layers/:layerId`,
-      async ({ cookies, params }) => {
+      `${env.API_URL}/service-layers/:layerId`,
+      async ({ params }) => {
          await networkDelay();
 
          try {
-            // const { user, error } = requireAuth(cookies);
-            // if (error) {
-            //   return HttpResponse.json({ message: error }, { status: 401 });
-            // }
             const layerId = params.layerId as string;
-            requireAdmin(user);
             const result = db.layer.delete({
                where: {
                   id: {
