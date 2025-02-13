@@ -2,6 +2,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
+import { paths } from '@/config/paths';
 import Cookies from 'js-cookie';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
@@ -54,10 +55,11 @@ api.interceptors.response.use(
          // const redirectTo =
          //    searchParams.get('redirectTo') || window.location.pathname;
          // window.location.href = paths.auth.login.getHref(redirectTo);
+         Cookies.remove('token');
          localStorage.removeItem('auth-storage');
-         // if (window.location.pathname !== paths.notAuthorized.path) {
-         //    window.location.href = paths.notAuthorized.path;
-         // }
+         if (window.location.pathname !== paths.notAuthorized.path) {
+            window.location.href = paths.notAuthorized.path;
+         }
       }
 
       return Promise.reject(error);

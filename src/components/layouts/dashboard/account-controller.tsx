@@ -1,6 +1,7 @@
 import LogoutDialog from '@/components/common/dialogs/logout-dialog';
 import Link from '@/components/common/link';
 import CButton from '@/components/ui-custom/c-button';
+import { env } from '@/config/env';
 import { paths } from '@/config/paths';
 import { logout } from '@/features/auth/api/logout';
 import useAuth from '@/state/use-auth-store';
@@ -14,14 +15,12 @@ import { User as IconUser, Lock } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IoPersonCircle } from 'react-icons/io5';
-import { useNavigate } from 'react-router';
 
 const AccountController = ({ user }: { user: User }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [loading, setLoading] = useState(false);
    const { setUser, setToken } = useAuth();
    const [logoutModal, setLogoutModal] = useState(false);
-   const navigate = useNavigate();
 
    const handleLogout = async () => {
       try {
@@ -30,7 +29,8 @@ const AccountController = ({ user }: { user: User }) => {
          if (res === 'success') {
             setUser(undefined);
             setToken(undefined);
-            navigate(paths.notAuthorized.path);
+            setLogoutModal(false);
+            window.location.href = env.PUBLIC_MAIN_LOGIN;
          } else setLogoutModal(false);
       } catch {
          setLogoutModal(false);

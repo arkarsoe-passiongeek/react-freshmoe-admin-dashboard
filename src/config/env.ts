@@ -13,6 +13,7 @@ const createEnv = () => {
       .optional()
       .default(import.meta.env.VITE_APP_API_URL || 'http://192.168.50.219:9000'),
     APP_MOCK_API_PORT: z.string().optional().default('8080'),
+    PUBLIC_MAIN_LOGIN: z.string(),
   });
 
   const envVars = Object.entries(import.meta.env).reduce<
