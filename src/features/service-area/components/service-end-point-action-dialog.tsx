@@ -4,7 +4,7 @@ import { Switch } from '@/components/ui/switch';
 import { ServiceArea } from '@/types';
 import { useCheckServiceAreaService } from '../api/check-service-area-service';
 
-const ServiceActionDialog = ({
+const ServiceEndPointActionDialog = ({
    data,
    isOpen,
    onClose,
@@ -18,10 +18,10 @@ const ServiceActionDialog = ({
       parentId: data?.parentId ? String(data.parentId) : 'null',
       mutationConfig: {
          onSuccess: args => {
-            console.log(args);
+            console.log(args.data.name);
             addNotification({
                type: 'success',
-               title: 'Service updated',
+               title: args.data.name + ' service checked',
             });
          },
       },
@@ -38,19 +38,19 @@ const ServiceActionDialog = ({
          title='Service Action Dialog'
          description='Service Action Dialog Description'>
          <div className='p-5 space-y-5'>
-            <h3 className='text-xl font-semibold'>Services</h3>
+            <h3 className='text-xl font-semibold'>Services Endpoint</h3>
             <div className=''>
                <div className='flex items-center justify-between h-12'>
                   <span className='text-base font-normal'>B2B</span>
                   <span>
                      <Switch
-                        defaultChecked={data?.b2bServiceStatus}
+                        defaultChecked={data?.b2bEndPoint}
                         onCheckedChange={value => {
                            checkServiceAreaService.mutate({
                               serviceAreaId: String(data?.id),
                               data: {
                                  status: value,
-                                 statusType: 'service',
+                                 statusType: 'end-point',
                                  serviceType: 'b2b',
                               },
                            });
@@ -64,4 +64,4 @@ const ServiceActionDialog = ({
    );
 };
 
-export default ServiceActionDialog;
+export default ServiceEndPointActionDialog;

@@ -40,15 +40,18 @@ export default function AppProvider({ children }: Readonly<IProviderProps>) {
          <ErrorBoundary FallbackComponent={ErrorFallBack}>
             <HelmetProvider>
                <QueryClientProvider client={queryClient}>
-                  <Toaster toastOptions={{
-                     unstyled: false,
-                     classNames: {
-                        error: 'bg-destructive',
-                        success: 'text-success',
-                        warning: 'text-warning',
-                        info: 'bg-info',
-                     }
-                  }} />
+                  <Toaster
+                     richColors
+                     toastOptions={{
+                        unstyled: false,
+                        classNames: {
+                           error: 'bg-destructive',
+                           success: 'text-success',
+                           warning: 'text-warning',
+                           info: 'bg-info',
+                        },
+                     }}
+                  />
                   {children}
                </QueryClientProvider>
             </HelmetProvider>

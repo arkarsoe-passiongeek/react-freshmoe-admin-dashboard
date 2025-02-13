@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { toast } from 'sonner';
 import { create } from 'zustand';
 
 export type Notification = {
@@ -17,7 +18,7 @@ type NotificationsStore = {
 export const useNotifications = create<NotificationsStore>(set => ({
    notifications: [],
    addNotification: notification => {
-      // toast?.[notification.type]('testing');
+      toast?.[notification.type ?? 'success'](notification.title);
       return set(state => ({
          notifications: [
             ...state.notifications,

@@ -31,12 +31,14 @@ interface ActionButtonsProps {
    row: Row<ServiceArea>;
    getEditButton: (_data: ServiceArea) => JSX.Element;
    handleServiceClick: (data: ServiceArea) => void;
+   handleServiceEndPointClick: (data: ServiceArea) => void;
 }
 
 const ActionButtons = ({
    row,
    getEditButton,
    handleServiceClick,
+   handleServiceEndPointClick,
 }: ActionButtonsProps) => (
    <div className='flex gap-2'>
       {getEditButton(row.original)}
@@ -56,9 +58,14 @@ const ActionButtons = ({
                onClick={() => {
                   handleServiceClick(row.original);
                }}>
-               Edit
+               Service
             </DropdownMenuItem>
-            <DropdownMenuItem>Make a copy</DropdownMenuItem>
+            <DropdownMenuItem
+               onClick={() => {
+                  handleServiceEndPointClick(row.original);
+               }}>
+               Service End Point
+            </DropdownMenuItem>
          </DropdownMenuContent>
       </DropdownMenu>
    </div>
@@ -68,9 +75,11 @@ const ActionButtons = ({
 export const useServiceAreaTable = ({
    parentId,
    onServiceClick,
+   onServiceEndPointClick,
 }: {
    parentId: string;
    onServiceClick: (data: ServiceArea) => void;
+   onServiceEndPointClick: (data: ServiceArea) => void;
 }): {
    currentData: ServiceArea | null;
    table: Table<ServiceArea>;
@@ -109,6 +118,11 @@ export const useServiceAreaTable = ({
    const handleServiceClick = (data: ServiceArea) => {
       setCurrentData(data);
       onServiceClick(data);
+   };
+
+   const handleServiceEndPointClick = (data: ServiceArea) => {
+      setCurrentData(data);
+      onServiceEndPointClick(data);
    };
 
    const getEditButton = (data: ServiceArea): JSX.Element => (
@@ -183,6 +197,7 @@ export const useServiceAreaTable = ({
                   row={row}
                   getEditButton={getEditButton}
                   handleServiceClick={handleServiceClick}
+                  handleServiceEndPointClick={handleServiceEndPointClick}
                />
             );
          },

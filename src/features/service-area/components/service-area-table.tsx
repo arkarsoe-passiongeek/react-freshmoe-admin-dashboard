@@ -11,15 +11,19 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import { useServiceAreaTable } from '../hooks/use-service-area-table';
 import ServiceActionDialog from './service-action-dialog';
+import ServiceEndPointActionDialog from './service-end-point-action-dialog';
 
 const ServiceAreaTable = ({ parentId }: { parentId: string | null }) => {
    const src = 'serviceArea';
    const [serviceActionOpen, setServiceActionOpen] = useState(false);
+   const [serviceEndPointActionOpen, setServiceEndPointActionOpen] =
+      useState(false);
 
    const { table, serviceAreasQuery, columns, currentData } =
       useServiceAreaTable({
          parentId: parentId ?? 'null',
          onServiceClick: () => setServiceActionOpen(true),
+         onServiceEndPointClick: () => setServiceEndPointActionOpen(true),
       });
 
    const getCreateButton = (): JSX.Element => (
@@ -114,6 +118,11 @@ const ServiceAreaTable = ({ parentId }: { parentId: string | null }) => {
             data={currentData}
             isOpen={serviceActionOpen}
             onClose={() => setServiceActionOpen(false)}
+         />
+         <ServiceEndPointActionDialog
+            data={currentData}
+            isOpen={serviceEndPointActionOpen}
+            onClose={() => setServiceEndPointActionOpen(false)}
          />
       </div>
    );
