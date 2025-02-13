@@ -8,6 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 .env*
+.env
+ecosystem.config.cjs
 node_modules
 dev-dist 
 dist
