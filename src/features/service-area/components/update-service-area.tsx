@@ -56,7 +56,7 @@ export default function ServiceAreaUpdateForm({
          onSuccess: () => {
             addNotification({
                type: 'success',
-               title: 'Discussion Updated',
+               title: 'Layer Updated',
             });
             navigate(
                paths.serviceArea.path +

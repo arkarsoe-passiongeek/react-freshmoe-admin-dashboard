@@ -43,7 +43,7 @@ export default function LayerUpdateForm({
          onSuccess: () => {
             addNotification({
                type: 'success',
-               title: 'Discussion Updated',
+               title: 'Layer Updated',
             });
             navigate(paths.layer.path);
          },

@@ -37,7 +37,7 @@ export default function LayerCreateForm({
          onSuccess: () => {
             addNotification({
                type: 'success',
-               title: 'Discussion Created',
+               title: 'Layer Created',
             });
             onCreateSuccess();
             form.reset();
