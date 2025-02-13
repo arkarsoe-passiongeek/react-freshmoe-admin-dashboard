@@ -34,7 +34,7 @@ export const useReorderLayer = ({
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.refetchQueries({
-        queryKey: getLayerQueryOptions(data.data.id).queryKey,
+        queryKey: getLayerQueryOptions(String(args[0].layerId)).queryKey,
       });
       queryClient.refetchQueries({
         queryKey: getLayersQueryOptions().queryKey,

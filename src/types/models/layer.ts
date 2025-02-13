@@ -1,12 +1,9 @@
-import { Entity } from "./base";
+import { Entity } from './base';
 
 export type Layer = Entity<{
-  id: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}>
+   name: string;
+}>;
 
 export type ReorderLayer = {
-  orderIndex: string;
-}
+   orderIndex: string;
+};

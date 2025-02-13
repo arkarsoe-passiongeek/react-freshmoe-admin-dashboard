@@ -23,10 +23,7 @@ interface ActionButtonsProps {
    getEditButton: (_data: Layer) => JSX.Element;
 }
 
-const ActionButtons = ({
-   row,
-   getEditButton,
-}: ActionButtonsProps) => (
+const ActionButtons = ({ row, getEditButton }: ActionButtonsProps) => (
    <div className='flex gap-2'>
       {getEditButton(row.original)}
       <DeleteLayer data={row.original} />
@@ -55,18 +52,18 @@ export const useLayerTable = (): {
 
    const getEditButton = (data: Layer): JSX.Element => (
       <CButton asChild size='xs'>
-         <Link to={paths.layer.edit.getHref(data.id)}>Edit</Link>
+         <Link to={paths.layer.edit.getHref(String(data.id))}>Edit</Link>
       </CButton>
    );
 
-   const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
+   const RowDragHandleCell = ({ rowId }: { rowId: number }) => {
       const { attributes, listeners } = useSortable({
          id: rowId,
       });
       return (
          // Alternatively, you could set these attributes on the rows themselves
-         <CButton {...attributes} {...listeners}>
-            🟰
+         <CButton {...attributes} {...listeners} size='xs'>
+            <span className='material-symbols-outlined text-xl'>=</span>
          </CButton>
       );
    };
@@ -76,7 +73,9 @@ export const useLayerTable = (): {
       {
          id: 'drag-handle',
          header: 'Move',
-         cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
+         cell: ({ row }) => {
+            return <RowDragHandleCell rowId={Number(row.id)} />;
+         },
          size: 60,
       },
       {
@@ -87,12 +86,7 @@ export const useLayerTable = (): {
          id: 'actions',
          header: 'Actions',
          cell: ({ row }) => {
-            return (
-               <ActionButtons
-                  row={row}
-                  getEditButton={getEditButton}
-               />
-            );
+            return <ActionButtons row={row} getEditButton={getEditButton} />;
          },
       },
    ];
@@ -101,7 +95,7 @@ export const useLayerTable = (): {
    const table: Table<Layer> = useReactTable<Layer>({
       data: data ?? [],
       columns,
-      getRowId: row => row.id,
+      getRowId: row => String(row.id),
       enableRowSelection: true,
       getCoreRowModel: getCoreRowModel(),
       getPaginationRowModel: getPaginationRowModel(),

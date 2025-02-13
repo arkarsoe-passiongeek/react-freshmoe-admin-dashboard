@@ -35,10 +35,7 @@ const LayerTable = () => {
    const reorderLayerMutation = useReorderLayer({
       mutationConfig: {
          onError: _error => {
-            addNotification({
-               type: 'error',
-               title: 'Reorder Failed',
-            });
+            console.log(_error);
          },
          onSuccess: () => {
             addNotification({
@@ -48,12 +45,17 @@ const LayerTable = () => {
             navigate(paths.layer.path);
          },
       },
-   });;
+   });
 
-   const onDragEnd = (_event: DragEndEvent,
+   const onDragEnd = (
+      _event: DragEndEvent,
       oldIndex: number,
-      newIndex: number) => {
-      reorderLayerMutation.mutate({ data: { orderIndex: String(newIndex) }, layerId: String(oldIndex + 1) });
+      newIndex: number,
+   ) => {
+      reorderLayerMutation.mutate({
+         data: { orderIndex: String(newIndex) },
+         layerId: String(oldIndex + 1),
+      });
    };
 
    const { isError } = layersQuery;
