@@ -37,4 +37,10 @@ export const sidebarMenuItems: TSidebarMenuItem[] = [
          },
       ],
    },
+   {
+      key: 5,
+      label: 'Service Type',
+      icon: Waypoints,
+      path: paths.serviceType.path,
+   },
 ] as const;

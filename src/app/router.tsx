@@ -11,6 +11,10 @@ import LayersPage from './routes/app/layer/layers';
 import ServiceAreaCreatePage from './routes/app/service-area/create';
 import ServiceAreaEditPage from './routes/app/service-area/edit';
 import ServiceAreas from './routes/app/service-area/service-areas';
+import ServiceTypeCreate from './routes/app/service-type/create';
+import ServiceTypeEdit from './routes/app/service-type/edit';
+import ServiceTypeView from './routes/app/service-type/service-type';
+import ServiceTypesPage from './routes/app/service-type/service-types';
 import NotAuthorized from './routes/auth/not-authorized';
 
 /**
@@ -28,7 +32,7 @@ export const router = createBrowserRouter([
             path: paths.notAuthorized.path,
             element: <NotAuthorized />,
          },
-      ]
+      ],
    },
    {
       element: <AuthRoute />,
@@ -56,6 +60,27 @@ export const router = createBrowserRouter([
                {
                   path: ':id/view',
                   element: <LayerView />,
+               },
+            ],
+         },
+         {
+            path: paths.serviceType.path,
+            children: [
+               {
+                  index: true,
+                  element: <ServiceTypesPage />,
+               },
+               {
+                  path: 'create',
+                  element: <ServiceTypeCreate />,
+               },
+               {
+                  path: ':id/edit',
+                  element: <ServiceTypeEdit />,
+               },
+               {
+                  path: ':id/view',
+                  element: <ServiceTypeView />,
                },
             ],
          },

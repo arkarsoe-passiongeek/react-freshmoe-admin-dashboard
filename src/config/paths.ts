@@ -25,6 +25,22 @@ export const paths = {
          getHref: (id: string) => `/service-parameter/layer/${id}/view`,
       },
    },
+   serviceType: {
+      path: '/service-type',
+      getHref: () => '/service-type',
+      create: {
+         path: '/service-type/create',
+         getHref: () => '/service-type/create',
+      },
+      edit: {
+         path: '/service-type/:id/edit',
+         getHref: (id: string) => `/service-type/${id}/edit`,
+      },
+      view: {
+         path: '/service-type/:id/view',
+         getHref: (id: string) => `/service-type/${id}/view`,
+      },
+   },
    serviceArea: {
       path: '/service-parameter/service-area',
       getHref: () => '/service-parameter/service-area',

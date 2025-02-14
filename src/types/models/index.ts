@@ -6,4 +6,5 @@ export * from './response';
 export * from './role';
 export * from './root-user';
 export * from './service-area';
+export * from './service-type';
 export * from './super-admin';

@@ -51,9 +51,50 @@ const getPageHeaders = (): Record<string, PageHeader> => {
       ],
    };
 
+   // service type
+   pageHeaders[paths.serviceType.path] = {
+      header: 'Service Type',
+      links: [{ value: 'Service Type', current: true }],
+   };
+
+   pageHeaders[paths.serviceType.create.path] = {
+      header: 'Create',
+      links: [
+         { value: 'Service Type', path: () => paths.serviceType.path },
+         { value: 'Create', current: true },
+      ],
+   };
+
+   pageHeaders[paths.serviceType.edit.getHref('')] = {
+      header: 'Edit',
+      links: [
+         { value: 'Service Type', path: () => paths.serviceType.path },
+         {
+            value: 'Edit',
+            current: true,
+         },
+      ],
+   };
+
+   pageHeaders[paths.serviceType.view.getHref('')] = {
+      header: 'Service Type',
+      links: [
+         { value: 'Service Type', path: () => paths.serviceType.path },
+         { value: 'Detail', current: true },
+      ],
+   };
+
+   // service area
+
    pageHeaders[paths.serviceArea.path] = {
       header: 'Service Area',
-      links: [{ value: 'Service Area', path: () => paths.serviceArea.path, current: false }],
+      links: [
+         {
+            value: 'Service Area',
+            path: () => paths.serviceArea.path,
+            current: false,
+         },
+      ],
    };
 
    pageHeaders[paths.serviceArea.create.path] = {
