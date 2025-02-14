@@ -53,8 +53,8 @@ const LayerTable = () => {
       newIndex: number,
    ) => {
       reorderLayerMutation.mutate({
-         data: { orderIndex: String(newIndex) },
-         layerId: String(oldIndex + 1),
+         data: { orderIndex: String(data[newIndex].orderIndex) },
+         layerId: String(data[oldIndex].id),
       });
    };
 
