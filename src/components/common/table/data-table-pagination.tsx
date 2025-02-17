@@ -6,6 +6,7 @@ import {
    PaginationNext,
    PaginationPrevious,
 } from '@/components/ui/pagination';
+import { DataPagination } from '@/components/ui/pagination/data-pagination';
 import {
    Select,
    SelectContent,
@@ -73,7 +74,7 @@ export function DataTablePagination<TData>({
                                  !table.getCanPreviousPage()
                                     ? 'opacity-50 pointer-events-none'
                                     : '',
-                                 'border-0'
+                                 'border-0',
                               )}
                            />
                         </PaginationItem>
@@ -115,12 +116,24 @@ export function DataTablePagination<TData>({
                                  !table.getCanNextPage()
                                     ? 'opacity-50 pointer-events-none'
                                     : '',
-                                 'border-0'
+                                 'border-0',
                               )}
                            />
                         </PaginationItem>
                      </PaginationContent>
                   </Pagination>
+               </div>
+
+               <div>
+                  <DataPagination
+                     canPrevious={table.getCanPreviousPage() ? 1 : 0}
+                     canNext={table.getCanNextPage() ? 1 : 0}
+                     totalItems={pageCount}
+                     itemsPerPage={pageSize}
+                     onPageChange={e => {
+                        table.setPageIndex(e);
+                     }}
+                  />
                </div>
             </div>
          </div>
