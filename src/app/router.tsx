@@ -1,4 +1,5 @@
 import { paths } from '@/config/paths';
+import ProfilePage from '@/features/profile/components/view-profile';
 import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import AuthRoute from './auth-route';
@@ -102,10 +103,19 @@ export const router = createBrowserRouter([
             ],
          },
          {
-            path: '*',
-            element: <NotFound />,
+            path: paths.profile.path,
+            children: [
+               {
+                  index: true,
+                  element: <ProfilePage />,
+               },
+            ],
          },
       ],
+   },
+   {
+      path: '*',
+      element: <NotFound />,
    },
 ]);
 

@@ -20,7 +20,7 @@ const ProfilePage = () => {
                <div className='flex gap-7 items-center'>
                   <FaUserCircle className='w-[150px] h-[150px] fill-primary' />
                   <div className='flex flex-col gap-7'>
-                     <InfoItem label='Shop Id' data={profile.name} />
+                     <InfoItem label='Name' data={profile.name} />
                      <InfoItem label='Email' data={profile.email} />
                   </div>
                </div>

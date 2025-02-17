@@ -11,7 +11,7 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from '@radix-ui/react-popover';
-import { User as IconUser, Lock } from 'lucide-react';
+import { User as IconUser } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IoPersonCircle } from 'react-icons/io5';
@@ -67,13 +67,13 @@ const AccountController = ({ user }: { user: User }) => {
                   <IconUser className='mr-2 w-5 h-5 font-bold' />
                   <span>Profile</span>
                </Link>
-               <Link
+               {/* <Link
                   onClick={() => setIsOpen(false)}
                   className='flex justify-start border-0 rounded-xl text-c-contrast gap-1 p-3 text-sm items-center hover:bg-c-active-bg hover:text-primary active:bg-c-active-bg active:text-primary'
                   to={paths.profile.changePassword.path}>
                   <Lock className='mr-2 w-5 h-5 font-bold' />
                   <span>Change Password</span>
-               </Link>
+               </Link> */}
                <CButton
                   size='sm'
                   variant='destructive'
