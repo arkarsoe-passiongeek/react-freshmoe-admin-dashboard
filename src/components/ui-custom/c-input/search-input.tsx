@@ -13,7 +13,7 @@ export const CSearchInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
         <div className="relative">
           <Input
             ref={ref}
-            className={`peer ps-9 ${className}`}
+            className={`peer ps-9 ${className} rounded-xl`}
             {...rest}
           />
           <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
